@@ -46,9 +46,28 @@ export default function CertificateRenderer({
   signatureUrl2,
   customTemplateConfig,
 }: CertificateRendererProps) {
+  // Debugging: log render invocation when in development to help trace missing previews
+  try {
+    // eslint-disable-next-line no-console
+    console.log("CertificateRenderer: rendering", {
+      templateId,
+      isPreview,
+      mode,
+    });
+  } catch (e) {
+    /* ignore logging failure */
+  }
   // If a custom template config is provided, render the generic renderer
   if (customTemplateConfig) {
-    const program = { id: "preview", name: courseTitle, description };
+    // Provide minimal program shape required by CertificateTemplate
+    const program: any = {
+      id: "preview",
+      name: courseTitle,
+      description,
+      template: "impact",
+      certificates: 0,
+      testimonials: 0,
+    };
     return (
       <CertificateTemplate
         subsidiary={null}

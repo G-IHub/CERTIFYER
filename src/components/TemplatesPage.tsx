@@ -80,7 +80,16 @@ export default function TemplatesPage({
       setLoading(true);
       try {
         const res = await templateApi.getAll();
-        setTemplates(res.templates || []);
+        const loaded = res.templates || [];
+        // Debug: log template ids/types to help trace preview issues
+        try {
+          // eslint-disable-next-line no-console
+          console.log(
+            "TemplatesPage: loaded templates",
+            loaded.map((t: any) => ({ id: t.id, type: t.type }))
+          );
+        } catch (e) {}
+        setTemplates(loaded);
       } catch (e: any) {
         console.error("Failed to load templates", e);
         toast.error(e?.message || "Failed to load templates");
@@ -168,7 +177,10 @@ export default function TemplatesPage({
               }`}
             >
               <TemplateErrorBoundary>
-                <div className="transform scale-[0.3] origin-center">
+                <div
+                  className="transform scale-50 origin-top-left"
+                  style={{ width: "200%", height: "200%" }}
+                >
                   <CertificateRenderer
                     templateId={template.id}
                     header="Certificate of Completion"
@@ -180,7 +192,12 @@ export default function TemplatesPage({
                     mode="template-selection"
                     organizationName={organization?.name}
                     organizationLogo={organization?.logo}
-                    customTemplateConfig={template.config}
+                    // Only pass customTemplateConfig for user-created custom templates.
+                    // Some template records may include a config object even for defaults;
+                    // treating those as custom causes the generic renderer to be used for all templates.
+                    customTemplateConfig={
+                      template.type === "custom" ? template.config : undefined
+                    }
                   />
                 </div>
               </TemplateErrorBoundary>
@@ -300,7 +317,10 @@ export default function TemplatesPage({
 
             <div className="p-8 bg-gray-50 flex items-center justify-center">
               <TemplateErrorBoundary>
-                <div className="transform scale-[0.7] origin-center">
+                <div
+                  className="transform scale-50 origin-top-left"
+                  style={{ width: "200%", height: "200%" }}
+                >
                   <CertificateRenderer
                     templateId={preview.id}
                     header="Certificate of Completion"
@@ -312,7 +332,9 @@ export default function TemplatesPage({
                     mode="template-selection"
                     organizationName={organization?.name}
                     organizationLogo={organization?.logo}
-                    customTemplateConfig={preview.config}
+                    customTemplateConfig={
+                      preview.type === "custom" ? preview.config : undefined
+                    }
                   />
                 </div>
               </TemplateErrorBoundary>

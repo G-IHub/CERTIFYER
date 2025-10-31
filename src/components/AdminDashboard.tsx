@@ -128,7 +128,7 @@ import {
   normalizeCertificateUrl,
 } from "../utils/certificateUtils";
 import logo from "../assets/logo.svg";
-import Footer from "../components/landing/Footer";
+// import Footer from "../components/landing/Footer";
 
 // Organization is the new name for Subsidiary
 type Organization = Subsidiary;

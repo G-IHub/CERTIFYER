@@ -63,7 +63,10 @@ export default function TemplatePreviewCard({
         {/* Preview - Actual Certificate Render */}
         <div className="relative aspect-[4/3] rounded-lg overflow-hidden border-2 border-gray-200 bg-gray-50 transition-transform group-hover:scale-[1.02]">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="transform scale-[0.25] origin-center">
+            <div
+              className="transform scale-[0.4] origin-top-left"
+              style={{ width: "200%", height: "200%" }}
+            >
               <CertificateRenderer
                 templateId={template.id}
                 header="Certificate of Completion"
@@ -73,8 +76,11 @@ export default function TemplatePreviewCard({
                 recipientName="John Doe"
                 isPreview={true}
                 mode="template-selection"
-                // If this is a custom template, pass the saved config so logos/signatures render
-                customTemplateConfig={template.config}
+                // If this is a custom template, pass the saved config so logos/signatures render.
+                // Avoid passing config for default templates to ensure built-in templates use their specific components.
+                customTemplateConfig={
+                  template.type === "custom" ? template.config : undefined
+                }
               />
             </div>
           </div>

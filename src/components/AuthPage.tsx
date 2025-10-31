@@ -857,9 +857,6 @@ export default function AuthPage({
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                             Creating Account...
                           </div>
-                          <span className="text-xs opacity-75">
-                            First request may take 30-60 seconds
-                          </span>
                         </div>
                       ) : (
                         <>
