@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import CertificateRenderer from "./CertificateRenderer";
+import PreviewWrapper from "./PreviewWrapper";
 
 interface NewProgramModalProps {
   isOpen: boolean;
@@ -349,7 +350,11 @@ export default function NewProgramModal({
                       </div>
 
                       <div className="aspect-video bg-gray-100 rounded mb-3 overflow-hidden flex items-center justify-center">
-                        <div className="transform scale-[0.4] origin-center">
+                        <PreviewWrapper
+                          scale={0.4}
+                          origin="center"
+                          wrapperSize={2}
+                        >
                           <CertificateRenderer
                             templateId={template.previewTemplateId}
                             header="Certificate of Completion"
@@ -362,7 +367,7 @@ export default function NewProgramModal({
                             organizationName={selectedOrganizationData?.name}
                             organizationLogo={selectedOrganizationData?.logo}
                           />
-                        </div>
+                        </PreviewWrapper>
                       </div>
 
                       <p className="text-sm text-gray-600 mb-3">

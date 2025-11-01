@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "./ui/badge";
 import CertificateRenderer from "./CertificateRenderer";
+import PreviewWrapper from "./PreviewWrapper";
 import type { Organization } from "../App";
 
 // Simple error boundary for preview rendering
@@ -177,10 +178,7 @@ export default function TemplatesPage({
               }`}
             >
               <TemplateErrorBoundary>
-                <div
-                  className="transform scale-50 origin-top-left"
-                  style={{ width: "200%", height: "200%" }}
-                >
+                <PreviewWrapper scale={0.4} origin="center" wrapperSize={2}>
                   <CertificateRenderer
                     templateId={template.id}
                     header="Certificate of Completion"
@@ -199,7 +197,7 @@ export default function TemplatesPage({
                       template.type === "custom" ? template.config : undefined
                     }
                   />
-                </div>
+                </PreviewWrapper>
               </TemplateErrorBoundary>
             </div>
 
@@ -317,10 +315,7 @@ export default function TemplatesPage({
 
             <div className="p-8 bg-gray-50 flex items-center justify-center">
               <TemplateErrorBoundary>
-                <div
-                  className="transform scale-50 origin-top-left"
-                  style={{ width: "200%", height: "200%" }}
-                >
+                <PreviewWrapper scale={0.4} origin="center" wrapperSize={2}>
                   <CertificateRenderer
                     templateId={preview.id}
                     header="Certificate of Completion"
@@ -336,7 +331,7 @@ export default function TemplatesPage({
                       preview.type === "custom" ? preview.config : undefined
                     }
                   />
-                </div>
+                </PreviewWrapper>
               </TemplateErrorBoundary>
             </div>
 

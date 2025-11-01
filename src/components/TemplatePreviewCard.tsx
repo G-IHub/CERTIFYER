@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Eye } from "lucide-react";
 import CertificateRenderer from "./CertificateRenderer";
+import PreviewWrapper from "./PreviewWrapper";
 
 interface Template {
   id: string;
@@ -62,28 +63,23 @@ export default function TemplatePreviewCard({
       <CardContent className="space-y-3">
         {/* Preview - Actual Certificate Render */}
         <div className="relative aspect-[4/3] rounded-lg overflow-hidden border-2 border-gray-200 bg-gray-50 transition-transform group-hover:scale-[1.02]">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="transform scale-[0.4] origin-center"
-              style={{ width: "200%", height: "200%" }}
-            >
-              <CertificateRenderer
-                templateId={template.id}
-                header="Certificate of Completion"
-                courseTitle="Sample Course"
-                description="This is a preview of the certificate template"
-                date="22ND JANUARY 2025"
-                recipientName="John Doe"
-                isPreview={true}
-                mode="template-selection"
-                // If this is a custom template, pass the saved config so logos/signatures render.
-                // Avoid passing config for default templates to ensure built-in templates use their specific components.
-                customTemplateConfig={
-                  template.type === "custom" ? template.config : undefined
-                }
-              />
-            </div>
-          </div>
+          <PreviewWrapper scale={0.4} origin="center" wrapperSize={2}>
+            <CertificateRenderer
+              templateId={template.id}
+              header="Certificate of Completion"
+              courseTitle="Sample Course"
+              description="This is a preview of the certificate template"
+              date="22ND JANUARY 2025"
+              recipientName="John Doe"
+              isPreview={true}
+              mode="template-selection"
+              // If this is a custom template, pass the saved config so logos/signatures render.
+              // Avoid passing config for default templates to ensure built-in templates use their specific components.
+              customTemplateConfig={
+                template.type === "custom" ? template.config : undefined
+              }
+            />
+          </PreviewWrapper>
         </div>
 
         {/* Actions */}

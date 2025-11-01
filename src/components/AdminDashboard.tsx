@@ -2217,12 +2217,10 @@ export default function AdminDashboard({
                               <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
                                 <CardContent className="p-4">
                                   <div className="bg-white rounded-lg overflow-hidden shadow-sm">
-                                    <div
-                                      className="transform scale-50 origin-top-left"
-                                      style={{
-                                        width: "200%",
-                                        height: "200%",
-                                      }}
+                                    <PreviewWrapper
+                                      scale={0.4}
+                                      origin="center"
+                                      wrapperSize={2}
                                     >
                                       <CertificateRenderer
                                         templateId={genSelectedTemplate}
@@ -2243,7 +2241,7 @@ export default function AdminDashboard({
                                           genCustomTemplateConfig
                                         }
                                       />
-                                    </div>
+                                    </PreviewWrapper>
                                   </div>
                                   <p className="text-xs text-gray-600 mt-3 text-center">
                                     This is how the certificate will appear to
