@@ -38,7 +38,6 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { useIsMobile } from "./ui/use-mobile";
-import BillingPage from "./BillingPage";
 import {
   LayoutDashboard,
   FileText,
@@ -99,11 +98,19 @@ import {
 import CertificateTemplate from "./CertificateTemplate";
 import CertificateRenderer from "./CertificateRenderer";
 import TemplatesPage from "./TemplatesPage";
-import TemplateBuilderPage from "./TemplateBuilderPage";
 import CertificateGenerationModal from "./CertificateGenerationModal";
-import TestimonialsView from "./TestimonialsView";
-import AnalyticsView from "./AnalyticsView";
-import OrganizationSettings from "./OrganizationSettings";
+import { Skeleton } from "./ui/skeleton";
+import TestimonialsSkeleton from "./skeletons/TestimonialsSkeleton";
+import AnalyticsSkeleton from "./skeletons/AnalyticsSkeleton";
+import SettingsSkeleton from "./skeletons/SettingsSkeleton";
+import BillingSkeleton from "./skeletons/BillingSkeleton";
+
+// Lazy-load heavy/dashboard tab components to improve initial render performance
+const BillingPage = React.lazy(() => import("./BillingPage"));
+const TemplateBuilderPage = React.lazy(() => import("./TemplateBuilderPage"));
+const TestimonialsView = React.lazy(() => import("./TestimonialsView"));
+const AnalyticsView = React.lazy(() => import("./AnalyticsView"));
+const OrganizationSettings = React.lazy(() => import("./OrganizationSettings"));
 import type { Program, Subsidiary, UserProfile } from "../App";
 import {
   LineChart,
@@ -2704,29 +2711,35 @@ export default function AdminDashboard({
             )}
 
             {activeTab === "testimonials" && currentOrganization && (
-              <TestimonialsView
-                organizationId={currentOrganization.id}
-                accessToken={accessToken}
-              />
+              <React.Suspense fallback={<TestimonialsSkeleton />}>
+                <TestimonialsView
+                  organizationId={currentOrganization.id}
+                  accessToken={accessToken}
+                />
+              </React.Suspense>
             )}
 
             {activeTab === "analytics" && currentOrganization && (
-              <AnalyticsView
-                organizationId={currentOrganization.id}
-                accessToken={accessToken}
-              />
+              <React.Suspense fallback={<AnalyticsSkeleton />}>
+                <AnalyticsView
+                  organizationId={currentOrganization.id}
+                  accessToken={accessToken}
+                />
+              </React.Suspense>
             )}
 
             {/* Templates tab is rendered above inside the Tabs component; avoid duplicate rendering here. */}
 
             {activeTab === "settings" && currentOrganization && (
-              <div className="px-4 md:px-8 py-6">
-                <OrganizationSettings
-                  organization={currentOrganization}
-                  accessToken={accessToken!}
-                  onSettingsUpdated={onUpdateOrganization}
-                />
-              </div>
+              <React.Suspense fallback={<SettingsSkeleton />}>
+                <div className="px-4 md:px-8 py-6">
+                  <OrganizationSettings
+                    organization={currentOrganization}
+                    accessToken={accessToken!}
+                    onSettingsUpdated={onUpdateOrganization}
+                  />
+                </div>
+              </React.Suspense>
             )}
 
             {activeTab === "settings" && !currentOrganization && (
@@ -2757,12 +2770,14 @@ export default function AdminDashboard({
 
             {/* Billing Tab */}
             {activeTab === "billing" && currentOrganization && (
-              <BillingPage
-                organizationId={currentOrganization.id}
-                organizationName={currentOrganization.name}
-                userEmail={user.id}
-                accessToken={accessToken}
-              />
+              <React.Suspense fallback={<BillingSkeleton />}>
+                <BillingPage
+                  organizationId={currentOrganization.id}
+                  organizationName={currentOrganization.name}
+                  userEmail={user.id}
+                  accessToken={accessToken}
+                />
+              </React.Suspense>
             )}
 
             {/* Billing Tab - No Organization */}
@@ -2793,11 +2808,17 @@ export default function AdminDashboard({
 
             {/* Template Builder Tab */}
             {activeTab === "template-builder" && currentOrganization && (
-              <TemplateBuilderPage
-                organization={currentOrganization}
-                isPremiumUser={isOrgPremium(currentOrganization)}
-                onBack={() => setActiveTab("overview")}
-              />
+              <React.Suspense
+                fallback={
+                  <div className="p-6">Loading template builder...</div>
+                }
+              >
+                <TemplateBuilderPage
+                  organization={currentOrganization}
+                  isPremiumUser={isOrgPremium(currentOrganization)}
+                  onBack={() => setActiveTab("overview")}
+                />
+              </React.Suspense>
             )}
           </div>
           <div className="flex-1 md:flex-none bg-black text-white p-6 mr-6 ">
