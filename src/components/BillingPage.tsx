@@ -103,12 +103,20 @@ export default function BillingPage({
   const [activitiesDisplayCount, setActivitiesDisplayCount] = useState(5); // Show 5 activities initially
 
   useEffect(() => {
+    // Load billing data whenever accessToken OR organizationId changes
+    console.debug("BillingPage: effect triggered", {
+      organizationId,
+      accessToken,
+    });
     loadBillingData();
 
     // Check for Paystack payment callback
     // Paystack redirects with: ?trxref=xxx&reference=yyy&tab=billing
     const urlParams = new URLSearchParams(window.location.search);
     const reference = urlParams.get("reference") || urlParams.get("trxref");
+    const tab = urlParams.get("tab");
+
+    console.debug("BillingPage: URL params", { reference, tab });
 
     if (reference && accessToken) {
       console.log(
@@ -121,7 +129,7 @@ export default function BillingPage({
       // Note: URL cleanup is handled by AdminDashboard after 2 seconds
       // This allows BillingPage to detect the reference parameter
     }
-  }, [accessToken]);
+  }, [accessToken, organizationId]);
 
   const loadBillingData = async () => {
     try {
@@ -341,6 +349,11 @@ export default function BillingPage({
 
     setIsProcessingPayment(true);
     try {
+      // Debug: log the init payload
+      console.debug("BillingPage: initiating payment", {
+        organizationId,
+        planId,
+      });
       const response = await fetch(
         `https://${projectId}.supabase.co/functions/v1/make-server-a611b057/billing/initialize`,
         {
@@ -355,28 +368,82 @@ export default function BillingPage({
           }),
         }
       );
+      let data: any = null;
+      let rawText: string | null = null;
+      try {
+        rawText = await response.text();
+        if (rawText) {
+          try {
+            data = JSON.parse(rawText);
+          } catch (err) {
+            console.error(
+              "BillingPage: failed to parse initialize response body as JSON",
+              err,
+              rawText
+            );
+          }
+        }
+      } catch (err) {
+        console.error(
+          "BillingPage: failed to read initialize response text",
+          err
+        );
+      }
 
-      const data = await response.json();
+      console.debug("BillingPage: initialize response", {
+        status: response.status,
+        ok: response.ok,
+        body: data,
+        rawText,
+        headers: Array.from(response.headers.entries()),
+      });
 
       if (!response.ok) {
-        if (data.requiresSetup) {
+        // Helpful debugging: show server-provided error and status
+        if (data?.requiresSetup) {
+          console.error(
+            "BillingPage: backend indicates billing system not configured",
+            data
+          );
           toast.error(
             "Billing system is not configured. Please contact support."
           );
         } else {
-          toast.error(data.error || "Failed to initialize payment");
+          console.error("BillingPage: initialize failed", {
+            status: response.status,
+            body: data,
+            rawText,
+          });
+          // Show a more informative toast when possible
+          const serverMsg = data?.error || data?.message || rawText;
+          toast.error(
+            serverMsg ||
+              `Failed to initialize payment (status ${response.status})`
+          );
         }
         return;
       }
 
       // Redirect to Paystack checkout
-      if (data.authorizationUrl) {
+      if (data?.authorizationUrl) {
+        console.info(
+          "BillingPage: redirecting to payment provider",
+          data.authorizationUrl
+        );
         toast.success("Redirecting to payment page...");
         window.location.href = data.authorizationUrl;
+      } else {
+        console.warn(
+          "BillingPage: initialize succeeded but no authorizationUrl returned",
+          data
+        );
+        toast.error(
+          "Payment initialization did not return a redirect URL. Please contact support."
+        );
       }
     } catch (error: any) {
-      console.error("Payment initialization error:", error);
-      toast.error("Failed to initialize payment");
+      console.error("Payment initialization error (network/exception):", error);
+      toast.error(`Failed to initialize payment: ${error?.message || error}`);
     } finally {
       setIsProcessingPayment(false);
     }
