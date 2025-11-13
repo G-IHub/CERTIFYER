@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Loader2, Crown, Eye, Check, AlertCircle, Lock } from "lucide-react";
+import {
+  Loader2,
+  Crown,
+  Eye,
+  Check,
+  AlertCircle,
+  Lock,
+  RefreshCw,
+} from "lucide-react";
 import TemplatesSkeleton from "./skeletons/TemplatesSkeletons";
 import { templateApi } from "../utils/api";
 import { toast } from "sonner";
@@ -10,7 +18,7 @@ import { Badge } from "./ui/badge";
 import CertificateRenderer from "./CertificateRenderer";
 import PreviewWrapper from "./PreviewWrapper";
 import type { Organization } from "../App";
-import TemplateReseedButton from "./TemplateReseedButton";
+import { projectId, publicAnonKey } from "../utils/supabase/info";
 
 // Simple error boundary for preview rendering
 class TemplateErrorBoundary extends React.Component<
@@ -77,32 +85,70 @@ export default function TemplatesPage({
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [preview, setPreview] = useState<Template | null>(null);
+  const [isReseeding, setIsReseeding] = useState(false);
+
+  const loadTemplates = async () => {
+    setLoading(true);
+    try {
+      const res = await templateApi.getAll();
+      const loaded = res.templates || [];
+      // Debug: log template ids/types to help trace preview issues
+      try {
+        // eslint-disable-next-line no-console
+        console.log(
+          "TemplatesPage: loaded templates",
+          loaded.map((t: any) => ({ id: t.id, type: t.type }))
+        );
+      } catch (e) {}
+      setTemplates(loaded);
+    } catch (e: any) {
+      console.error("Failed to load templates", e);
+      toast.error(e?.message || "Failed to load templates");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const res = await templateApi.getAll();
-        const loaded = res.templates || [];
-        // Debug: log template ids/types to help trace preview issues
-        try {
-          // eslint-disable-next-line no-console
-          console.log(
-            "TemplatesPage: loaded templates",
-            loaded.map((t: any) => ({ id: t.id, type: t.type }))
-          );
-        } catch (e) {}
-        setTemplates(loaded);
-      } catch (e: any) {
-        console.error("Failed to load templates", e);
-        toast.error(e?.message || "Failed to load templates");
-      } finally {
-        setLoading(false);
-      }
-    })();
+    loadTemplates();
   }, []);
 
   const navigate = useNavigate();
+
+  const handleReseed = async () => {
+    setIsReseeding(true);
+    try {
+      const response = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/make-server-a611b057/templates/force-reseed`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${publicAnonKey}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(
+          `✅ ${data.message || "Templates reseeded successfully!"} (${
+            data.count
+          } templates)`
+        );
+        // Reload templates after reseeding
+        await loadTemplates();
+      } else {
+        toast.error(data.error || "Failed to reseed templates");
+      }
+    } catch (error) {
+      console.error("Error reseeding templates:", error);
+      toast.error(`Error: ${error}`);
+    } finally {
+      setIsReseeding(false);
+    }
+  };
 
   const handleSelect = async (template: Template) => {
     // Debug trace: verify selection handler is invoked
@@ -140,20 +186,43 @@ export default function TemplatesPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold">Templates</h2>
-        <p className="text-sm text-gray-600">
-          {`${freeTemplates.length} free`}
-          {premiumTemplates.length > 0 && (
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-lg font-semibold">Templates</h2>
+          <p className="text-sm text-gray-600">
+            {`${freeTemplates.length} free`}
+            {premiumTemplates.length > 0 && (
+              <>
+                {` + ${premiumTemplates.length} premium`}
+                {!isPremiumUser && (
+                  <span className="text-xs text-gray-500"> (locked)</span>
+                )}
+              </>
+            )}{" "}
+            {`templates for ${organization?.name || "your organization"}`}
+          </p>
+        </div>
+
+        {/* Reseed Templates Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleReseed}
+          disabled={isReseeding}
+          className="flex-shrink-0"
+        >
+          {isReseeding ? (
             <>
-              {` + ${premiumTemplates.length} premium`}
-              {!isPremiumUser && (
-                <span className="text-xs text-gray-500"> (locked)</span>
-              )}
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              Reseeding...
             </>
-          )}{" "}
-          {`templates for ${organization?.name || "your organization"}`}
-        </p>
+          ) : (
+            <>
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Reseed Templates
+            </>
+          )}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -277,10 +346,6 @@ export default function TemplatesPage({
             </div>
           </div>
         ))}
-      </div>
-
-      <div>
-        <TemplateReseedButton />
       </div>
 
       {/* Preview Modal */}

@@ -105,6 +105,243 @@ app.get("/make-server-a611b057/health", (c) => {
   });
 });
 
+// Canonical default templates (single source of truth)
+// All templates seeded by default will use type: 'default'
+const DEFAULT_TEMPLATES = [
+  {
+    id: "template1",
+    name: "Certificate of Appreciation",
+    description:
+      "Classic design with brown/gold border, decorative corners, and elegant award badge",
+    config: {
+      colors: {
+        background: "#faf8f3",
+        border: "#8b6f47",
+        accent: "#c9a961",
+        text: "#8b6f47",
+        textSecondary: "#b8935d",
+      },
+      layout: {
+        borderWidth: "4px",
+        borderStyle: "double",
+        padding: "48px",
+        alignment: "center",
+      },
+      typography: {
+        headerFont: "Georgia",
+        bodyFont: "Georgia",
+        scriptFont: "Brush Script MT",
+        nameSize: "48px",
+        headerSize: "48px",
+        bodySize: "14px",
+      },
+      elements: {
+        showBorder: true,
+        showDecorativeCorners: true,
+        showSeal: true,
+        sealType: "gold-award-badge",
+        showSignatures: true,
+        signatureCount: 2,
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template2",
+    name: "Certificate of Completion",
+    description:
+      "Classic ornamental design with decorative floral borders, elegant swirls, and traditional styling",
+    config: {
+      colors: {
+        background: "#faf8f3",
+        border: "#4a3728",
+        accent: "#999999",
+        text: "#4a3728",
+        textSecondary: "#666666",
+      },
+      layout: {
+        borderWidth: "4px",
+        borderStyle: "double",
+        padding: "48px",
+        alignment: "center",
+      },
+      typography: {
+        headerFont: "Georgia",
+        bodyFont: "Georgia",
+        scriptFont: "Brush Script MT",
+        nameSize: "64px",
+        headerSize: "72px",
+        bodySize: "14px",
+      },
+      elements: {
+        showBorder: true,
+        showDecorativeCorners: true,
+        showSeal: false,
+        sealType: "ornamental-pattern",
+        showSignatures: true,
+        signatureCount: 1,
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template3",
+    name: "Certificate of Recognition",
+    description:
+      "Modern professional design with navy blue waves, gold accents, and decorative badge",
+    config: {
+      colors: {
+        background: "#ffffff",
+        border: "#1e3a8a",
+        accent: "#ca8a04",
+        text: "#1e293b",
+        textSecondary: "#64748b",
+      },
+      layout: {
+        borderWidth: "0px",
+        borderStyle: "none",
+        padding: "48px",
+        alignment: "center",
+      },
+      typography: {
+        headerFont: "Georgia",
+        bodyFont: "system-ui",
+        scriptFont: "Georgia",
+        nameSize: "56px",
+        headerSize: "68px",
+        bodySize: "14px",
+      },
+      elements: {
+        showBorder: false,
+        showDecorativeCorners: true,
+        showSeal: true,
+        sealType: "modern-badge",
+        showSignatures: true,
+        signatureCount: 1,
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template4",
+    name: "Certificate of Honor",
+    description:
+      "Bold modern design with red diagonal chevrons, ribbon badge, and dynamic styling",
+    config: {
+      colors: {
+        background: "#ffffff",
+        border: "#dc2626",
+        accent: "#ca8a04",
+        text: "#000000",
+        textSecondary: "#1f2937",
+      },
+      layout: {
+        borderWidth: "3px",
+        borderStyle: "double",
+        padding: "20px",
+        alignment: "center",
+      },
+      typography: {
+        headerFont: "Georgia",
+        bodyFont: "system-ui",
+        scriptFont: "Brush Script MT",
+        nameSize: "68px",
+        headerSize: "72px",
+        bodySize: "13px",
+      },
+      elements: {
+        showBorder: true,
+        showDecorativeCorners: false,
+        showSeal: true,
+        sealType: "ribbon-badge",
+        showSignatures: true,
+        signatureCount: 1,
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template5",
+    name: "Certificate of Excellence",
+    description:
+      "Elegant design with green diagonal stripes, decorative scalloped badge, and cream background",
+    config: {
+      colors: {
+        background: "#f5f5dc",
+        border: "#1b5e20",
+        accent: "#9acd32",
+        text: "#2d2d2d",
+        textSecondary: "#4a4a4a",
+      },
+      layout: {
+        borderWidth: "6px",
+        borderStyle: "double",
+        padding: "24px",
+        alignment: "center",
+      },
+      typography: {
+        headerFont: "Georgia",
+        bodyFont: "system-ui",
+        scriptFont: "Georgia",
+        nameSize: "60px",
+        headerSize: "84px",
+        bodySize: "13px",
+      },
+      elements: {
+        showBorder: true,
+        showDecorativeCorners: true,
+        showSeal: true,
+        sealType: "scalloped-badge",
+        showSignatures: true,
+        signatureCount: 1,
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template6",
+    name: "Creative Studio",
+    description: "Artistic and creative certificate design",
+    config: {
+      layout: "creative",
+      colors: {
+        primary: "#7c3aed",
+        secondary: "#a78bfa",
+        accent: "#ea580c",
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "template7",
+    name: "Academic Excellence",
+    description: "Perfect for educational institutions",
+    config: {
+      layout: "academic",
+      colors: {
+        primary: "#dc2626",
+        secondary: "#991b1b",
+        accent: "#ea580c",
+      },
+    },
+    type: "default",
+    isDefault: true,
+    createdAt: new Date().toISOString(),
+  },
+];
+
 // ==================== AUTH ROUTES ====================
 
 // Sign up new user
@@ -1948,209 +2185,8 @@ app.post("/make-server-a611b057/templates/seed", async (c) => {
     }
 
     // Global Template Library - Default Templates
-    // Currently 5 templates are available - more will be added
-    const defaultTemplates = [
-      {
-        id: "template1",
-        name: "Certificate of Appreciation",
-        description:
-          "Classic design with brown/gold border, decorative corners, and elegant award badge",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#8b6f47",
-            accent: "#c9a961",
-            text: "#8b6f47",
-            textSecondary: "#b8935d",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "48px",
-            headerSize: "48px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "gold-award-badge",
-            showSignatures: true,
-            signatureCount: 2,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template2",
-        name: "Certificate of Completion",
-        description:
-          "Classic ornamental design with decorative floral borders, elegant swirls, and traditional styling",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#4a3728",
-            accent: "#999999",
-            text: "#4a3728",
-            textSecondary: "#666666",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "64px",
-            headerSize: "72px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: false,
-            sealType: "ornamental-pattern",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template3",
-        name: "Certificate of Recognition",
-        description:
-          "Modern professional design with navy blue waves, gold accents, and decorative badge",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#1e3a8a",
-            accent: "#ca8a04",
-            text: "#1e293b",
-            textSecondary: "#64748b",
-          },
-          layout: {
-            borderWidth: "0px",
-            borderStyle: "none",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "56px",
-            headerSize: "68px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: false,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "modern-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template4",
-        name: "Certificate of Honor",
-        description:
-          "Bold modern design with red diagonal chevrons, ribbon badge, and dynamic styling",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#dc2626",
-            accent: "#ca8a04",
-            text: "#000000",
-            textSecondary: "#1f2937",
-          },
-          layout: {
-            borderWidth: "3px",
-            borderStyle: "double",
-            padding: "20px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Brush Script MT",
-            nameSize: "68px",
-            headerSize: "72px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: false,
-            showSeal: true,
-            sealType: "ribbon-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template5",
-        name: "Certificate of Excellence",
-        description:
-          "Elegant design with green diagonal stripes, decorative scalloped badge, and cream background",
-        config: {
-          colors: {
-            background: "#f5f5dc",
-            border: "#1b5e20",
-            accent: "#9acd32",
-            text: "#2d2d2d",
-            textSecondary: "#4a4a4a",
-          },
-          layout: {
-            borderWidth: "6px",
-            borderStyle: "double",
-            padding: "24px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "60px",
-            headerSize: "84px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "scalloped-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-    ];
+    // Use canonical DEFAULT_TEMPLATES constant
+    const defaultTemplates = DEFAULT_TEMPLATES;
 
     // Save all default templates
     for (const template of defaultTemplates) {
@@ -2186,208 +2222,7 @@ app.post("/make-server-a611b057/templates/force-reseed", async (c) => {
     }
 
     // Step 2: Define all default templates (1-3)
-    const defaultTemplates = [
-      {
-        id: "template1",
-        name: "Certificate of Appreciation",
-        description:
-          "Classic design with brown/gold border, decorative corners, and elegant award badge",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#8b6f47",
-            accent: "#c9a961",
-            text: "#8b6f47",
-            textSecondary: "#b8935d",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "48px",
-            headerSize: "48px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "gold-award-badge",
-            showSignatures: true,
-            signatureCount: 2,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template2",
-        name: "Certificate of Completion",
-        description:
-          "Classic ornamental design with decorative floral borders, elegant swirls, and traditional styling",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#4a3728",
-            accent: "#999999",
-            text: "#4a3728",
-            textSecondary: "#666666",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "64px",
-            headerSize: "72px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: false,
-            sealType: "ornamental-pattern",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template3",
-        name: "Certificate of Recognition",
-        description:
-          "Modern professional design with navy blue waves, gold accents, and decorative badge",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#1e3a8a",
-            accent: "#ca8a04",
-            text: "#1e293b",
-            textSecondary: "#64748b",
-          },
-          layout: {
-            borderWidth: "0px",
-            borderStyle: "none",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "56px",
-            headerSize: "68px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: false,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "modern-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template4",
-        name: "Certificate of Honor",
-        description:
-          "Bold modern design with red diagonal chevrons, ribbon badge, and dynamic styling",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#dc2626",
-            accent: "#ca8a04",
-            text: "#000000",
-            textSecondary: "#1f2937",
-          },
-          layout: {
-            borderWidth: "3px",
-            borderStyle: "double",
-            padding: "20px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Brush Script MT",
-            nameSize: "68px",
-            headerSize: "72px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: false,
-            showSeal: true,
-            sealType: "ribbon-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template5",
-        name: "Certificate of Excellence",
-        description:
-          "Elegant design with green diagonal stripes, decorative scalloped badge, and cream background",
-        config: {
-          colors: {
-            background: "#f5f5dc",
-            border: "#1b5e20",
-            accent: "#9acd32",
-            text: "#2d2d2d",
-            textSecondary: "#4a4a4a",
-          },
-          layout: {
-            borderWidth: "6px",
-            borderStyle: "double",
-            padding: "24px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "60px",
-            headerSize: "84px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "scalloped-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-    ];
+    const defaultTemplates = DEFAULT_TEMPLATES;
 
     // Step 3: Save all default templates
     for (const template of defaultTemplates) {
@@ -2408,311 +2243,6 @@ app.post("/make-server-a611b057/templates/force-reseed", async (c) => {
   } catch (error) {
     console.log("❌ Error seeding templates:", error);
     return c.json({ error: `Server error seeding templates: ${error}` }, 500);
-  }
-});
-
-// Force reseed - clears existing templates and reseeds
-app.post("/make-server-a611b057/templates/force-reseed", async (c) => {
-  try {
-    console.log("🔄 Force reseeding templates...");
-
-    // Step 1: Delete all existing templates
-    const existing = await kv.getByPrefix("globaltemplate:");
-    console.log(`🗑️ Deleting ${existing.length} existing templates...`);
-
-    if (existing.length > 0) {
-      const templatesToDelete = existing.map((t) => `globaltemplate:${t.id}`);
-      await kv.mdel(templatesToDelete);
-      console.log("✅ Existing templates deleted");
-    }
-
-    // Step 2: Define all default templates (1-3)
-    const defaultTemplates = [
-      {
-        id: "template1",
-        name: "Certificate of Appreciation",
-        description:
-          "Classic design with brown/gold border, decorative corners, and elegant award badge",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#8b6f47",
-            accent: "#c9a961",
-            text: "#8b6f47",
-            textSecondary: "#b8935d",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "48px",
-            headerSize: "48px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "gold-award-badge",
-            showSignatures: true,
-            signatureCount: 2,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template2",
-        name: "Certificate of Completion",
-        description:
-          "Classic ornamental design with decorative floral borders, elegant swirls, and traditional styling",
-        config: {
-          colors: {
-            background: "#faf8f3",
-            border: "#4a3728",
-            accent: "#999999",
-            text: "#4a3728",
-            textSecondary: "#666666",
-          },
-          layout: {
-            borderWidth: "4px",
-            borderStyle: "double",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "64px",
-            headerSize: "72px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: false,
-            sealType: "ornamental-pattern",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template3",
-        name: "Certificate of Recognition",
-        description:
-          "Modern professional design with navy blue waves, gold accents, and decorative badge",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#1e3a8a",
-            accent: "#ca8a04",
-            text: "#1e293b",
-            textSecondary: "#64748b",
-          },
-          layout: {
-            borderWidth: "0px",
-            borderStyle: "none",
-            padding: "48px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "56px",
-            headerSize: "68px",
-            bodySize: "14px",
-          },
-          elements: {
-            showBorder: false,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "modern-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template4",
-        name: "Certificate of Honor",
-        description:
-          "Bold modern design with red diagonal chevrons, ribbon badge, and dynamic styling",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#dc2626",
-            accent: "#ca8a04",
-            text: "#000000",
-            textSecondary: "#1f2937",
-          },
-          layout: {
-            borderWidth: "3px",
-            borderStyle: "double",
-            padding: "20px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Brush Script MT",
-            nameSize: "68px",
-            headerSize: "72px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: false,
-            showSeal: true,
-            sealType: "ribbon-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "template5",
-        name: "Certificate of Excellence",
-        description:
-          "Elegant design with green diagonal stripes, decorative scalloped badge, and cream background",
-        config: {
-          colors: {
-            background: "#f5f5dc",
-            border: "#1b5e20",
-            accent: "#9acd32",
-            text: "#2d2d2d",
-            textSecondary: "#4a4a4a",
-          },
-          layout: {
-            borderWidth: "6px",
-            borderStyle: "double",
-            padding: "24px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "system-ui",
-            scriptFont: "Georgia",
-            nameSize: "60px",
-            headerSize: "84px",
-            bodySize: "13px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "scalloped-badge",
-            showSignatures: true,
-            signatureCount: 1,
-          },
-        },
-        type: "default",
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      },
-      // ===== PREMIUM TEMPLATES START HERE =====
-      {
-        id: "template7",
-        name: "Brand Award Certificate",
-        description:
-          "PREMIUM: Elegant certificate with gold medallion seal, brown/orange accents, and social media icons",
-        config: {
-          colors: {
-            background: "#ffffff",
-            border: "#ea580c",
-            accent: "#d4af37",
-            text: "#3d2817",
-            textSecondary: "#666666",
-          },
-          layout: {
-            borderWidth: "6px",
-            borderStyle: "double",
-            padding: "0px",
-            alignment: "center",
-          },
-          typography: {
-            headerFont: "Georgia",
-            bodyFont: "Georgia",
-            scriptFont: "Brush Script MT",
-            nameSize: "48px",
-            headerSize: "60px",
-            bodySize: "12px",
-          },
-          elements: {
-            showBorder: true,
-            showDecorativeCorners: true,
-            showSeal: true,
-            sealType: "gold-medallion",
-            showSignatures: true,
-            signatureCount: 1,
-            showSocialIcons: true,
-          },
-        },
-        type: "premium",
-        isDefault: false,
-        isPremium: true,
-        tier: "paid",
-        pricing: {
-          oneTime: 29.99,
-          subscription: 9.99,
-        },
-        createdAt: new Date().toISOString(),
-      },
-    ];
-
-    // Step 3: Save all templates (free + premium)
-    for (const template of defaultTemplates) {
-      await kv.set(`globaltemplate:${template.id}`, template);
-    }
-
-    const freeCount = defaultTemplates.filter(
-      (t) => t.type === "default"
-    ).length;
-    const premiumCount = defaultTemplates.filter(
-      (t) => t.type === "premium"
-    ).length;
-
-    console.log(
-      "✅ Force reseeded",
-      defaultTemplates.length,
-      "template(s):",
-      freeCount,
-      "free +",
-      premiumCount,
-      "premium"
-    );
-
-    return c.json({
-      message: `Templates force reseeded successfully (${freeCount} free, ${premiumCount} premium)`,
-      count: defaultTemplates.length,
-      freeCount,
-      premiumCount,
-      templates: defaultTemplates,
-    });
-  } catch (error) {
-    console.log("❌ Error force reseeding templates:", error);
-    return c.json(
-      { error: `Server error force reseeding templates: ${error}` },
-      500
-    );
   }
 });
 
@@ -5294,127 +4824,8 @@ app.post("/make-server-a611b057/admin/seed-templates", async (c) => {
 
     console.log("🌱 Seeding default templates...");
 
-    const defaultTemplates = [
-      {
-        id: "template1",
-        name: "Professional Certificate",
-        description: "Clean and professional design with elegant borders",
-        type: "free",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "centered",
-          colors: {
-            primary: "#1a1a1a",
-            secondary: "#4a4a4a",
-            accent: "#ea580c",
-          },
-        },
-      },
-      {
-        id: "template2",
-        name: "Modern Minimalist",
-        description: "Simple and modern design with clean lines",
-        type: "free",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "minimal",
-          colors: {
-            primary: "#000000",
-            secondary: "#666666",
-            accent: "#ea580c",
-          },
-        },
-      },
-      {
-        id: "template3",
-        name: "Classic Elegant",
-        description: "Traditional certificate with ornate borders",
-        type: "free",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "classic",
-          colors: {
-            primary: "#2c3e50",
-            secondary: "#7f8c8d",
-            accent: "#ea580c",
-          },
-        },
-      },
-      {
-        id: "template4",
-        name: "Bold Impact",
-        description: "Eye-catching design with strong visual presence",
-        type: "premium",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "bold",
-          colors: {
-            primary: "#ea580c",
-            secondary: "#1a1a1a",
-            accent: "#fb923c",
-          },
-        },
-      },
-      {
-        id: "template5",
-        name: "Corporate Professional",
-        description: "Sophisticated design for corporate training",
-        type: "premium",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "corporate",
-          colors: {
-            primary: "#1e40af",
-            secondary: "#3b82f6",
-            accent: "#ea580c",
-          },
-        },
-      },
-      {
-        id: "template6",
-        name: "Creative Studio",
-        description: "Artistic and creative certificate design",
-        type: "premium",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "creative",
-          colors: {
-            primary: "#7c3aed",
-            secondary: "#a78bfa",
-            accent: "#ea580c",
-          },
-        },
-      },
-      {
-        id: "template7",
-        name: "Academic Excellence",
-        description: "Perfect for educational institutions",
-        type: "premium",
-        isDefault: true,
-        createdBy: "system",
-        createdAt: new Date().toISOString(),
-        config: {
-          layout: "academic",
-          colors: {
-            primary: "#dc2626",
-            secondary: "#991b1b",
-            accent: "#ea580c",
-          },
-        },
-      },
-    ];
+    // Use canonical DEFAULT_TEMPLATES
+    const defaultTemplates = DEFAULT_TEMPLATES;
 
     // Store each template
     for (const template of defaultTemplates) {
