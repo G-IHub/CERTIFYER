@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-
-import DecorImg from "../../assets/Decor.svg";
+import Best from "../../assets/best.svg";
+import DecorImg from "../../assets/Decor2.svg";
 import Medal2Img from "../../assets/Medal2.svg";
 import Path2646 from "../../assets/path2646.svg";
 import VectorImg from "../../assets/Vector.svg";
 
-interface CertificateTemplate7Props {
+interface CertificateTemplate10Props {
   header: string;
   courseTitle: string;
   description?: string;
@@ -23,7 +23,7 @@ interface CertificateTemplate7Props {
   mode?: "student" | "template-selection";
 }
 
-export default function CertificateTemplate7({
+export default function CertificateTemplate10({
   header,
   courseTitle,
   description = "This certificate acknowledges your outstanding contribution and dedication to the Design project, showcasing your commitment to excellence, innovation, and teamwork.",
@@ -39,7 +39,7 @@ export default function CertificateTemplate7({
   signatoryTitle2,
   signatureUrl2,
   mode = "student",
-}: CertificateTemplate7Props) {
+}: CertificateTemplate10Props) {
   // scale for preview vs student mode
   const transformClass =
     mode === "student" ? "transform scale-[0.3]" : "transform scale-100";
@@ -78,67 +78,58 @@ export default function CertificateTemplate7({
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
-        style={{ width: "700px" }}
+        className="flex shadow-md rounded-sm relative overflow-hidden bg-white p-4"
+        style={{ width: "640px"
+        }}
       >
-        <div className="flex flex-col gap-10 items-start w-3/4 p-10">
-          <div
-            className="space-y-2"
-            style={{ fontFamily: "'Libre Baskerville', serif" }}
-          >
-            <h2 className="font-bold text-4xl">CERTIFICATE</h2>
-            <p>OF ACHIEVEMENT</p>
-            <div className="flex gap-4">
-              {/* Decorative repeated small paths */}
-              <img src={Path2646} alt="" />
-              <img src={Path2646} alt="" />
-              <img src={Path2646} alt="" />
-              <img src={Path2646} alt="" />
-            </div>
+        <div className="border border-gray-200 border-dashed p-8 w-full">
+          <div className="flex justify-between">
+            <div className="flex flex-col gap-10 items-start w-3/4">
+              <div
+                className="space-y-2"
+                style={{ fontFamily: "'Libre Baskerville', serif"}}
+              >
+                <p>CERTIFICATE OF</p>
+                <h2 className="font-bold text-4xl">ACHIEVEMENT</h2>
+                <div className="flex items-center gap-4">
+                  {/* Decorative repeated small paths */}
+                  <img src={Path2646} alt="" />
+                  <img src={Path2646} alt="" />
+                  <img src={Path2646} alt="" />
+                  <img src={Path2646} alt="" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-gray-400 uppercase font-medium">
+                  This is proudly presented to
+                </p>
+                <p
+                  className="font-bold text-amber-900 text-3xl border-b border-[#6F6A5B] w-3/4"
+                  style={{ fontFamily: "'Momo Signature', cursive" }}
+                >
+                  {recipientName}
+                </p>
+                <p className="text-[#5A5549] text-sm max-w-sm">{description}</p>
+              </div>
+          </div>
+          <div>
+            <img src={Best} alt="" className="absolute top-0 right-0 w-1/2" />
+          </div>
           </div>
 
-          <div className="space-y-4">
-            <p className="text-gray-400 uppercase font-medium">
-              This is proudly presented to
-            </p>
-            <p
-              className="font-bold text-amber-900 text-3xl border-b border-[#6F6A5B] w-3/4"
-              style={{ fontFamily: "'Momo Signature', cursive" }}
-            >
-              {recipientName}
-            </p>
-            <p className="text-[#5A5549] text-sm max-w-sm">{description}</p>
+          <div className="flex items-end justify-between mt-10">
+          <div className="flex flex-col gap-2 text-sm">
+            <p className="font-bold border-b border-[#6F6A5B]"
+            style={{ fontFamily: "'Momo Signature', cursive" }}>Signature</p>
+            <p>{signatoryTitle1}</p>
           </div>
-
-          <div className="flex items-end justify-between w-3/4">
-            <div className="flex flex-col gap-2 text-sm">
-              <p className="font-bold border-b border-[#6F6A5B]">
-                {signatoryName1}
-              </p>
-              <p className="text-sm">{signatoryTitle1}</p>
-            </div>
-
-            <div className="flex flex-col items-end gap-2 text-sm">
-              <img src={VectorImg} alt="" className="w-1/3" />
-              <p className="uppercase">Presented on</p>
-              <p>{date || "DATE"}</p>
-            </div>
+          <div className="flex flex-col items-end gap-2 text-sm">
+            <img src={VectorImg} alt="" className="w-1/3" />
+            <p className="uppercase">Presented on</p>
+            <p>{date || "DATE"}</p>
           </div>
         </div>
-
-        {/* Right side decorations */}
-        <div className="">
-          <img
-            src={DecorImg}
-            alt=""
-            className="absolute right-0 top-0 h-full object-cover"
-          />
-          <img
-            src={Medal2Img}
-            alt=""
-            className="absolute"
-            style={{ right: "100px", top: "80px", width: "25%" }}
-          />
         </div>
       </div>
     </div>

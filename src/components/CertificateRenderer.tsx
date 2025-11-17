@@ -1,4 +1,5 @@
 import CertificateTemplate1 from "./templates/CertificateTemplate1";
+import CertificateTemplate10 from "./templates/CertificateTemplate10";
 import CertificateTemplate2 from "./templates/CertificateTemplate2";
 import CertificateTemplate3 from "./templates/CertificateTemplate3";
 import CertificateTemplate4 from "./templates/CertificateTemplate4";
@@ -86,14 +87,9 @@ export default function CertificateRenderer({
     
     case "6":
       return <CertificateTemplate6 {...templateProps} />;
-    
-    // case "7":
-    //   return <CertificateTemplate7 {...templateProps} />;
-    // case "7":
-    //   return <CertificateTemplate8 {...templateProps} />;
 
     case "7":
-      return <CertificateTemplate9 {...templateProps} />;
+      return <CertificateTemplate10 {...templateProps} />;
     
     // All other template IDs fall back to Template 1
     // This ensures the system never breaks even if an invalid ID is used
