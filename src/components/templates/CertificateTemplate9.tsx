@@ -4,8 +4,7 @@ import DecorImg from '../../assets/Decor2.svg';
 import Medal2Img from '../../assets/Medal2.svg';
 import Path2646 from '../../assets/path2646.svg';
 import VectorImg from '../../assets/Vector.svg';
-import React from 'react';
-import VectorImg from "../../assets/Vector.svg";
+
 
 interface CertificateTemplate9Props {
   header: string;
