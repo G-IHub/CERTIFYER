@@ -13,6 +13,9 @@ interface CertificateTemplate8Props {
   signatoryName1?: string;
   signatoryTitle1?: string;
   signatureUrl1?: string;
+  signatoryName2?: string;
+  signatoryTitle2?: string;
+  signatureUrl2?: string;
   mode?: "student" | "template-selection";
 }
 
@@ -25,9 +28,12 @@ export default function CertificateTemplate8({
   isPreview = false,
   organizationName,
   organizationLogo,
-  signatoryName1 = "Hormat kami",
-  signatoryTitle1 = "",
+  signatoryName1,
+  signatoryTitle1,
   signatureUrl1,
+  signatoryName2,
+  signatoryTitle2,
+  signatureUrl2,
   mode = "student",
 }: CertificateTemplate8Props) {
   const scale = mode === "student" ? 0.3 : 1;
@@ -50,7 +56,7 @@ export default function CertificateTemplate8({
   return (
     <div
       className={containerClass}
-      style={{ transform: `scale(${scale})`, backgroundColor: "transparent"}}
+      style={{ transform: `scale(${scale})`, backgroundColor: "transparent" }}
     >
       <div
         className="flex justify-center items-center shadow-md w-3xl p-10 rounded-sm relative text-[#4D4D4D] font-['Montserrat'] overflow-hidden"
@@ -72,21 +78,21 @@ export default function CertificateTemplate8({
             style={{
               border: "2px solid",
               bottom: "100px",
-               borderImage: "linear-gradient(to bottom, #FDBA18, #FA54CE) 1"
+              borderImage: "linear-gradient(to bottom, #FDBA18, #FA54CE) 1",
             }}
           />
           <div
             className="w-14 h-14 absolute left-14 bottom-4 rotate-45 z-40"
             style={{
               border: "2px solid",
-               borderImage: "linear-gradient(to bottom, #FDBA18, #FA54CE) 1"
+              borderImage: "linear-gradient(to bottom, #FDBA18, #FA54CE) 1",
             }}
           />
           <div
             className="w-16 h-50 absolute -left-4 -top-4 rotate-50 z-20"
             style={{
               border: "2px solid",
-              borderImage: "linear-gradient(to top, #FDBA18, #FA54CE) 1"
+              borderImage: "linear-gradient(to top, #FDBA18, #FA54CE) 1",
             }}
           />
           <div
@@ -140,7 +146,7 @@ export default function CertificateTemplate8({
           <div
             className="h-full w-6 absolute right-4 top-0"
             style={{
-             background: "linear-gradient(to left, #FF9C39, #FA54CE)",
+              background: "linear-gradient(to left, #FF9C39, #FA54CE)",
             }}
           />
           {first && (
@@ -151,11 +157,13 @@ export default function CertificateTemplate8({
             />
           )}
           <div className="mt-6">
+            <p className="font-medium" style={{ color: "#FA54CE80" }}>
+              {organizationName || "Company Name"}
+            </p>
             <h3
               className="font-bold text-2xl"
               style={{
-                backgroundImage:
-                  "linear-gradient(to bottom, #FDBA18, #D604DA)",
+                backgroundImage: "linear-gradient(to bottom, #FDBA18, #D604DA)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -163,17 +171,14 @@ export default function CertificateTemplate8({
             >
               {header}
             </h3>
-            <p className="font-medium" style={{ color: "#FA54CE80" }}>
-              diberikan kepada
-            </p>
           </div>
           <h2 className="font-bold text-3xl" style={{ color: "#FD8207" }}>
             {recipientName}
           </h2>
           <div>
-            <p className="font-medium" style={{ color: "#FA54CE80" }}>
+            {/* <p className="font-medium" style={{ color: "#FA54CE80" }}>
               Selamat atas pencapaian sebagai
-            </p>
+            </p> */}
             <h3
               className="font-bold tracking-tighter text-2xl"
               style={{ color: "#60B3FF" }}
@@ -182,46 +187,115 @@ export default function CertificateTemplate8({
             </h3>
           </div>
           <p className="font-medium" style={{ color: "#FA54CE80" }}>
-            {description || ""}
+            {description || "Successfully participated in the course"}
           </p>
-          <div className="mt-10 flex justify-between items-center px-10">
-            <div className="space-y-4">
-              <div
-                className="border-b-2 w-50 text-center font-bold text-lg"
-                style={{ color: "#FA54CE80"}}
-              >
-                Hormat kami
-              </div>
-              <p
-                className="text-center text-sm font-medium"
-                style={{
-                  backgroundImage: "linear-gradient(to bottom, #FFA246, #FA54CE)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {date || "DATE"}
-              </p>
-            </div>
-            <div className="space-y-4">
-              <div
-                className="border-b-2 w-50 text-center font-bold text-lg"
-                style={{ color: "#FA54CE80" }}
-              >
-                Hormat kami
-              </div>
-              <p
-                className="text-center text-sm font-medium"
-                style={{
-                  backgroundImage: "linear-gradient(to bottom, #FFA246, #FA54CE)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {signatoryName1 || "SIGNATURE"}
-              </p>
+
+          <div className="mt-20 flex justify-between items-end">
+            <div className="flex gap-8 justify-center items-center mt-5">
+              {/* Signature 1 - Always show if name is provided */}
+              {signatoryName1 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl1 && (
+                    <img
+                      src={signatureUrl1}
+                      alt={signatoryName1}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl1 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#FA54CE80" }}
+                  >
+                    {signatoryName1}
+                  </div>
+                  {signatoryTitle1 && (
+                    <div
+                      className="text-xs font-medium"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to bottom, #FFA246, #FA54CE)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {signatoryTitle1}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Signature 2 - Always show if name is provided */}
+              {signatoryName2 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl2 && (
+                    <img
+                      src={signatureUrl2}
+                      alt={signatoryName2}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl2 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#FA54CE80" }}
+                  >
+                    {signatoryName2}
+                  </div>
+                  {signatoryTitle2 && (
+                    <div
+                      className="text-xs font-medium"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to bottom, #FFA246, #FA54CE)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {signatoryTitle2}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Date display */}
+              {date && (
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-32 mt-5 mb-2" />
+                  <div
+                    className="text-sm font-medium"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to bottom, #FFA246, #FA54CE)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    {date}
+                  </div>
+                  <div
+                    className="text-xs font-bold "
+                    style={{ color: "#FA54CE80" }}
+                  >
+                    Date
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
