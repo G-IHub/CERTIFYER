@@ -88,8 +88,8 @@ export default function CertificateTemplate7({
             className="space-y-2"
             style={{ fontFamily: "'Libre Baskerville', serif" }}
           >
-            <h2 className="font-bold text-4xl">CERTIFICATE</h2>
-            <p>OF ACHIEVEMENT</p>
+            <h2 className="font-bold text-4xl uppercase">{header || "Certificate"} </h2>
+            {/* <p>OF ACHIEVEMENT</p> */}
             <div className="flex gap-4">
               {/* Decorative repeated small paths */}
               <img src={Path2646} alt="" />
@@ -121,7 +121,7 @@ export default function CertificateTemplate7({
                 <img
                   src={signatureUrl1}
                   alt={signatoryName1}
-                  className="w-24 h-16 object-contain"
+                  className="w-24 h-16 object-contain" style={{marginBottom: -12}}
                 />
                 <p className="font-bold border-b border-[#6F6A5B]">
                   {signatoryName1}
