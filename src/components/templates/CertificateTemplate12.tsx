@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 import DecorImg from "../../assets/Decor2.svg";
-import logo from "../../assets/Sq_logo.svg";
 import badge from "../../assets/Badge.svg";
 
 interface CertificateTemplate12Props {
@@ -83,52 +82,120 @@ export default function CertificateTemplate12({
         <div className="flex flex-col gap-10 items-start w-5/6 p-10">
           <div className="space-y-2">
             <div className="flex gap-4">
-              <img src={logo} alt="organization_logo" />
-              <h1 className="text-4xl font-ectrabold tracking-widest">SQ</h1>
+              <img
+                src={organizationLogo}
+                alt="organization_logo"
+                className="w-10"
+              />
+              {/* <h1 className="text-4xl font-ectrabold tracking-widest">SQ</h1> */}
             </div>
             <h3
-              className="uppercase"
+              className=""
               style={{ fontFamily: "'Liber Baskerville', serif" }}
             >
-              Real Estate
+              {organizationName}
             </h3>
           </div>
 
           <div className="space-y-2 mt-4">
             <h2
-              className="text-2xl font-medium"
+              className="text-2xl font-medium uppercase"
               style={{ fontFamily: "'Liber Baskerville', serif" }}
             >
-              CERTIFICATE OF EXCELLENCE TO
+              {header || "CERTIFICATE OF EXCELLENCE "} TO
             </h2>
-            <div className="border-b-2 w-1/2"
-            style={{border: "1px solid #CEAD6A"}}></div>
+            <div
+              className="border-b-2 w-1/2"
+              style={{ border: "1px solid #CEAD6A" }}
+            ></div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-2">
             <p
-              className="text-3xl font-light w-3/4 uppercase"
-              style={{ fontFamily: "'Liber Baskerville', serif",
-                color: "#CEAD6A"
-               }}
+              className="text-3xl font-light w-2/4 uppercase"
+              style={{
+                fontFamily: "'Liber Baskerville', serif",
+                color: "#CEAD6A",
+              }}
             >
               {recipientName}
             </p>
             <p className="text-[#5A5549] max-w-lg">{description}</p>
           </div>
 
-          <div
-            className="flex items-center"
-            style={{ fontFamily: "'Liber Baskerville', serif",
-                gap: "60px",
-                alignSelf: "center"
-            }}
-          >
-            <div className="flex flex-col gap-2 text-sm">
-              <img src={signatureUrl1} alt="signature" className="w-20" />
-              <p className="border-b border-gray-500">Julie L. Tilor</p>
-              <p>Director SQ Real Estate</p>
+          <div className="mt-20 flex justify-between items-end">
+            <div className="flex gap-8 justify-center items-center mt-5">
+              {/* Signature 1 - Always show if name is provided */}
+              {signatoryName1 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl1 && (
+                    <img
+                      src={signatureUrl1}
+                      alt={signatoryName1}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl1 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {signatoryName1}
+                  </div>
+                  {signatoryTitle1 && (
+                    <div className="text-xs font-medium">{signatoryTitle1}</div>
+                  )}
+                </div>
+              )}
+
+              {/* Signature 2 - Always show if name is provided */}
+              {signatoryName2 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl2 && (
+                    <img
+                      src={signatureUrl2}
+                      alt={signatoryName2}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl2 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {signatoryName2}
+                  </div>
+                  {signatoryTitle2 && (
+                    <div className="text-xs font-medium">{signatoryTitle2}</div>
+                  )}
+                </div>
+              )}
+
+              {/* Date display */}
+              {date && (
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-32 mt-5 mb-2" />
+                  <div
+                    className="text-sm font-medium"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {date}
+                  </div>
+                  <div className="text-xs font-bold ">Date</div>
+                </div>
+              )}
             </div>
-            <img src={badge} alt="" className="w-20" />
           </div>
         </div>
 
