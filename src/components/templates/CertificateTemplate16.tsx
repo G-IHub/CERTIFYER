@@ -73,65 +73,20 @@ export default function CertificateTemplate16({
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="shadow-lg relative overflow-hidden"
+        className="flex shadow-sm rounded p-4"
         style={{
           width: "640px",
           height: "500px",
-          background:
-            "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%)",
+          background: "#2A2D30"
         }}
       >
-        {/* Decorative wave pattern */}
-        <div className="absolute bottom-0 left-0 right-0 opacity-20">
-          <svg
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            className="w-full h-24"
-          >
-            <path
-              d="M0,0 C150,100 350,0 600,50 C850,100 1050,0 1200,50 L1200,120 L0,120 Z"
-              fill="white"
-            />
-          </svg>
-        </div>
-
-        {/* White certificate paper overlay */}
-        <div className="absolute inset-0 m-8 bg-white shadow-2xl">
-          {/* Blue accent top border */}
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"></div>
-
-          {/* Decorative corner elements */}
-          <div className="absolute top-4 left-4 w-12 h-12">
-            <div className="w-full h-1 bg-blue-600"></div>
-            <div className="w-1 h-full bg-blue-600 absolute top-0 left-0"></div>
-          </div>
-          <div className="absolute top-4 right-4 w-12 h-12">
-            <div className="w-full h-1 bg-blue-600"></div>
-            <div className="w-1 h-full bg-blue-600 absolute top-0 right-0"></div>
-          </div>
-          <div className="absolute bottom-4 left-4 w-12 h-12">
-            <div className="w-full h-1 bg-blue-600 absolute bottom-0"></div>
-            <div className="w-1 h-full bg-blue-600 absolute bottom-0 left-0"></div>
-          </div>
-          <div className="absolute bottom-4 right-4 w-12 h-12">
-            <div className="w-full h-1 bg-blue-600 absolute bottom-0"></div>
-            <div className="w-1 h-full bg-blue-600 absolute bottom-0 right-0"></div>
-          </div>
-
-          {/* Decorative badge */}
-          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-lg border-4 border-white">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            </div>
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center justify-center h-full px-16 text-center pt-8">
+        <div className="bg-white w-full p-2 rounded-lg relative overflow-hidden"
+        style={{border: "6px solid #AD814B"}}>
+          <div className="bg-transparent w-full h-full rounded-lg px-20 flex flex-col items-center gap-10 text-center font-['Libre_Baskerville'] text-[#3A3D3D]"
+          style={{border: "4px solid #AD814B",
+            paddingTop: "64px",
+            paddingBottom: "64px"
+          }}>
             {/* Organization Logo */}
             {organizationLogo && (
               <img
@@ -146,9 +101,6 @@ export default function CertificateTemplate16({
               className="mb-6"
               style={{ fontFamily: "'Merriweather', serif" }}
             >
-              <p className="text-xs text-blue-600 tracking-widest uppercase mb-2 font-semibold">
-                Certificate of
-              </p>
               <h1 className="text-5xl font-black text-gray-900">
                 {header || "Distinction"}
               </h1>

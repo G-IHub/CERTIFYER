@@ -77,7 +77,7 @@ export default function CertificateTemplate14({
             className="w-80 h-20 absolute z-20 left-0"
             style={{ background: "#FFB016", bottom: "160px" }}
           ></div>
-          <div className="text-center flex flex-col items-center space-y-8 z-40 absolute w-1/3 h-2/3">
+          <div className="text-center flex flex-col items-center space-y-8 z-40 absolute w-1/3">
             <div className="flex flex-col items-center">
               {/* Organization Logo */}
               {organizationLogo && (
@@ -146,24 +146,24 @@ export default function CertificateTemplate14({
             style={{ background: "#FF5A59" }}
           ></div>
           <div className="z-0 w-full h-full opacity-50">
-            {Array.from({ length: 100 }).map((_, i) => (
+            {Array.from({ length: 50 }).map((_, i) => (
               <img
                 key={i}
                 src={line}
                 alt=""
                 className="absolute w-full left-0"
-                style={{ bottom: `${i * 4}px` }}
+                style={{ bottom: `${(i - 6) * 8}px` }}
               />
             ))}
           </div>
           <div className="z-0 w-full h-full opacity-50">
-            {Array.from({ length: 32 }).map((_, i) => (
+            {Array.from({ length: 22 }).map((_, i) => (
               <img
                 key={i}
                 src={line}
                 alt=""
                 className="absolute w-full -right-10"
-                style={{ top: `${(i + 90) * 4}px` }}
+                style={{ top: `${(i + 40) * 8}px` }}
               />
             ))}
           </div>

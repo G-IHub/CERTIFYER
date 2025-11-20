@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import DecorImg from '../../assets/Decor2.svg';
-import Medal2Img from '../../assets/Medal2.svg';
-import Path2646 from '../../assets/path2646.svg';
-import VectorImg from '../../assets/Vector.svg';
+import DecorImg from "../../assets/Decor2.svg";
+import Medal2Img from "../../assets/Medal2.svg";
+import Path2646 from "../../assets/path2646.svg";
+import VectorImg from "../../assets/Vector.svg";
 
 
 interface CertificateTemplate9Props {
@@ -27,35 +27,40 @@ interface CertificateTemplate9Props {
 export default function CertificateTemplate9({
   header,
   courseTitle,
-  description = 'This certificate acknowledges your outstanding contribution and dedication to the Design project, showcasing your commitment to excellence, innovation, and teamwork.',
+  description = "This certificate acknowledges your outstanding contribution and dedication to the Design project, showcasing your commitment to excellence, innovation, and teamwork.",
   date,
-  recipientName = 'Name Surname',
+  recipientName = "Name Surname",
   isPreview = false,
-  organizationName = 'Your Organization',
+  organizationName = "Your Organization",
   organizationLogo,
-  signatoryName1 = 'Signature',
-  signatoryTitle1 = 'MANAGER, CTO',
+  signatoryName1 = "Signature",
+  signatoryTitle1 = "MANAGER, CTO",
   signatureUrl1,
   signatoryName2,
   signatoryTitle2,
   signatureUrl2,
-  mode = 'student',
+  mode = "student",
 }: CertificateTemplate9Props) {
   // scale for preview vs student mode
-  const transformClass = mode === 'student' ? 'transform scale-[0.3]' : 'transform scale-100';
-  const containerClass = isPreview ? 'w-full mx-auto origin-center overflow-visible flex justify-center' : 'min-w-[1056px] flex justify-center items-center';
+  const transformClass =
+    mode === "student" ? "transform scale-[0.3]" : "transform scale-100";
+  const containerClass = isPreview
+    ? "w-full mx-auto origin-center overflow-visible flex justify-center"
+    : "min-w-[1056px] flex justify-center items-center";
 
   // inject fonts: Libre Baskerville (available on Google Fonts) and attempt Momo_Signature (fallbacks will apply if unavailable)
   useEffect(() => {
-    const link1 = document.createElement('link');
-    link1.rel = 'stylesheet';
-    link1.href = 'https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap';
+    const link1 = document.createElement("link");
+    link1.rel = "stylesheet";
+    link1.href =
+      "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap";
     document.head.appendChild(link1);
 
-    const link2 = document.createElement('link');
-    link2.rel = 'stylesheet';
+    const link2 = document.createElement("link");
+    link2.rel = "stylesheet";
     // Momo_Signature may be a custom font; we attempt to load it via Google Fonts name (harmless if not found).
-    link2.href = 'https://fonts.googleapis.com/css2?family=Momo+Signature&display=swap';
+    link2.href =
+      "https://fonts.googleapis.com/css2?family=Momo+Signature&display=swap";
     document.head.appendChild(link2);
 
     return () => {
@@ -65,7 +70,11 @@ export default function CertificateTemplate9({
   }, []);
 
   // formatted date
-  const formattedDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
