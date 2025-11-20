@@ -93,7 +93,7 @@ export default function CertificateTemplate13({
           {/* Header */}
           <div
             className="flex flex-col items-center gap-4 mb-6"
-            style={{ fontFamily: "'Liber Baskerville', serif" }}
+            style={{ fontFamily: "'Libre Baskerville', serif" }}
           >
             <h1 className="text-3xl font-bold uppercase">
               {header || "Achievement"}

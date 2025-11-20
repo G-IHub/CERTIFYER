@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import floral from "../../assets/floral.png";
 
 interface CertificateTemplate16Props {
   header: string;
@@ -45,13 +46,13 @@ export default function CertificateTemplate16({
     const link1 = document.createElement("link");
     link1.rel = "stylesheet";
     link1.href =
-      "https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap";
+      "https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap";
     document.head.appendChild(link1);
 
     const link2 = document.createElement("link");
     link2.rel = "stylesheet";
     link2.href =
-      "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap";
+      "https://fonts.googleapis.com/css2?family=Momo+Signature&display=swap";
     document.head.appendChild(link2);
 
     return () => {
@@ -77,65 +78,79 @@ export default function CertificateTemplate16({
         style={{
           width: "640px",
           height: "500px",
-          background: "#2A2D30"
+          background: "#2A2D30",
         }}
       >
-        <div className="bg-white w-full p-2 rounded-lg relative overflow-hidden"
-        style={{border: "6px solid #AD814B"}}>
-          <div className="bg-transparent w-full h-full rounded-lg px-20 flex flex-col items-center gap-10 text-center font-['Libre_Baskerville'] text-[#3A3D3D]"
-          style={{border: "4px solid #AD814B",
-            paddingTop: "64px",
-            paddingBottom: "64px"
-          }}>
+        <div
+          className="bg-white w-full p-2 rounded-lg relative overflow-hidden"
+          style={{ border: "4px solid #AD814B" }}
+        >
+          <div
+            className="bg-transparent w-full h-full rounded-lg px-20 flex flex-col items-center gap-10 text-center text-[#3A3D3D]"
+            style={{
+              paddingTop: "48px",
+              paddingBottom: "48px",
+              fontFamily: "'Libre Baskerville', serif",
+            }}
+          >
             {/* Organization Logo */}
-            {organizationLogo && (
+            {/* {organizationLogo && (
               <img
                 src={organizationLogo}
                 alt="Organization Logo"
                 className="w-16 h-16 object-contain mb-4"
               />
-            )}
+            )} */}
+            <img
+              src={floral}
+              alt=""
+              className="absolute bottom-0 left-0 z-0"
+              style={{ width: "20%" }}
+            />
+            <img
+              src={floral}
+              alt=""
+              className="absolute top-0 right-0 z-0"
+              style={{ width: "20%", transform: "rotate(180deg)" }}
+            />
+            <img
+              src={floral}
+              alt=""
+              className="absolute top-0 left-0 z-0"
+              style={{ width: "20%", transform: "rotate(90deg)" }}
+            />
+            <img
+              src={floral}
+              alt=""
+              className="absolute bottom-0 right-0 w-1/5 z-0"
+              style={{ width: "20%", transform: "rotate(-90deg)" }}
+            />
 
             {/* Header */}
-            <div
-              className="mb-6"
-              style={{ fontFamily: "'Merriweather', serif" }}
-            >
-              <h1 className="text-5xl font-black text-gray-900">
+            <div className="">
+              <h1
+                className="text-3xl font-bold uppercase"
+                style={{ color: "#B4814A" }}
+              >
                 {header || "Distinction"}
               </h1>
             </div>
 
-            {/* Decorative line */}
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-px bg-blue-600"></div>
-              <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-              <div className="w-12 h-px bg-blue-600"></div>
+            <div className="flex flex-col gap-10">
+              {/* Presented to */}
+              <p className="uppercase text-sm">This is hereby awarded to</p>
+
+              {/* Recipient Name */}
+              <p
+                className="text-5xl border-b border-[#7E7F79] pb-4 text-gray-600"
+                style={{ fontFamily: "'Momo Signature', cursive" }}
+              >
+                {recipientName}
+              </p>
+
+              {/* Description */}
+              <p className="text-xs uppercase">{description}</p>
             </div>
-
-            {/* Presented to */}
-            <p
-              className="text-xs text-gray-600 mb-2"
-              style={{ fontFamily: "'Source Sans Pro', sans-serif" }}
-            >
-              This is hereby awarded to
-            </p>
-
-            {/* Recipient Name */}
-            <h2
-              className="text-4xl font-bold text-blue-700 mb-6"
-              style={{ fontFamily: "'Merriweather', serif" }}
-            >
-              {recipientName}
-            </h2>
-
-            {/* Description */}
-            <p
-              className="text-xs text-gray-700 max-w-lg mb-8 leading-relaxed"
-              style={{ fontFamily: "'Source Sans Pro', sans-serif" }}
-            >
-              {description}
-            </p>
 
             {/* Signatures Section */}
             <div className="flex justify-center items-end gap-16 w-full mt-auto mb-4">

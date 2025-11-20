@@ -111,7 +111,7 @@ export default function CertificateTemplate11({
               <p>This is proudly presented to</p>
               <p
                 className="text-amber-800 text-4xl"
-                style={{ fontFamily: "'Liber Baskerville', serif" }}
+                style={{ fontFamily: "'Libre Baskerville', serif" }}
               >
                 {recipientName}
               </p>

@@ -91,7 +91,7 @@ export default function CertificateTemplate12({
             </div>
             <h3
               className=""
-              style={{ fontFamily: "'Liber Baskerville', serif" }}
+              style={{ fontFamily: "'Libre Baskerville', serif" }}
             >
               {organizationName}
             </h3>
@@ -100,7 +100,7 @@ export default function CertificateTemplate12({
           <div className="space-y-2 mt-4">
             <h2
               className="text-2xl font-medium uppercase"
-              style={{ fontFamily: "'Liber Baskerville', serif" }}
+              style={{ fontFamily: "'Libre Baskerville', serif" }}
             >
               {header || "CERTIFICATE OF EXCELLENCE "} TO
             </h2>
@@ -113,7 +113,7 @@ export default function CertificateTemplate12({
             <p
               className="text-3xl font-light w-2/4 uppercase"
               style={{
-                fontFamily: "'Liber Baskerville', serif",
+                fontFamily: "'Libre Baskerville', serif",
                 color: "#CEAD6A",
               }}
             >

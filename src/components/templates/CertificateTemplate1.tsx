@@ -42,7 +42,6 @@ export default function CertificateTemplate1({
   const ref = useRef<HTMLDivElement>(null);
   const scale = mode === "student" ? 0.3 : 1;
 
-  // Load Cinzel Decorative font (Google Fonts) once when this component mounts
   useEffect(() => {
     const id = "cinzel-decorative-font";
     if (!document.getElementById(id)) {
@@ -62,12 +61,12 @@ export default function CertificateTemplate1({
   });
 
   const containerClass = isPreview
-    ? "w-full mx-auto origin-center overflow-visible"
+    ? "w-full mx-auto origin-center overflow-visible flex justify-center"
     : "min-w-[1056px] flex justify-center items-center ";
 
-  const certificateClass = isPreview
-    ? "flex flex-col justify-center items-center relative shadow-lg"
-    : "flex flex-col justify-center items-center relative";
+  // const certificateClass = isPreview
+  //   ? "flex flex-col justify-center items-center relative shadow-lg"
+  //   : "flex flex-col justify-center items-center relative";
 
   return (
     <div
@@ -76,8 +75,8 @@ export default function CertificateTemplate1({
     >
       <div
         ref={ref}
-        className={certificateClass}
-        style={{ backgroundColor: "#faf8f3" }}
+        className="border-2"
+        style={{ width: "640px", height: "500px" }}
       >
         {/* Main Certificate Container - Landscape A4 proportions */}
         <div className="space-y-4 py-10 rounded-lg mt-10 w-3xl">
@@ -169,7 +168,10 @@ export default function CertificateTemplate1({
 
               {/* Signature 2 - Always show if name is provided */}
               {signatoryName2 && (
-                <div className="flex flex-col items-center text-center" style={{ marginTop: -20 }}>
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
                   {signatureUrl2 && (
                     <img
                       src={signatureUrl2}
