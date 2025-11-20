@@ -110,6 +110,7 @@ export default function CertificateTemplate10({
                 >
                   {recipientName}
                 </p>
+                <p className="font-medium text-2xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
                 <p className="text-[#5A5549] text-sm max-w-sm">{description}</p>
               </div>
             </div>

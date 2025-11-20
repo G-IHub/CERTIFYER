@@ -186,7 +186,7 @@ export default function CertificateTemplate6({
 
             {/* Company/Program Name */}
             <p className="text-sm uppercase tracking-wider text-gray-700 mb-4">
-              {organizationName}
+              {courseTitle || "Course Title"}
             </p>
 
             {/* Description */}

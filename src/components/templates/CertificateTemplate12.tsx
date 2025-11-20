@@ -119,7 +119,8 @@ export default function CertificateTemplate12({
             >
               {recipientName}
             </p>
-            <p className="text-[#5A5549] max-w-lg">{description}</p>
+            <p className="font-medium text-xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
+            <p className="text-[#5A5549] max-w-lg">{description || "This certificate acknowledges your outstanding contribution and dedication to the project"}</p>
           </div>
 
           <div className="mt-20 flex justify-between items-end">

@@ -425,65 +425,62 @@ const DEFAULT_TEMPLATES = [
   },
   {
     id: "template13",
-    name: "Certificate Template 13",
-    description: "Professional design with double border frame, diagonal backgrounds, and Libre Baskerville typography",
+    name: "Certificate of Achievement",
+    description: "Modern gradient design with purple and indigo tones, decorative corners, and Playfair Display font",
     config: {
-      layout: "professional",
+      layout: "modern-gradient",
       colors: {
-        primary: "#1a1a1a",
-        secondary: "#FF8C00",
-        accent: "#000000",
+        primary: "#4f46e5",
+        secondary: "#9333ea",
+        accent: "#6366f1",
       },
     },
     type: "default",
     isDefault: true,
     createdAt: new Date().toISOString(),
   },
-  
   {
     id: "template14",
-    name: "Certificate of Template 14",
-    description: "Professional design with double border frame, diagonal backgrounds, and Libre Baskerville typography",
+    name: "Certificate of Excellence",
+    description: "Elegant emerald design with double border frames, decorative flourishes, and Cinzel serif typography",
     config: {
-      layout: "professional",
+      layout: "elegant-emerald",
       colors: {
-        primary: "#1a1a1a",
-        secondary: "#FF8C00",
-        accent: "#000000",
+        primary: "#059669",
+        secondary: "#047857",
+        accent: "#10b981",
       },
     },
     type: "default",
     isDefault: true,
     createdAt: new Date().toISOString(),
   },
-  
   {
     id: "template15",
-    name: "Certificate of Template 15",
-    description: "Professional design with double border frame, diagonal backgrounds, and Libre Baskerville typography",
+    name: "Certificate of Recognition",
+    description: "Bold geometric design with orange header, diagonal accents, and Raleway modern typography",
     config: {
-      layout: "professional",
+      layout: "geometric-modern",
       colors: {
-        primary: "#1a1a1a",
-        secondary: "#FF8C00",
-        accent: "#000000",
+        primary: "#f97316",
+        secondary: "#f59e0b",
+        accent: "#fb923c",
       },
     },
     type: "default",
     isDefault: true,
     createdAt: new Date().toISOString(),
   },
-  
   {
-    id: "template15",
-    name: "Certificate of Template 15",
-    description: "Professional design with double border frame, diagonal backgrounds, and Libre Baskerville typography",
+    id: "template16",
+    name: "Certificate of Distinction",
+    description: "Professional blue design with gradient background, decorative badge, and Merriweather typography",
     config: {
-      layout: "professional",
+      layout: "professional-blue",
       colors: {
-        primary: "#1a1a1a",
-        secondary: "#FF8C00",
-        accent: "#000000",
+        primary: "#1e3a8a",
+        secondary: "#3b82f6",
+        accent: "#60a5fa",
       },
     },
     type: "default",
@@ -1006,6 +1003,7 @@ app.post("/make-server-a611b057/certificates", async (c) => {
       template,
       students,
       customTemplateConfig,
+      signatories,
     } = requestBody;
 
     console.log("📋 Request data:", {
@@ -1019,6 +1017,7 @@ app.post("/make-server-a611b057/certificates", async (c) => {
       studentCount: students?.length || 0,
       isNewFormat: !students,
       userId: user.id,
+      signatoryCount: signatories?.length || 0,
     });
 
     // Support both old format (with students array) and new format (without students)
@@ -1128,6 +1127,7 @@ app.post("/make-server-a611b057/certificates", async (c) => {
         completionDate: completionDate || new Date().toISOString(),
         template: template || "impact", // Store template
         customTemplateConfig: customTemplateConfig || null, // Store custom template config
+        signatories: signatories || [], // Store signatories
         organizationId,
         programId: programId || programSlug, // Use provided programId or generate slug
         generatedAt: new Date().toISOString(),
@@ -1184,6 +1184,7 @@ app.post("/make-server-a611b057/certificates", async (c) => {
           courseDescription: courseDescription || program.description, // Add description
           template: template || program.template || "impact", // Store template
           customTemplateConfig: customTemplateConfig || null, // Store custom template config
+          signatories: signatories || [], // Store signatories
           organizationId,
           programId,
           generatedAt: new Date().toISOString(),
@@ -2113,29 +2114,14 @@ app.get("/make-server-a611b057/templates", async (c) => {
     // Get all templates with prefix 'globaltemplate:'
     const allTemplates = await kv.getByPrefix("globaltemplate:");
 
-    // Return all templates: free (template1-5) and premium (template7+)
-    // Separate them for easy filtering on frontend
+    // Since all templates are now free (premium features moved to v2),
+    // return all templates without filtering
+    // Note: getByPrefix returns the values directly, not {key, value} objects
     const freeTemplates = allTemplates.filter(
-      (t) =>
-        t.id === "template1" ||
-        t.id === "template2" ||
-        t.id === "template3" ||
-        t.id === "template4" ||
-        t.id === "template5" ||
-        t.id === "template6" ||
-        t.id === "template7" ||
-        t.id === "template8" ||
-        t.id === "template9" ||
-        t.id === "template10" ||
-        t.id === "template11" ||
-        t.id === "template12" ||
-        t.id === "template13" ||
-        t.id === "template14" ||
-        t.id === "template15" ||
-        t.id === "template16"
+      (t) => t && typeof t === "object" && t.type !== "premium"
     );
     const premiumTemplates = allTemplates.filter(
-      (t) => t.value?.type === "premium"
+      (t) => t && typeof t === "object" && t.type === "premium"
     );
     const combinedTemplates = [...freeTemplates, ...premiumTemplates];
 

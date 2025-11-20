@@ -109,11 +109,17 @@ export default function CertificateTemplate4({
               <p className="text-6xl font-semibold w-full border-b-2 border-b-[#314E85] pb-4 text-[#314E85] text-center">
                 {recipientName}
               </p>
+              <p
+                className="font-medium text-2xl"
+                style={{ fontFamily: "cursive" }}
+              >
+                {courseTitle || "Course Title"}
+              </p>
               <p className="text-center max-w-2xl">
                 {description ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
               </p>
-              <div className="mt-20 flex justify-between items-end">
+              <div className="flex justify-between items-end">
                 <div className="flex gap-8 justify-center items-center mt-5">
                   {/* Signature 1 - Always show if name is provided */}
                   {signatoryName1 && (
@@ -146,7 +152,7 @@ export default function CertificateTemplate4({
                     </div>
                   )}
 
-                <img src={medal} alt="medal" className="w-20" />
+                  <img src={medal} alt="medal" className="w-20" />
 
                   {/* Signature 2 - Always show if name is provided */}
                   {signatoryName2 && (

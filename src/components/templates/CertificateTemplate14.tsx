@@ -65,10 +65,6 @@ export default function CertificateTemplate14({
     day: "numeric",
   });
 
-  // Determine signature count
-  const hasSignature1 = signatoryName1 || signatoryTitle1 || signatureUrl1;
-  const hasSignature2 = signatoryName2 || signatoryTitle2 || signatureUrl2;
-
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
@@ -183,83 +179,96 @@ export default function CertificateTemplate14({
             </p>
 
             {/* Recipient Name */}
-            <p className="w-full font-bold text-4xl border-b-2 pb-4 text-center">
+            <p className="w-full font-bold text-2xl border-b-2 pb-4 text-center">
               {recipientName}
             </p>
 
+            <p
+              className="font-medium text-md"
+              style={{ fontFamily: "cursive", marginTop: -20 }}
+            >
+              {courseTitle || "Course Title"}
+            </p>
+
             {/* Description */}
-            <p className="text-xs text-center">{description}</p>
+            <p className="text-xs text-center" style={{marginTop: -35}} >{description}</p>
           </div>
 
           {/* Signatures Section */}
-          <div className="flex justify-center items-end gap-16 w-full">
-            {hasSignature1 && (
-              <div className="flex flex-col items-center">
-                {signatureUrl1 && (
-                  <img
-                    src={signatureUrl1}
-                    alt="Signature"
-                    className="h-12 mb-2"
-                  />
-                )}
-                <div className="w-32 h-px bg-emerald-700 mb-1"></div>
-                {signatoryName1 && (
-                  <p
-                    className="text-xs font-semibold text-gray-800"
-                    style={{ fontFamily: "'Lato', sans-serif" }}
+          <div className="flex justify-between items-end">
+            <div className="flex gap-1 justify-center items-center" style={{marginTop: -40}}>
+              {/* Signature 1 - Always show if name is provided */}
+              {signatoryName1 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl1 && (
+                    <img
+                      src={signatureUrl1}
+                      alt={signatoryName1}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl1 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
                   >
                     {signatoryName1}
-                  </p>
-                )}
-                {signatoryTitle1 && (
-                  <p
-                    className="text-xs text-gray-600"
-                    style={{ fontFamily: "'Lato', sans-serif" }}
-                  >
-                    {signatoryTitle1}
-                  </p>
-                )}
-              </div>
-            )}
+                  </div>
+                  {signatoryTitle1 && (
+                    <div className="text-xs font-medium">{signatoryTitle1}</div>
+                  )}
+                </div>
+              )}
 
-            {hasSignature2 && (
-              <div className="flex flex-col items-center">
-                {signatureUrl2 && (
-                  <img
-                    src={signatureUrl2}
-                    alt="Signature"
-                    className="h-12 mb-2"
-                  />
-                )}
-                <div className="w-32 h-px bg-emerald-700 mb-1"></div>
-                {signatoryName2 && (
-                  <p
-                    className="text-xs font-semibold text-gray-800"
-                    style={{ fontFamily: "'Lato', sans-serif" }}
+              {/* Signature 2 - Always show if name is provided */}
+              {signatoryName2 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
+                  {signatureUrl2 && (
+                    <img
+                      src={signatureUrl2}
+                      alt={signatoryName2}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
+                    />
+                  )}
+                  {!signatureUrl2 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
+                  )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
                   >
                     {signatoryName2}
-                  </p>
-                )}
-                {signatoryTitle2 && (
-                  <p
-                    className="text-xs text-gray-600"
-                    style={{ fontFamily: "'Lato', sans-serif" }}
-                  >
-                    {signatoryTitle2}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
+                  </div>
+                  {signatoryTitle2 && (
+                    <div className="text-xs font-medium">{signatoryTitle2}</div>
+                  )}
+                </div>
+              )}
 
-          {/* Date */}
-          <div className="flex justify-center mt-6">
-            <p
-              className="text-xs text-gray-600"
-              style={{ fontFamily: "'Lato', sans-serif" }}
-            >
-              Issued on {formattedDate}
-            </p>
+              {/* Date display */}
+              {date && (
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-32 mt-5 mb-2" />
+                  <div
+                    className="text-sm font-medium"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {formattedDate}
+                  </div>
+                  <div className="text-xs font-bold ">Date</div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

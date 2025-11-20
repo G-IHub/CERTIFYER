@@ -69,11 +69,15 @@ export default function CertificateTemplate9({
 
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
-      <div className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
-      style={{width: "600px"}}>
+      <div
+        className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
+        style={{ width: "600px" }}
+      >
         <div className="flex flex-col gap-10 items-start w-3/4 p-10">
-          <div className="space-y-2"
-          style={{ fontFamily: "'Libre Baskerville', serif" }}>
+          <div
+            className="space-y-2"
+            style={{ fontFamily: "'Libre Baskerville', serif" }}
+          >
             <h2 className="font-bold text-4xl uppercase">{header}</h2>
             <div className="flex gap-4">
               {/* Decorative repeated small paths */}
@@ -85,12 +89,25 @@ export default function CertificateTemplate9({
           </div>
 
           <div className="space-y-4">
-            <p className="text-gray-400 uppercase font-medium">This is proudly presented to</p>
-            <p className="font-bold text-amber-900 text-3xl border-b border-[#6F6A5B] w-3/4"
-            style={{fontFamily: "'Momo Signature', cursive"}}>
+            <p className="text-gray-400 uppercase font-medium">
+              This is proudly presented to
+            </p>
+            <p
+              className="font-bold text-amber-900 text-3xl border-b border-[#6F6A5B] w-3/4"
+              style={{ fontFamily: "'Momo Signature', cursive" }}
+            >
               {recipientName}
             </p>
-            <p className="text-[#5A5549] text-sm max-w-sm">{description || "Description goes here..." }</p>
+            <p
+              className="font-medium text-2xl"
+              style={{ fontFamily: "cursive" }}
+            >
+              {courseTitle || "Course Title"}
+            </p>
+
+            <p className="text-[#5A5549] text-sm max-w-sm">
+              {description || "Description goes here..."}
+            </p>
           </div>
 
           {signatoryName1 && (
@@ -99,7 +116,8 @@ export default function CertificateTemplate9({
                 <img
                   src={signatureUrl1}
                   alt={signatoryName1}
-                  className="w-24 h-16 object-contain" style={{marginBottom: -12}}
+                  className="w-24 h-16 object-contain"
+                  style={{ marginBottom: -12 }}
                 />
                 <p className="font-bold border-b border-[#6F6A5B]">
                   {signatoryName1}
@@ -120,13 +138,17 @@ export default function CertificateTemplate9({
 
         {/* Right side decorations */}
         <div className="">
-          <img src={DecorImg} alt="" className="absolute right-0 top-0 h-full object-cover" />
-          <img src={Medal2Img} alt="" className="absolute"
-          style={{right:"80px", 
-            top:"80px",
-            width: "25%"
-          }}
-           />
+          <img
+            src={DecorImg}
+            alt=""
+            className="absolute right-0 top-0 h-full object-cover"
+          />
+          <img
+            src={Medal2Img}
+            alt=""
+            className="absolute"
+            style={{ right: "80px", top: "80px", width: "25%" }}
+          />
         </div>
       </div>
     </div>

@@ -356,8 +356,6 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
       container.style.position = "fixed";
       container.style.left = "-9999px";
       container.style.top = "-9999px";
-      container.style.width = "1056px";
-      container.style.height = "816px";
       container.style.pointerEvents = "none";
       document.body.appendChild(container);
 
@@ -392,8 +390,8 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         </div>
       );
 
-      // Wait briefly for images/fonts to load. This is conservative but avoids race conditions.
-      await new Promise((res) => setTimeout(res, 550));
+      // Wait for images/fonts to load
+      await new Promise((res) => setTimeout(res, 1000));
 
       const canvas = await html2canvas(container, {
         scale: 3,
@@ -473,11 +471,10 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     try {
       // Render a full-size, non-preview certificate off-screen and capture it.
       const container = document.createElement("div");
+      container.id = `certificate-capture-pdf-${Date.now()}`;
       container.style.position = "fixed";
       container.style.left = "-9999px";
       container.style.top = "-9999px";
-      container.style.width = "1056px";
-      container.style.height = "816px";
       container.style.pointerEvents = "none";
       document.body.appendChild(container);
 
@@ -512,7 +509,8 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         </div>
       );
 
-      await new Promise((res) => setTimeout(res, 550));
+      // Wait for images/fonts to load
+      await new Promise((res) => setTimeout(res, 1000));
 
       const canvas = await html2canvas(container, {
         scale: 3,
@@ -520,6 +518,13 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         logging: false,
         useCORS: true,
         allowTaint: true,
+        ignoreElements: (element) => {
+          // Ignore external stylesheets to prevent CORS errors
+          return (
+            element.tagName === "LINK" &&
+            element.getAttribute("rel") === "stylesheet"
+          );
+        },
         onclone: (clonedDoc) => {
           try {
             // Remove cloned stylesheets and <style> tags so html2canvas won't parse CSS
@@ -1257,7 +1262,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
               <p className="text-gray-600 mb-2">
-                © 2024 {orgData?.name || "Certificate Platform"}. All rights
+                © 2025 {orgData?.name || "Certificate Platform"}. All rights
                 reserved.
               </p>
               <p className="text-sm text-gray-500">

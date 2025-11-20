@@ -124,6 +124,7 @@ export default function CertificateTemplate13({
                 {recipientName}
               </p>
               <img src={wrapper} alt="" />
+              <p className="font-medium text-2xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
             </div>
 
             {/* Description */}

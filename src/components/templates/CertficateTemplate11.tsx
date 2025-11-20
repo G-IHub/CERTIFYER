@@ -115,6 +115,7 @@ export default function CertificateTemplate11({
               >
                 {recipientName}
               </p>
+              <p className="font-medium text-2xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
             </div>
           </div>
 

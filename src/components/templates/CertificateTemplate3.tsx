@@ -203,6 +203,8 @@ export default function CertificateTemplate3({
             {recipientName}
           </p>
 
+          <p className="font-medium text-2xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
+
           <p className="text-center max-w-2xl">
             {description ||
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}

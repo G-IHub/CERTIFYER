@@ -81,16 +81,16 @@ export default function CertificateTemplate7({
     >
       <div
         className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
-        style={{ width: "600px",
-          height: "500px"
-         }}
+        style={{ width: "600px", height: "500px" }}
       >
         <div className="flex flex-col gap-10 items-start w-3/4 p-10">
           <div
             className="space-y-2"
             style={{ fontFamily: "'Libre Baskerville', serif" }}
           >
-            <h2 className="font-bold text-4xl uppercase">{header || "Certificate"} </h2>
+            <h2 className="font-bold text-4xl uppercase">
+              {header || "Certificate"}{" "}
+            </h2>
             {/* <p>OF ACHIEVEMENT</p> */}
             <div className="flex gap-4">
               {/* Decorative repeated small paths */}
@@ -111,6 +111,13 @@ export default function CertificateTemplate7({
             >
               {recipientName}
             </p>
+            <p
+              className="font-medium text-2xl"
+              style={{ fontFamily: "cursive" }}
+            >
+              {courseTitle || "Course Title"}
+            </p>
+
             <p className="text-[#5A5549] text-sm max-w-sm">
               {description ||
                 "lorem ipsum dolor sit amet, consectetur adipiscing elit."}
@@ -123,7 +130,8 @@ export default function CertificateTemplate7({
                 <img
                   src={signatureUrl1}
                   alt={signatoryName1}
-                  className="w-24 h-16 object-contain" style={{marginBottom: -12}}
+                  className="w-24 h-16 object-contain"
+                  style={{ marginBottom: -12 }}
                 />
                 <p className="font-bold border-b border-[#6F6A5B]">
                   {signatoryName1}
