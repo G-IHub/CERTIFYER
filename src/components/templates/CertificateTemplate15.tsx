@@ -148,10 +148,21 @@ export default function CertificateTemplate15({
           {/* Recipient Name */}
           <h2
             className="w-1/2 text-center border-b border-gray-400 font-semibold text-3xl tracking-wider pb-2"
-            style={{ color: "#0C3C58", fontFamily: "'Felipa', serif" }}
+            style={{
+              color: "#0C3C58",
+              fontFamily: "'Felipa', serif",
+              marginBottom: -40,
+            }}
           >
             {recipientName}
           </h2>
+
+          <p
+            className="font-medium text-2xl"
+            style={{ fontFamily: "cursive", marginBottom: -40 }}
+          >
+            {courseTitle || "Course Title"}
+          </p>
 
           {/* Description */}
           <p className="text-[#5F7E84] max-w-xl text-sm text-gray-600 leading-relaxed">
@@ -159,55 +170,82 @@ export default function CertificateTemplate15({
           </p>
 
           {/* Signatures Section */}
-          <div className="flex justify-between items-end mt-12">
-            <div className="flex gap-12">
-              {hasSignature1 && (
-                <div className="flex flex-col">
+          <div className="flex justify-between items-end">
+            <div
+              className="flex gap-1 justify-center items-center"
+              style={{ marginTop: -0 }}
+            >
+              {/* Signature 1 - Always show if name is provided */}
+              {signatoryName1 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
                   {signatureUrl1 && (
                     <img
                       src={signatureUrl1}
-                      alt="Signature"
-                      className="h-12 mb-2"
+                      alt={signatoryName1}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
                     />
                   )}
-                  {signatoryName1 && (
-                    <p className="text-xs font-semibold text-gray-800 border-t-2 border-orange-500 pt-1">
-                      {signatoryName1}
-                    </p>
+                  {!signatureUrl1 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
                   )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {signatoryName1}
+                  </div>
                   {signatoryTitle1 && (
-                    <p className="text-xs text-gray-600">{signatoryTitle1}</p>
+                    <div className="text-xs font-medium">{signatoryTitle1}</div>
                   )}
                 </div>
               )}
 
-              {hasSignature2 && (
-                <div className="flex flex-col">
+              {/* Signature 2 - Always show if name is provided */}
+              {signatoryName2 && (
+                <div
+                  className="flex flex-col items-center text-center"
+                  style={{ marginTop: -20 }}
+                >
                   {signatureUrl2 && (
                     <img
                       src={signatureUrl2}
-                      alt="Signature"
-                      className="h-12 mb-2"
+                      alt={signatoryName2}
+                      className="w-24 h-16 object-contain"
+                      style={{ marginBottom: -12 }}
                     />
                   )}
-                  {signatoryName2 && (
-                    <p className="text-xs font-semibold text-gray-800 border-t-2 border-orange-500 pt-1">
-                      {signatoryName2}
-                    </p>
+                  {!signatureUrl2 && (
+                    <div className="w-32 border-b-2 border-gray-400 mb-2" />
                   )}
+                  <div
+                    className="text-sm font-bold"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {signatoryName2}
+                  </div>
                   {signatoryTitle2 && (
-                    <p className="text-xs text-gray-600">{signatoryTitle2}</p>
+                    <div className="text-xs font-medium">{signatoryTitle2}</div>
                   )}
                 </div>
               )}
-            </div>
 
-            {/* Date */}
-            <div className="flex flex-col items-end">
-              <p className="text-xs text-gray-600 mb-1">Date Issued</p>
-              <p className="text-xs font-semibold text-gray-800">
-                {formattedDate}
-              </p>
+              {/* Date display */}
+              {date && (
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-32 mt-5 mb-2" />
+                  <div
+                    className="text-sm font-medium"
+                    style={{ color: "#4D4D4D" }}
+                  >
+                    {formattedDate}
+                  </div>
+                  <div className="text-xs font-bold ">Date</div>
+                </div>
+              )}
             </div>
           </div>
         </div>
