@@ -75,7 +75,7 @@ export default function CertificateTemplate1({
     >
       <div
         ref={ref}
-        className="shadow-sm py-10 rounded-sm flex items-center justify-center relative"
+        className="shadow-sm bg-white py-10 rounded-sm flex items-center justify-center relative"
         style={{
           width: "640px",
           height: "500px",

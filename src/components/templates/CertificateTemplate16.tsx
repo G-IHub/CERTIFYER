@@ -130,7 +130,9 @@ export default function CertificateTemplate16({
             <div className="">
               <h1
                 className="text-3xl font-bold uppercase"
-                style={{ color: "#B4814A" }}
+                style={{ color: "#B4814A",
+                  lineHeight: "36px"
+                 }}
               >
                 {header || "Distinction"}
               </h1>

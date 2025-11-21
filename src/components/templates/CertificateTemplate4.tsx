@@ -39,7 +39,11 @@ export default function CertificateTemplate4({
   signatureUrl2,
   mode = "student",
 }: CertificateTemplate4Props) {
-  const previewMode = isPreview || mode === "template-selection";
+  const transformClass =
+    mode === "student" ? "transform scale-[0.3]" : "transform scale-100";
+  const containerClass = isPreview
+    ? "w-full mx-auto origin-center overflow-visible flex justify-center"
+    : "min-w-[1056px] flex justify-center items-center";
 
   useEffect(() => {
     const id = "rakkas-font";
@@ -59,54 +63,45 @@ export default function CertificateTemplate4({
     day: "numeric",
   });
 
-  const mainBoxStyle: React.CSSProperties = previewMode
-    ? {
-        width: "100%",
-        maxWidth: 1056,
-        padding: "24px",
-        boxSizing: "border-box",
-      }
-    : { width: 1056, padding: "24px" };
-
   return (
-    <div style={{ backgroundColor: "transparent" }} className="w-full mx-auto">
+    <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="flex justify-center bg-white items-center shadow-md rounded-sm relative overflow-hidden"
-        style={mainBoxStyle}
+        className="flex justify-center bg-white items-center shadow-md rounded-lg relative overflow-hidden border"
+        style={{ width: "640px", height: "500px", padding: "24px" }}
       >
         <div>
           {ribbon1 && (
             <img
               src={String(ribbon1)}
               alt="ribbon1"
-              className="absolute z-10 -top-5 left-0"
+              className="absolute z-10 -top-2 left-0"
+              style={{width: "30%"}}
             />
           )}
           {ribbon2 && (
             <img
               src={String(ribbon2)}
               alt="ribbon2"
-              className="absolute z-10 -bottom-6 right-0"
+              className="absolute z-10 bottom-0 right-0"
+              style={{width: "30%"}}
             />
           )}
         </div>
 
-        <div className="bg-white border-4 border-[#314E854D] p-2 w-full">
-          <div className="bg-white border-2 border-[#314E854D] px-8 py-10 relative">
-            <div className="p-6 w-full flex flex-col items-center gap-10">
-              <div className="flex flex-col items-center gap-2">
-                <h2
-                  className="text-5xl tracking-wider font-bold uppercase"
-                  style={{ fontFamily: "'Rakkas', serif" }}
-                >
-                  {header || "Certificate of Participation"}
-                </h2>
-                {/* <p className="uppercase text-center text-[#314E85]">
-                  of Achievement
-                </p> */}
-              </div>
+        <div className="bg-white border-4 border-[#314E854D] p-2 ">
+          <div className="bg-white border-2 border-[#314E854D]">
+            <div
+              className="w-full flex flex-col items-center gap-8"
+              style={{ padding: "24px" }}
+            >
+              <h2
+                className="text-3xl tracking-wider font-bold uppercase"
+                style={{ fontFamily: "'Rakkas', serif" }}
+              >
+                {header || "Certificate of Participation"}
+              </h2>
               <p className="uppercase">proudly presented to</p>
-              <p className="text-6xl font-semibold w-full border-b-2 border-b-[#314E85] pb-4 text-[#314E85] text-center">
+              <p className="text-4xl font-semibold w-full border-b-2 border-b-[#314E85] pb-4 text-[#314E85] text-center">
                 {recipientName}
               </p>
               <p
@@ -115,12 +110,13 @@ export default function CertificateTemplate4({
               >
                 {courseTitle || "Course Title"}
               </p>
-              <p className="text-center max-w-2xl">
+              <p className="text-center">
                 {description ||
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
               </p>
+
               <div className="flex justify-between items-end">
-                <div className="flex gap-8 justify-center items-center mt-5">
+                <div className="flex gap-10 justify-center items-center">
                   {/* Signature 1 - Always show if name is provided */}
                   {signatoryName1 && (
                     <div

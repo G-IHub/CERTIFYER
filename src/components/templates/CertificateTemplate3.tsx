@@ -1,6 +1,5 @@
 import React from "react";
-// Import the Container2 asset for this template
-import ribbonSrc from "../../assets/Container2.svg";
+import container from "../../assets/Container2.svg";
 
 interface CertificateTemplate3Props {
   header?: string;
@@ -37,19 +36,12 @@ export default function CertificateTemplate3({
   signatureUrl2,
   mode = "student",
 }: CertificateTemplate3Props) {
-  const previewMode = isPreview || mode === "template-selection";
+  const transformClass =
+    mode === "student" ? "transform scale-[0.3]" : "transform scale-100";
+  const containerClass = isPreview
+    ? "w-full mx-auto origin-center overflow-visible flex justify-center"
+    : "min-w-[1056px] flex justify-center items-center";
 
-  // Main certificate box style: responsive when in previewMode so it fits inside the preview wrapper.
-  const mainBoxStyle: React.CSSProperties = previewMode
-    ? {
-        width: "100%",
-        maxWidth: 1056,
-        height: "600px",
-        padding: "32px",
-        boxSizing: "border-box",
-      }
-    : { width: 1056, height: 816, padding: "64px 64px" };
-  
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -57,160 +49,107 @@ export default function CertificateTemplate3({
   });
 
   return (
-    <div style={{ backgroundColor: "transparent" }} className="w-full mx-auto">
+    <div className={`${containerClass} ${transformClass}`}>
       <div
-        className="flex justify-center bg-[#FEFEFD] items-center shadow-md rounded-sm relative overflow-hidden text-[#4D4D4D]"
-        style={mainBoxStyle}
+        className="flex justify-center items-center shadow-md px-16 rounded-sm relative overflow-hidden text-[#4D4D4D]"
+        style={{
+          width: "640px",
+          height: "500px",
+          paddingTop: "80px",
+          paddingBottom: "80px",
+        }}
       >
-        <div className="z-0 absolute inset-0">
+        <div className="z-0">
           <div
+            className="bg-black w-full absolute left-0"
             style={{
-              background: "#000",
-              width: "100%",
-              height: previewMode ? 100 : 120,
-              transform: "skewY(5deg)",
-              position: "absolute",
-              left: 0,
-              top: previewMode ? "-40px" : -40,
+              top: "-30px",
+              height: "70px",
+              transform: "skewY(4deg)",
               zIndex: 5,
             }}
-          />
-
+          ></div>
           <div
+            className="w-1/4 rounded absolute z-10"
             style={{
               background: "#FBB33A",
-              width: "25%",
-              height: previewMode ? 90 : 144,
-              transform: "rotate(30deg)",
-              borderRadius: 6,
-              position: "absolute",
-              right: previewMode ? "6%" : 40,
-              top: previewMode ? "-40px" : -80,
+              top: "-70px",
+              right: "20px",
+              height: "100px",
+              transform: "rotate(25deg)",
               zIndex: 10,
             }}
-          />
-
+          ></div>
           <div
+            className="bg-gray-200 w-1/2 absolute"
             style={{
-              background: "#e5e7eb",
-              width: "50%",
-              height: previewMode ? 60 : 60,
               transform: "rotate(-4deg)",
-              position: "absolute",
-              left: previewMode ? "-2%" : -16,
-              top: previewMode ? "0%" : 20,
+              height: "40px",
+              left: "-16px",
+              top: "10px",
               zIndex: 0,
             }}
-          />
-
+          ></div>
           <div
+            className="bg-black w-full absolute left-0"
             style={{
-              background: "rgba(0,0,0,0.9)",
-              width: "100%",
-              height: previewMode ? 80 : 80,
-              transform: "skewY(2deg)",
-              position: "absolute",
-              left: 0,
-              bottom: previewMode ? -16 : -20,
+              bottom: "-24px",
               zIndex: 5,
+              height: "60px",
+              transform: "skewY(2deg)",
             }}
-          />
-
+          ></div>
           <div
-            style={{
-              background: "#e5e7eb",
-              width: "100%",
-              height: previewMode ? 40 : 40,
-              transform: "skewY(5deg)",
-              position: "absolute",
-              left: 0,
-              bottom: previewMode ? "6%" : 40,
-              zIndex: 0,
-            }}
-          />
-
+            className="bg-gray-200 w-full h-4 absolute left-0  z-0"
+            style={{ bottom: "36px", transform: "skewY(2deg)" }}
+          ></div>
           <div
+            className="w-1/4 h-10 rounded absolute z-0"
             style={{
               background: "#FBB33A",
-              width: "25%",
-              height: previewMode ? 30 : 40,
-              transform: "skewY(-10deg) skewX(-10deg)",
-              position: "absolute",
-              right: previewMode ? "-4%" : -16,
-              bottom: previewMode ? "8%" : 40,
+              right: "-16px",
+              bottom: "12px",
+              transform: "skewX(-10deg) skewY(-10deg)",
               zIndex: 0,
             }}
-          />
-
-          <div
-            style={{
-              background: "#000",
-              width: "50%",
-              height: previewMode ? 80 : 80,
-              transform: "skewY(-2deg) skewX(-60deg)",
-              position: "absolute",
-              right: previewMode ? "-6%" : -40,
-              bottom: previewMode ? "-4%" : -20,
-              zIndex: 5,
-            }}
-          />
-
-          {ribbonSrc && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={String(ribbonSrc)}
-              alt="ribbon"
-              className="absolute w-24"
-              style={{
-                top: previewMode ? "10%" : 40,
-                right: previewMode ? "5%" : 48,
-                zIndex: 10,
-              }}
-            />
-          )}
-
+          ></div>
           {/* <div
-            style={{
-              background: "#fbb33a",
-              position: "absolute",
-              right: previewMode ? "8%" : 76,
-              top: previewMode ? "6%" : 68,
-              zIndex: 10,
-              border: "1px solid #c77b00",
-              width: previewMode ? 36 : 48,
-              height: previewMode ? 36 : 48,
-              borderRadius: "9999px",
-            }}
-          /> */}
+            className="bg-black w-1/2 h-10 -skew-y-2 -skew-x-60 absolute -right-10 -bottom-5 z-5"
+            style={{transform: "skewX(-60deg) skewY(-2deg)",}}
+          ></div> */}
+          <img
+            src={container}
+            alt=""
+            className="absolute z-10"
+            style={{ width: "10%", top: "30px", right: "20px" }}
+          />
         </div>
-
-        <div className="p-6 w-full flex flex-col items-center gap-6 relative z-20">
-          <div className="text-center">
-            {/* <h2 className="text-4xl tracking-wider font-bold">CERTIFICATE</h2> */}
-            <div className="flex items-center gap-4 text-xl uppercase">
-              {/* <span className="w-10 border" /> */}
-              <p className="text-4xl tracking-wider font-bold" > {header || "Certificate of Appreciation" } </p>
-              {/* <span className="w-10 border" /> */}
-            </div>
-          </div>
+        <div className="p-6 w-full flex flex-col items-center gap-6 z-40">
+          <p className="text-3xl tracking-wider font-bold uppercase">
+            {" "}
+            {header || "Certificate of Appreciation"}{" "}
+          </p>
 
           <p className="uppercase">This certificate is proudly presented to</p>
 
           <p
-            className="text-6xl font-bold border-b-2 pb-2 text-[#FFB145] text-center"
+            className="text-5xl font-bold border-b-2 border-b-gray-500 pb-2 text-[#FFB145] text-center"
             style={{ fontFamily: "Tangerine, serif" }}
           >
             {recipientName}
           </p>
 
-          <p className="font-medium text-2xl" style={{fontFamily: 'cursive'}} > {courseTitle || "Course Title"} </p>
+          <p className="font-medium text-2xl" style={{ fontFamily: "cursive" }}>
+            {" "}
+            {courseTitle || "Course Title"}{" "}
+          </p>
 
           <p className="text-center max-w-2xl">
             {description ||
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}
           </p>
 
-          <div className="mt-20 flex justify-between items-end">
+          <div className="mt-10 flex justify-between items-end">
             <div className="flex gap-8 justify-center items-center mt-5">
               {/* Signature 1 - Always show if name is provided */}
               {signatoryName1 && (
