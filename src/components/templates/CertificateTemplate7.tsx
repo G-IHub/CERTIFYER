@@ -41,7 +41,8 @@ export default function CertificateTemplate7({
   mode = "student",
 }: CertificateTemplate7Props) {
   // scale for preview vs student mode
-  const scale = mode === "student" ? 0.3 : 1;
+  const scale =
+    mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"

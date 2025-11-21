@@ -1,15 +1,12 @@
 import React, { useEffect } from "react";
-import shape1 from "../../assets/shapes (1).svg";
-import shape2 from "../../assets/shapes (2).svg";
-import shape3 from "../../assets/shapes (3).svg";
-import shape4 from "../../assets/shapes (4).svg";
-import shape5 from "../../assets/shapes (5).svg";
-import shape6 from "../../assets/shapes (6).svg";
-import shape7 from "../../assets/shapes (7).svg";
-import shape8 from "../../assets/shapes (8).svg";
-import shape9 from "../../assets/shapes (9).svg";
+import vector1 from "../../assets/Vector (9).svg";
+import vector2 from "../../assets/Vector (10).svg";
+import vector3 from "../../assets/Vector (11).svg";
+import vector4 from "../../assets/Vector (12).svg";
+import vector6 from "../../assets/Vector (15).svg";
+import line from "../../assets/line.svg";
 
-interface CertificateTemplate15Props {
+interface CertificateTemplate14Props {
   header: string;
   courseTitle: string;
   description?: string;
@@ -27,10 +24,10 @@ interface CertificateTemplate15Props {
   mode?: "student" | "template-selection";
 }
 
-export default function CertificateTemplate15({
+export default function CertificateTemplate14({
   header,
   courseTitle,
-  description = "In recognition of exceptional performance and dedication to excellence in the pursuit of knowledge and skill development.",
+  description = "For outstanding achievement and remarkable contribution to the program, demonstrating excellence and commitment throughout.",
   date,
   recipientName = "Name Surname",
   isPreview = false,
@@ -43,7 +40,7 @@ export default function CertificateTemplate15({
   signatoryTitle2,
   signatureUrl2,
   mode = "student",
-}: CertificateTemplate15Props) {
+}: CertificateTemplate14Props) {
   const transformClass =
     mode === "student" ? "transform scale-[0.3]" : "transform scale-100";
   const containerClass = isPreview
@@ -53,18 +50,12 @@ export default function CertificateTemplate15({
   useEffect(() => {
     const link1 = document.createElement("link");
     link1.rel = "stylesheet";
-    link1.href = "https://fonts.googleapis.com/css2?family=Felipa&display=swap";
+    link1.href =
+      "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
     document.head.appendChild(link1);
-
-    const link2 = document.createElement("link");
-    link2.rel = "stylesheet";
-    link2.href =
-      "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap";
-    document.head.appendChild(link2);
 
     return () => {
       document.head.removeChild(link1);
-      document.head.removeChild(link2);
     };
   }, []);
 
@@ -74,106 +65,142 @@ export default function CertificateTemplate15({
     day: "numeric",
   });
 
-  // Determine signature count
-  const hasSignature1 = signatoryName1 || signatoryTitle1 || signatureUrl1;
-  const hasSignature2 = signatoryName2 || signatoryTitle2 || signatureUrl2;
-
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="flex justify-center shadow-sm rounded relative overflow-hidden px-10"
-        style={{
-          width: "640px",
-          height: "500px",
-          paddingTop: "56px",
-          paddingBottom: "56px",
-          fontFamily: "'Open sans', sans-serif",
-        }}
+        className="flex shadow-md rounded p-10 relative overflow-hidden"
+        style={{ width: "640px", height: "500px" }}
       >
-        <div className="z-0">
-          <img
-            src={shape1}
-            alt=""
-            className="absolute top-36 left-5 w-14"
-            style={{ top: "80px", left: "24px" }}
-          />
-          <img
-            src={shape2}
-            alt=""
-            className="absolute w-20"
-            style={{ top: "120px", left: "60px" }}
-          />
-          <img src={shape3} alt="" className="absolute top-40 left-0" />
-          <img src={shape9} alt="" className="absolute bottom-0 left-0" />
-          <img src={shape4} alt="" className="absolute top-40 right-0" />
-          {/* <img src={shape5} alt="" className="absolute bottom-0 right-86" /> */}
-          <img src={shape6} alt="" className="absolute bottom-0 right-5" />
-          <img src={shape7} alt="" className="absolute bottom-5 right-0" />
-          <img src={shape8} alt="" className="absolute top-0 right-0" />
-
-          {/* Organization name in header */}
+        <div>
+          <img src={vector6} alt="" className="absolute top-0 w-1/3 z-30" />
           <div
-            className="flex items-center justify-between absolute"
-            style={{ top: "10px", left: "10px" }}
+            className="w-80 h-20 absolute z-20 left-0"
+            style={{ background: "#FFB016", bottom: "160px" }}
+          ></div>
+          <div className="text-center flex flex-col items-center space-y-8 z-40 absolute w-1/3">
+            <div className="flex flex-col items-center">
+              {/* Organization Logo */}
+              {organizationLogo && (
+                <img
+                  src={organizationLogo}
+                  alt="Organization Logo"
+                  className="w-20 h-20 object-contain mb-4 border-3"
+                />
+              )}
+            </div>
+            {/* Header */}
+            <div className="flex flex-col gap-4 justify-center items-center text-white text-center">
+              <div className="w-50 h-2 bg-white"></div>
+              <h1 className="text-2xl uppercase">{header || "Excellence"}</h1>
+              <div className="w-50 h-2 bg-white"></div>
+            </div>
+          </div>
+          <div
+            className="flex flex-col gap-4 absolute left-14"
+            style={{ bottom: "40px" }}
           >
-            {organizationLogo && (
+            <div
+              className="rounded-full w-2 h-2 border"
+              style={{ background: "#FFB016" }}
+            ></div>
+            <div className="flex gap-4">
+              <div
+                className="rounded-full w-2 h-2 border"
+                style={{ background: "#FFB016" }}
+              ></div>
+              <div
+                className="rounded-full w-2 h-2 border"
+                style={{ background: "#FFB016" }}
+              ></div>
+              <div
+                className="rounded-full w-2 h-2 border"
+                style={{ background: "#FFB016" }}
+              ></div>
+              <div
+                className="rounded-full w-2 h-2 border"
+                style={{ background: "#FFB016" }}
+              ></div>
+            </div>
+          </div>
+          <img
+            src={vector2}
+            alt=""
+            className="absolute bottom-0 w-1/3"
+            style={{ left: "100px" }}
+          />
+          <img
+            src={vector1}
+            alt=""
+            className="absolute bottom-0"
+            style={{ left: "230px" }}
+          />
+          <img src={vector4} alt="" className="absolute right-0 top-30" />
+          <img
+            src={vector3}
+            alt=""
+            className="absolute top-0"
+            style={{ right: "200px" }}
+          />
+          <div
+            className="w-40 h-10 absolute top-0 right-0 border"
+            style={{ background: "#FF5A59" }}
+          ></div>
+          <div className="z-0 w-full h-full opacity-50">
+            {Array.from({ length: 50 }).map((_, i) => (
               <img
-                src={organizationLogo}
-                alt="Organization Logo"
-                className="w-16 h-16 object-contain"
+                key={i}
+                src={line}
+                alt=""
+                className="absolute w-full left-0"
+                style={{ bottom: `${(i - 6) * 8}px` }}
               />
-            )}
-            <p className="text-white font-bold tracking-wider">
-              {organizationName}
-            </p>
+            ))}
+          </div>
+          <div className="z-0 w-full h-full opacity-50">
+            {Array.from({ length: 22 }).map((_, i) => (
+              <img
+                key={i}
+                src={line}
+                alt=""
+                className="absolute w-full -right-10"
+                style={{ top: `${(i + 40) * 8}px` }}
+              />
+            ))}
           </div>
         </div>
-
         <div
-          className="flex flex-col items-center w-full text-center"
-          style={{ gap: "50px" }}
+          className="w-1/2 text-center absolute z-50 flex flex-col"
+          style={{ top: "140px", right: "50px", gap: "60px" }}
         >
-          {/* Header */}
-          <div className="">
-            <h1 className="text-4xl font-bold" style={{ color: "#0C3C58" }}>
-              {header || "Recognition"}
-            </h1>
+          <div className="flex flex-col gap-10">
+            {/* Presented to */}
+            <p className="text-sm uppercase">
+              This certificate is proudly awarded to
+            </p>
+
+            {/* Recipient Name */}
+            <p className="w-full font-bold text-2xl border-b-2 pb-4 text-center">
+              {recipientName}
+            </p>
+
+            <p
+              className="font-medium text-md"
+              style={{ fontFamily: "cursive", marginTop: -20 }}
+            >
+              {courseTitle || "Course Title"}
+            </p>
+
+            {/* Description */}
+            <p className="text-xs text-center" style={{ marginTop: -35 }}>
+              {description}
+            </p>
           </div>
-
-          {/* Presented to */}
-          <p className="text-sm text-gray-600">
-            This Certificate is Proudly Presented to
-          </p>
-
-          {/* Recipient Name */}
-          <h2
-            className="w-1/2 text-center border-b border-gray-400 font-semibold text-3xl tracking-wider pb-2"
-            style={{
-              color: "#0C3C58",
-              fontFamily: "'Felipa', serif",
-              marginBottom: -40,
-            }}
-          >
-            {recipientName}
-          </h2>
-
-          <p
-            className="font-medium text-2xl"
-            style={{ fontFamily: "cursive", marginBottom: -40 }}
-          >
-            {courseTitle || "Course Title"}
-          </p>
-
-          {/* Description */}
-          <p className="text-[#5F7E84] max-w-xl text-sm text-gray-600 leading-relaxed">
-            {description}
-          </p>
 
           {/* Signatures Section */}
           <div className="flex justify-between items-end">
             <div
               className="flex gap-1 justify-center items-center"
-              style={{ marginTop: -0 }}
+              style={{ marginTop: -40 }}
             >
               {/* Signature 1 - Always show if name is provided */}
               {signatoryName1 && (

@@ -40,7 +40,7 @@ export default function CertificateTemplate1({
   mode = "student",
 }: CertificateTemplate1Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const scale = mode === "student" ? 0.3 : 1;
+  const scale = mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
   useEffect(() => {
     const id = "cinzel-decorative-font";

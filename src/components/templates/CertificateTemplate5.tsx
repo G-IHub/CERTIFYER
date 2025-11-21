@@ -38,7 +38,8 @@ export default function CertificateTemplate5({
   signatureUrl2,
   mode = "student",
 }: CertificateTemplate5Props) {
-  const scale = mode === "student" ? 0.3 : 1;
+  const scale =
+  mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"

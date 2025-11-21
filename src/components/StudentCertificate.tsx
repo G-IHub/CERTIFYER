@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { useParams, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -43,8 +43,7 @@ import {
   decryptCertificateData,
   getCertificateLinkTimeRemaining,
 } from "../utils/encryption";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import { toJpeg } from "html-to-image";
 
 interface StudentCertificateProps {
   subsidiaries: Subsidiary[];
@@ -340,301 +339,266 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     fetchCertificate();
   }, [certificateId]);
 
-  const handleDownloadPNG = async () => {
-    if (!certificateRef.current) {
-      toast.error("Certificate not ready for download");
-      return;
-    }
+  // Helper function to wait for images to load
+  const waitForImages = async (container: HTMLElement) => {
+    const imgs = Array.from(container.querySelectorAll("img"));
+    await Promise.all(
+      imgs.map(
+        (img) =>
+          new Promise<void>((resolve) => {
+            if ((img as HTMLImageElement).complete) return resolve();
+            (img as HTMLImageElement).addEventListener(
+              "load",
+              () => resolve(),
+              { once: true }
+            );
+            (img as HTMLImageElement).addEventListener(
+              "error",
+              () => resolve(),
+              { once: true }
+            );
+          })
+      )
+    );
+  };
 
-    setIsDownloading(true);
-    toast.info("Generating PNG image...");
+  // Render certificate offscreen at fixed size
+  const renderCertificateOffscreen = useCallback(async (): Promise<string> => {
+    if (!certificate) throw new Error("No certificate data");
+
+    // Offscreen container (render in viewport but invisible for reliable layout)
+    const container = document.createElement("div");
+    container.style.position = "fixed";
+    container.style.left = "0";
+    container.style.top = "0";
+    container.style.opacity = "0";
+    container.style.pointerEvents = "none";
+    container.style.width = "1000px"; // design width
+    container.style.height = "600px"; // design height
+    container.style.background = "#ffffff";
+    container.style.padding = "0";
+    container.style.margin = "0";
+    container.style.zIndex = "-1";
+    document.body.appendChild(container);
+
+    const root = createRoot(container);
+    const cleanup = () => {
+      try {
+        root.unmount();
+      } catch {
+        // offscreen root unmount error
+      }
+      try {
+        container.remove();
+      } catch {
+        // offscreen container remove error
+      }
+    };
 
     try {
-      // Render a full-size, non-preview certificate off-screen and capture it.
-      const container = document.createElement("div");
-      container.id = `certificate-capture-${Date.now()}`;
-      container.style.position = "fixed";
-      container.style.left = "-9999px";
-      container.style.top = "-9999px";
-      container.style.pointerEvents = "none";
-      document.body.appendChild(container);
-
-      const root = createRoot(container);
       root.render(
-        <div style={{ backgroundColor: "#ffffff" }}>
+        <div
+          id="export-root"
+          style={{
+            width: "1000px",
+            height: "600px",
+            background: "#ffffff",
+            overflow: "hidden",
+          }}
+        >
           <CertificateRenderer
             templateId={
-              certificate!.template || progData?.template || "template1"
+              certificate.template || progData?.template || "template1"
             }
             header={
-              certificate!.certificateHeader || "Certificate of Completion"
+              certificate.certificateHeader || "Certificate of Completion"
             }
-            courseTitle={certificate!.courseName || progData?.name || "Course"}
+            courseTitle={certificate.courseName || progData?.name || "Course"}
             description={
-              certificate!.courseDescription || progData?.description || ""
+              certificate.courseDescription || progData?.description || ""
             }
-            date={certificate!.completionDate}
+            date={certificate.completionDate}
             recipientName={displayName}
             isPreview={false}
-            mode="student"
+            mode="template-selection"
             organizationName={orgData?.name}
             organizationLogo={orgData?.logo}
-            customTemplateConfig={certificate!.customTemplateConfig}
-            signatoryName1={certificate!.signatories?.[0]?.name}
-            signatoryTitle1={certificate!.signatories?.[0]?.title}
-            signatureUrl1={certificate!.signatories?.[0]?.signatureUrl}
-            signatoryName2={certificate!.signatories?.[1]?.name}
-            signatoryTitle2={certificate!.signatories?.[1]?.title}
-            signatureUrl2={certificate!.signatories?.[1]?.signatureUrl}
+            customTemplateConfig={certificate.customTemplateConfig}
+            signatoryName1={certificate.signatories?.[0]?.name}
+            signatoryTitle1={certificate.signatories?.[0]?.title}
+            signatureUrl1={certificate.signatories?.[0]?.signatureUrl}
+            signatoryName2={certificate.signatories?.[1]?.name}
+            signatoryTitle2={certificate.signatories?.[1]?.title}
+            signatureUrl2={certificate.signatories?.[1]?.signatureUrl}
           />
         </div>
       );
 
-      // Wait for images/fonts to load
-      await new Promise((res) => setTimeout(res, 1000));
+      // Let React paint
+      await new Promise((r) => setTimeout(r, 50));
 
-      const canvas = await html2canvas(container, {
-        scale: 3,
-        backgroundColor: "#ffffff",
-        logging: false,
-        useCORS: true,
-        allowTaint: true,
-        ignoreElements: (element) => {
-          // Ignore external stylesheets to prevent CORS errors
-          return (
-            element.tagName === "LINK" &&
-            element.getAttribute("rel") === "stylesheet"
-          );
-        },
-        onclone: (clonedDoc) => {
-          try {
-            // Remove cloned stylesheets and <style> tags so html2canvas won't parse CSS
-            // functions (like oklch) that it doesn't support.
-            const styleEls = clonedDoc.querySelectorAll(
-              'link[rel="stylesheet"], style'
-            );
-            styleEls.forEach((el) => el.parentNode?.removeChild(el));
-          } catch (err) {
-            // Best-effort: if cloning modifications fail, continue without them
-            // eslint-disable-next-line no-console
-            console.warn("onclone style copy failed:", err);
-          }
-        },
-      });
-
-      root.unmount();
-      document.body.removeChild(container);
-
-      // Convert to blob and download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const courseName =
-            certificate?.courseName ||
-            certificate?.program?.name ||
-            "Certificate";
-          const fileName = `${courseName.replace(
-            /\s+/g,
-            "_"
-          )}_${displayName.replace(/\s+/g, "_")}.png`;
-
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = fileName;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-
-          toast.success("Certificate downloaded as PNG!");
-        } else {
-          toast.error("Failed to create PNG image");
+      // Ensure fonts and images are ready
+      type DocumentWithFonts = Document & {
+        fonts?: { ready?: Promise<unknown> };
+      };
+      const docWithFonts = document as DocumentWithFonts;
+      if (docWithFonts.fonts?.ready) {
+        try {
+          await docWithFonts.fonts.ready;
+        } catch {
+          // fonts.ready wait failed
         }
-        setIsDownloading(false);
-      }, "image/png");
-    } catch (error) {
-      console.error("Error generating PNG:", error);
-      toast.error("Failed to generate PNG image. Please try again.");
-      setIsDownloading(false);
-    }
-  };
+      }
+      const target =
+        (container.querySelector(
+          '#export-root [class*="w-[1000px]"][class*="h-[600px]"]'
+        ) as HTMLElement) ||
+        (container.querySelector("#export-root") as HTMLElement) ||
+        container;
+      await waitForImages(target as HTMLElement);
 
-  const handleDownload = async () => {
-    if (!certificateRef.current) {
+      // Measure the actual rendered size of the certificate inside the offscreen container
+      const measuredRect = (target as HTMLElement).getBoundingClientRect();
+      const measuredWidth = Math.max(1, Math.round(measuredRect.width));
+      const measuredHeight = Math.max(1, Math.round(measuredRect.height));
+
+      // Ensure the offscreen container matches the measured size to avoid extra whitespace
+      container.style.width = `${measuredWidth}px`;
+      container.style.height = `${measuredHeight}px`;
+
+      const dataUrl = await toJpeg(target as HTMLElement, {
+        cacheBust: true,
+        backgroundColor: "#ffffff",
+        width: measuredWidth,
+        height: measuredHeight,
+        pixelRatio: Math.min(2, window.devicePixelRatio || 1),
+      });
+      return dataUrl;
+    } finally {
+      cleanup();
+    }
+  }, [certificate]);
+
+  // Capture the on-screen certificate by normalizing transforms/sizes temporarily
+  const captureOnscreenNormalized = useCallback(async (): Promise<string> => {
+    const root = certificateRef.current as HTMLElement | null;
+    if (!root) throw new Error("No onscreen certificate ref");
+
+    // Try to locate the inner certificate canvas
+    const target =
+      (root.querySelector(
+        '[class*="w-[1000px]"][class*="h-[600px]"]'
+      ) as HTMLElement) || root;
+
+    // Save previous inline styles to restore later
+    const prev: Record<string, string> = {
+      transform: target.style.transform,
+      width: target.style.width,
+      height: target.style.height,
+      marginLeft: target.style.marginLeft,
+    };
+    const child = target.firstElementChild as HTMLElement | null;
+    const prevChild: Record<string, string> = child
+      ? {
+          transform: child.style.transform,
+          width: child.style.width,
+          height: child.style.height,
+          marginLeft: child.style.marginLeft,
+        }
+      : {};
+
+    try {
+      // Neutralize preview scaling/offsets so the capture area is exact
+      target.style.marginLeft = "0";
+      // Calculate actual sizes from the DOM so capture matches the visible certificate
+      const targetRect = target.getBoundingClientRect();
+      const targetWidth = Math.round(targetRect.width);
+      const targetHeight = Math.round(targetRect.height);
+      if (child) {
+        child.style.transform = "none";
+        child.style.width = `${targetWidth}px`;
+        child.style.height = `${targetHeight}px`;
+        child.style.marginLeft = "0";
+      }
+
+      // Ensure assets ready
+      type DocumentWithFonts = Document & {
+        fonts?: { ready?: Promise<unknown> };
+      };
+      const docWithFonts = document as DocumentWithFonts;
+      if (docWithFonts.fonts?.ready) {
+        try {
+          await docWithFonts.fonts.ready;
+        } catch {
+          // fonts.ready wait failed (onscreen)
+        }
+      }
+      await waitForImages(target);
+
+      const dataUrl = await toJpeg(target, {
+        cacheBust: true,
+        backgroundColor: "#ffffff",
+        width: targetWidth,
+        height: targetHeight,
+        pixelRatio: Math.min(2, window.devicePixelRatio || 1),
+      });
+      return dataUrl;
+    } finally {
+      // Restore styles
+      target.style.transform = prev.transform;
+      target.style.width = prev.width;
+      target.style.height = prev.height;
+      target.style.marginLeft = prev.marginLeft;
+      if (child) {
+        child.style.transform = prevChild.transform || "";
+        child.style.width = prevChild.width || "";
+        child.style.height = prevChild.height || "";
+        child.style.marginLeft = prevChild.marginLeft || "";
+      }
+    }
+  }, []);
+
+  const handleDownloadPNG = useCallback(() => {
+    if (!certificate) {
       toast.error("Certificate not ready for download");
       return;
     }
-
     setIsDownloading(true);
-    toast.info("Generating PDF...");
+    toast.info("Generating image...");
 
-    try {
-      // Render a full-size, non-preview certificate off-screen and capture it.
-      const container = document.createElement("div");
-      container.id = `certificate-capture-pdf-${Date.now()}`;
-      container.style.position = "fixed";
-      container.style.left = "-9999px";
-      container.style.top = "-9999px";
-      container.style.pointerEvents = "none";
-      document.body.appendChild(container);
+    // Try on-screen capture first (usually more robust), then offscreen fallback
+    captureOnscreenNormalized()
+      .catch(() => renderCertificateOffscreen())
+      .then((dataUrl) => {
+        const courseName =
+          certificate?.courseName ||
+          certificate?.program?.name ||
+          "Certificate";
+        const fileName = `${courseName.replace(
+          /\s+/g,
+          "_"
+        )}_${displayName.replace(/\s+/g, "_")}.jpeg`;
 
-      const root = createRoot(container);
-      root.render(
-        <div style={{ backgroundColor: "#ffffff" }}>
-          <CertificateRenderer
-            templateId={
-              certificate!.template || progData?.template || "template1"
-            }
-            header={
-              certificate!.certificateHeader || "Certificate of Completion"
-            }
-            courseTitle={certificate!.courseName || progData?.name || "Course"}
-            description={
-              certificate!.courseDescription || progData?.description || ""
-            }
-            date={certificate!.completionDate}
-            recipientName={displayName}
-            isPreview={false}
-            mode="student"
-            organizationName={orgData?.name}
-            organizationLogo={orgData?.logo}
-            customTemplateConfig={certificate!.customTemplateConfig}
-            signatoryName1={certificate!.signatories?.[0]?.name}
-            signatoryTitle1={certificate!.signatories?.[0]?.title}
-            signatureUrl1={certificate!.signatories?.[0]?.signatureUrl}
-            signatoryName2={certificate!.signatories?.[1]?.name}
-            signatoryTitle2={certificate!.signatories?.[1]?.title}
-            signatureUrl2={certificate!.signatories?.[1]?.signatureUrl}
-          />
-        </div>
-      );
-
-      // Wait for images/fonts to load
-      await new Promise((res) => setTimeout(res, 1000));
-
-      const canvas = await html2canvas(container, {
-        scale: 3,
-        backgroundColor: "#ffffff",
-        logging: false,
-        useCORS: true,
-        allowTaint: true,
-        ignoreElements: (element) => {
-          // Ignore external stylesheets to prevent CORS errors
-          return (
-            element.tagName === "LINK" &&
-            element.getAttribute("rel") === "stylesheet"
-          );
-        },
-        onclone: (clonedDoc) => {
-          try {
-            // Remove cloned stylesheets and <style> tags so html2canvas won't parse CSS
-            // functions (like oklch) that it doesn't support.
-            const styleEls = clonedDoc.querySelectorAll(
-              'link[rel="stylesheet"], style'
-            );
-            styleEls.forEach((el) => el.parentNode?.removeChild(el));
-
-            const cloned = clonedDoc.getElementById(container.id!);
-            if (!cloned) return;
-            const originals = container.querySelectorAll<HTMLElement>("*");
-            const clones = cloned.querySelectorAll<HTMLElement>("*");
-            const length = Math.min(originals.length, clones.length);
-            for (let i = 0; i < length; i++) {
-              const o = originals[i];
-              const c = clones[i];
-              const cs = window.getComputedStyle(o);
-              if (cs.color) c.style.setProperty("color", cs.color, "important");
-              if (cs.backgroundColor)
-                c.style.setProperty(
-                  "background-color",
-                  cs.backgroundColor,
-                  "important"
-                );
-              if (cs.borderTopColor)
-                c.style.setProperty(
-                  "border-top-color",
-                  cs.borderTopColor,
-                  "important"
-                );
-              if (cs.borderRightColor)
-                c.style.setProperty(
-                  "border-right-color",
-                  cs.borderRightColor,
-                  "important"
-                );
-              if (cs.borderBottomColor)
-                c.style.setProperty(
-                  "border-bottom-color",
-                  cs.borderBottomColor,
-                  "important"
-                );
-              if (cs.borderLeftColor)
-                c.style.setProperty(
-                  "border-left-color",
-                  cs.borderLeftColor,
-                  "important"
-                );
-              if (cs.boxShadow)
-                c.style.setProperty("box-shadow", cs.boxShadow, "important");
-              if (cs.outlineColor)
-                c.style.setProperty(
-                  "outline-color",
-                  cs.outlineColor,
-                  "important"
-                );
-              if (cs.fill) c.style.setProperty("fill", cs.fill, "important");
-              if (cs.stroke)
-                c.style.setProperty("stroke", cs.stroke, "important");
-            }
-          } catch (err) {
-            // eslint-disable-next-line no-console
-            console.warn("onclone style copy failed:", err);
-          }
-        },
+        const link = document.createElement("a");
+        link.download = fileName;
+        link.href = dataUrl;
+        link.click();
+        toast.success("Certificate downloaded as image!");
+      })
+      .catch(() => {
+        toast.error(
+          "An error occurred while generating your certificate. Please try again."
+        );
+      })
+      .finally(() => {
+        setIsDownloading(false);
       });
+  }, [certificate, captureOnscreenNormalized, renderCertificateOffscreen]);
 
-      root.unmount();
-      document.body.removeChild(container);
-
-      // Get canvas dimensions
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-
-      // Calculate PDF dimensions (A4 landscape or custom size based on aspect ratio)
-      const imgData = canvas.toDataURL("image/png");
-
-      // Use landscape A4 (297mm x 210mm) or custom size
-      const pdfWidth = 297; // A4 landscape width in mm
-      const pdfHeight = (imgHeight * pdfWidth) / imgWidth;
-
-      // Create PDF
-      const pdf = new jsPDF({
-        orientation: pdfWidth > pdfHeight ? "landscape" : "portrait",
-        unit: "mm",
-        format: [pdfWidth, pdfHeight],
-      });
-
-      // Add image to PDF
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-
-      // Download PDF
-      const courseName =
-        certificate?.courseName || certificate?.program?.name || "Certificate";
-      const fileName = `${courseName.replace(
-        /\s+/g,
-        "_"
-      )}_${displayName.replace(/\s+/g, "_")}.pdf`;
-
-      pdf.save(fileName);
-
-      toast.success("Certificate downloaded as PDF!");
-      setIsDownloading(false);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      toast.error("Failed to generate PDF. Please try again.");
-      setIsDownloading(false);
-    }
-  };
+  const handleDownload = useCallback(() => {
+    // Reuse the same download logic for PDF
+    handleDownloadPNG();
+  }, [handleDownloadPNG]);
 
   const handleShare = (platform: string) => {
     const shareUrl = window.location.href;

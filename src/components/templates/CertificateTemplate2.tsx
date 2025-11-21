@@ -41,7 +41,8 @@ export default function CertificateTemplate2({
   mode = "student",
 }: CertificateTemplate2Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const scale = mode === "student" ? 0.3 : 1;
+  const scale =
+    mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
   // Load decorative fonts used by this template
   useEffect(() => {
