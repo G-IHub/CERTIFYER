@@ -130,9 +130,7 @@ export default function CertificateTemplate16({
             <div className="">
               <h1
                 className="text-3xl font-bold uppercase"
-                style={{ color: "#B4814A",
-                  lineHeight: "36px"
-                 }}
+                style={{ color: "#B4814A", lineHeight: "36px" }}
               >
                 {header || "Distinction"}
               </h1>
@@ -145,25 +143,28 @@ export default function CertificateTemplate16({
               {/* Recipient Name */}
               <p
                 className="text-2xl border-b border-[#7E7F79] pb-4 text-gray-600"
-                style={{ fontFamily: "'Momo Signature', cursive" }}
+                style={{ fontFamily: "'Momo Signature', cursive", marginTop: -20 }}
               >
                 {recipientName}
               </p>
 
+              <p
+                className="font-medium text-2xl"
+                style={{ fontFamily: "cursive", marginTop: -30 }}
+              >
+                {courseTitle || "Course Title"}
+              </p>
+
               {/* Description */}
-              <p className="text-xs uppercase">{description}</p>
+              <p className="text-xs uppercase" style={{marginTop: -30}} >{description}</p>
             </div>
 
             {/* Signatures Section */}
             <div className="flex justify-between items-end">
-              <div
-                className="flex gap-1 justify-center items-center"
-              >
+              <div className="flex gap-1 justify-center items-center">
                 {/* Signature 1 - Always show if name is provided */}
                 {signatoryName1 && (
-                  <div
-                    className="flex flex-col items-center text-center"
-                  >
+                  <div className="flex flex-col items-center text-center">
                     {signatureUrl1 && (
                       <img
                         src={signatureUrl1}
@@ -191,9 +192,7 @@ export default function CertificateTemplate16({
 
                 {/* Signature 2 - Always show if name is provided */}
                 {signatoryName2 && (
-                  <div
-                    className="flex flex-col items-center text-center"
-                  >
+                  <div className="flex flex-col items-center text-center">
                     {signatureUrl2 && (
                       <img
                         src={signatureUrl2}
