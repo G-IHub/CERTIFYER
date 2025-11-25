@@ -92,10 +92,10 @@ export default function CertificateTemplate2({
       style={{ transform: `scale(${scale})`, backgroundColor: "transparent" }}
     >
       <div
-        className="flex justify-center bg-[#FEFEFD] items-center shadow-md px-16 py-10 rounded-lg relative overflow-hidden text-[#4D4D4D]"
+        className="flex justify-center bg-[#FEFEFD] items-center shadow-md px-16 py-10 relative overflow-hidden text-[#4D4D4D]"
         style={{
           width: "640px",
-          height: "500px",
+          height: "450px",
         }}
       >
         {/* Repeating wavy background */}
@@ -116,28 +116,33 @@ export default function CertificateTemplate2({
           <img
             src={rect}
             alt=""
-            className="absolute top-0 right-0"
-            style={{ width: "60%" }}
+            className="absolute"
+            style={{ width: "65%", top: "0px", right: "-4px" }}
           />
           <img
             src={rect2}
             alt=""
-            className="absolute bottom-0 right-0"
-            style={{ width: "40%" }}
+            className="absolute"
+            style={{
+              width: "36%",
+              bottom: "-1px",
+              right: "-1px",
+            }}
           />
           <img
             src={rect3}
             alt=""
-            className="absolute bottom-0 left-0"
-            style={{ width: "60%" }}
+            className="absolute"
+            style={{ width: "65%", bottom: "-1px", left: "-4px" }}
           />
           <img
             src={rect4}
             alt=""
             className="absolute top-0 left-0"
-            style={{ width: "40%" }}
+            style={{ width: "36%" }}
           />
         </div>
+
         <div className="flex items-center justify-center w-20 h-20 overflow-hidden absolute right-10 top-4">
           {organizationLogo ? (
             <img
