@@ -69,7 +69,7 @@ export default function CertificateTemplate14({
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
         className="flex shadow-md rounded p-10 relative overflow-hidden"
-        style={{ width: "640px", height: "500px" }}
+        style={{ width: "1056px", height: "600px" }}
       >
         <div>
           <div

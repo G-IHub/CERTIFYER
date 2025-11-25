@@ -77,7 +77,7 @@ export default function CertificateTemplate13({
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
         className="shadow-md rounded flex items-center justify-center relative overflow-hidden py-16 px-4"
-        style={{ width: "640px", height: "500px" }}
+        style={{ width: "1056px", height: "600px" }}
       >
         <img src={vector} alt="" className="absolute w-11/12" />
         <div className="flex flex-col items-center gap-4 text-center z-40">

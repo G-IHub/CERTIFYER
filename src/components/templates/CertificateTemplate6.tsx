@@ -73,7 +73,7 @@ export default function CertificateTemplate6({
       {/* Certificate Container */}
       <div
         className="relative w-full bg-white overflow-hidden"
-        style={{ width: "640px", height: "500px" }}
+        style={{ width: "1056px", height: "600px" }}
       >
         {/* Dark Brown Corner Decorations */}
         <div className="absolute top-0 left-0 w-32 h-32">

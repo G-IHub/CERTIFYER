@@ -9,6 +9,8 @@ import shape7 from "../../assets/shapes (7).svg";
 import shape8 from "../../assets/Shapes (8).svg";
 import shape9 from "../../assets/shapes (9).svg";
 
+
+
 interface CertificateTemplate15Props {
   header: string;
   courseTitle: string;
@@ -81,13 +83,14 @@ export default function CertificateTemplate15({
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="flex justify-center shadow-sm rounded relative overflow-hidden px-10"
+        className="flex justify-center shadow-sm relative overflow-hidden"
         style={{
-          width: "640px",
-          height: "500px",
+          width: "1056px",
+          height: "600px",
           paddingTop: "56px",
           paddingBottom: "56px",
           fontFamily: "'Open sans', sans-serif",
+          border: "10px solid red",
         }}
       >
         <div className="z-0">

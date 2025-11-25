@@ -103,17 +103,6 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
 
   useEffect(() => {
     const fetchCertificate = async () => {
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log("🎓 STUDENT CERTIFICATE PAGE - Loading Certificate");
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log("🔍 Current URL:", window.location.href);
-      console.log("🔍 URL params:", {
-        subsidiaryId,
-        programId,
-        certificateId,
-        wildcardParam,
-      });
-
       let actualCertificateId: string | null = null;
       let decryptedData: any = null;
 
@@ -251,11 +240,6 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
           });
 
           setCertificate(certificateData);
-          console.log("✅ Certificate state updated successfully");
-          console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
-          // IMPORTANT: Check if certificate already has customTemplateConfig
-          // If it does, DON'T load from global library (would overwrite saved design)
           if (cert.customTemplateConfig) {
             console.log(
               "🎨 Certificate has customTemplateConfig - using saved design"
@@ -300,22 +284,11 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
             );
           }
         } else {
-          console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-          console.error("❌ CERTIFICATE NOT FOUND");
-          console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-          console.error("Response has no certificate property");
-          console.error("Full response:", response);
           toast.error(
             "Certificate not found - this certificate may not exist in the database"
           );
         }
       } catch (error: any) {
-        console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        console.error("❌ ERROR FETCHING CERTIFICATE");
-        console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        console.error("Certificate ID:", certificateId);
-        console.error("Error message:", error.message);
-        console.error("Error type:", error.name);
         if (error.stack) console.error("Stack trace:", error.stack);
 
         let errorMessage = "Failed to load certificate";
@@ -332,7 +305,6 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         toast.error(errorMessage, { duration: 5000 });
       } finally {
         setLoading(false);
-        console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       }
     };
 
@@ -362,6 +334,96 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     );
   };
 
+  // Replace or set crossOrigin on images to avoid canvas tainting during export
+  const sanitizeImagesForExport = async (container: HTMLElement) => {
+    const TRANSPARENT_PNG =
+      "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    const imgs = Array.from(
+      container.querySelectorAll("img")
+    ) as HTMLImageElement[];
+
+    await Promise.all(
+      imgs.map(
+        (img) =>
+          new Promise<void>((resolve) => {
+            try {
+              // If src is absolute and cross-origin, try to request it with anonymous CORS
+              const src = img.src || "";
+              const isAbsolute = /^https?:\/\//i.test(src);
+              const sameOrigin = src.startsWith(window.location.origin);
+
+              if (isAbsolute && !sameOrigin) {
+                img.crossOrigin = "anonymous";
+                // Force a reload with cache-bust to attempt CORS fetch
+                const cacheBusted =
+                  src + (src.includes("?") ? "&" : "?") + "_cb=" + Date.now();
+                const onload = () => {
+                  img.removeEventListener("error", onerror);
+                  resolve();
+                };
+                const onerror = () => {
+                  // Replace problematic image with a 1x1 transparent pixel so canvas isn't tainted
+                  try {
+                    img.src = TRANSPARENT_PNG;
+                  } catch (_) {
+                    // ignore
+                  }
+                  img.removeEventListener("load", onload);
+                  resolve();
+                };
+
+                img.addEventListener("load", onload, { once: true });
+                img.addEventListener("error", onerror, { once: true });
+                // Reassign to trigger CORS-enabled request
+                try {
+                  img.src = cacheBusted;
+                } catch {
+                  // ignore
+                }
+                // Safety timeout in case neither load nor error fires
+                setTimeout(() => resolve(), 2500);
+              } else {
+                // Local or data URIs are fine
+                resolve();
+              }
+            } catch (e) {
+              resolve();
+            }
+          })
+      )
+    );
+  };
+
+  // Disable cross-origin stylesheets temporarily to avoid SecurityError when
+  // html-to-image tries to read cssRules from remote stylesheets (e.g., Google
+  // Fonts). Returns a list of sheets that were disabled so they can be re-enabled.
+  const disableCrossOriginStyleSheets = (): CSSStyleSheet[] => {
+    const disabled: CSSStyleSheet[] = [];
+    try {
+      const sheets = Array.from(document.styleSheets as any) as CSSStyleSheet[];
+      sheets.forEach((sheet: any) => {
+        try {
+          const href = sheet?.href;
+          if (href) {
+            const sheetOrigin = new URL(href, window.location.href).origin;
+            if (sheetOrigin !== window.location.origin) {
+              // Disable the stylesheet to prevent cssRules access
+              if (sheet.disabled !== undefined) {
+                sheet.disabled = true;
+                disabled.push(sheet as CSSStyleSheet);
+              }
+            }
+          }
+        } catch (e) {
+          // ignore any access errors and continue
+        }
+      });
+    } catch (e) {
+      // ignore
+    }
+    return disabled;
+  };
+
   // Render certificate offscreen at fixed size
   const renderCertificateOffscreen = useCallback(async (): Promise<string> => {
     if (!certificate) throw new Error("No certificate data");
@@ -375,7 +437,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     container.style.pointerEvents = "none";
     container.style.width = "1000px"; // design width
     container.style.height = "600px"; // design height
-    container.style.background = "#ffffff";
+    // container.style.background = "#ffffff";
     container.style.padding = "0";
     container.style.margin = "0";
     container.style.zIndex = "-1";
@@ -418,7 +480,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
               certificate.courseDescription || progData?.description || ""
             }
             date={certificate.completionDate}
-            recipientName={displayName}
+            recipientName={certificate.studentName || enteredName || "Student"}
             isPreview={false}
             mode="template-selection"
             organizationName={orgData?.name}
@@ -455,6 +517,12 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         ) as HTMLElement) ||
         (container.querySelector("#export-root") as HTMLElement) ||
         container;
+      try {
+        await sanitizeImagesForExport(target as HTMLElement);
+      } catch (e) {
+        // sanitization failed — continue and attempt to wait for images
+      }
+
       await waitForImages(target as HTMLElement);
 
       // Measure the actual rendered size of the certificate inside the offscreen container
@@ -466,18 +534,103 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
       container.style.width = `${measuredWidth}px`;
       container.style.height = `${measuredHeight}px`;
 
-      const dataUrl = await toJpeg(target as HTMLElement, {
-        cacheBust: true,
-        backgroundColor: "#ffffff",
-        width: measuredWidth,
-        height: measuredHeight,
-        pixelRatio: Math.min(2, window.devicePixelRatio || 1),
-      });
+      let dataUrl: string;
+      try {
+        // Disable cross-origin stylesheets so html-to-image doesn't try to
+        // access cssRules on remote sheets (which throws SecurityError).
+        const disabled = disableCrossOriginStyleSheets();
+        try {
+          const pr = Math.min(2, window.devicePixelRatio || 1);
+          dataUrl = await toJpeg(target as HTMLElement, {
+            cacheBust: true,
+            backgroundColor: "#ffffff",
+            width: measuredWidth,
+            height: measuredHeight,
+            pixelRatio: pr,
+          });
+
+          // Attempt to crop to the inner certificate element if present
+          const cropElem =
+            (target.querySelector(":scope > *") as HTMLElement) || target;
+          if (cropElem && cropElem !== target) {
+            const containerRect = (
+              target as HTMLElement
+            ).getBoundingClientRect();
+            const cropRect = cropElem.getBoundingClientRect();
+            const offsetX = cropRect.left - containerRect.left;
+            const offsetY = cropRect.top - containerRect.top;
+            try {
+              dataUrl = await cropDataUrl(
+                dataUrl,
+                offsetX * pr,
+                offsetY * pr,
+                cropRect.width * pr,
+                cropRect.height * pr
+              );
+            } catch (e) {
+              // If cropping fails, fall back to full image
+              console.warn("Cropping offscreen image failed:", e);
+            }
+          }
+        } finally {
+          // Re-enable any disabled stylesheets
+          try {
+            disabled.forEach((s) => (s.disabled = false));
+          } catch (_) {
+            // ignore
+          }
+        }
+      } catch (err: any) {
+        console.error("Error generating image in offscreen render:", err);
+        throw err;
+      }
       return dataUrl;
     } finally {
       cleanup();
     }
   }, [certificate]);
+
+  // Crop a dataURL image to the specified rectangle (coordinates relative to the
+  // full image). Returns a new dataURL for the cropped area.
+  const cropDataUrl = async (
+    dataUrl: string,
+    cropX: number,
+    cropY: number,
+    cropW: number,
+    cropH: number
+  ): Promise<string> => {
+    return await new Promise<string>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(cropW));
+          canvas.height = Math.max(1, Math.round(cropH));
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return reject(new Error("Canvas context unavailable"));
+          ctx.drawImage(
+            img,
+            Math.round(cropX),
+            Math.round(cropY),
+            Math.round(cropW),
+            Math.round(cropH),
+            0,
+            0,
+            Math.round(cropW),
+            Math.round(cropH)
+          );
+          const out = canvas.toDataURL("image/jpeg", 0.92);
+          resolve(out);
+        } catch (e) {
+          reject(e);
+        }
+      };
+      img.onerror = (e) => reject(new Error("Failed to load generated image"));
+      // Ensure same-origin for canvas usage
+      img.crossOrigin = "anonymous";
+      img.src = dataUrl;
+    });
+  };
 
   // Capture the on-screen certificate by normalizing transforms/sizes temporarily
   const captureOnscreenNormalized = useCallback(async (): Promise<string> => {
@@ -533,15 +686,62 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
           // fonts.ready wait failed (onscreen)
         }
       }
+      try {
+        await sanitizeImagesForExport(target);
+      } catch (e) {
+        // ignore
+      }
+
       await waitForImages(target);
 
-      const dataUrl = await toJpeg(target, {
-        cacheBust: true,
-        backgroundColor: "#ffffff",
-        width: targetWidth,
-        height: targetHeight,
-        pixelRatio: Math.min(2, window.devicePixelRatio || 1),
-      });
+      let dataUrl: string;
+      try {
+        // Disable cross-origin stylesheets to prevent SecurityError during
+        // css inlining by html-to-image, then re-enable afterwards.
+        const disabled = disableCrossOriginStyleSheets();
+        try {
+          const pr = Math.min(2, window.devicePixelRatio || 1);
+          dataUrl = await toJpeg(target, {
+            cacheBust: true,
+            backgroundColor: "#ffffff",
+            width: targetWidth,
+            height: targetHeight,
+            pixelRatio: pr,
+          });
+
+          // Crop to inner certificate element if available (remove surrounding whitespace)
+          const cropElem =
+            (target.querySelector(":scope > *") as HTMLElement) || target;
+          if (cropElem && cropElem !== target) {
+            const containerRect = (
+              target as HTMLElement
+            ).getBoundingClientRect();
+            const cropRect = cropElem.getBoundingClientRect();
+            const offsetX = cropRect.left - containerRect.left;
+            const offsetY = cropRect.top - containerRect.top;
+            try {
+              dataUrl = await cropDataUrl(
+                dataUrl,
+                offsetX * pr,
+                offsetY * pr,
+                cropRect.width * pr,
+                cropRect.height * pr
+              );
+            } catch (e) {
+              console.warn("Cropping onscreen image failed:", e);
+            }
+          }
+        } finally {
+          try {
+            disabled.forEach((s) => (s.disabled = false));
+          } catch (_) {
+            // ignore
+          }
+        }
+      } catch (err: any) {
+        console.error("Error generating image from onscreen capture:", err);
+        throw err;
+      }
       return dataUrl;
     } finally {
       // Restore styles
@@ -558,7 +758,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     }
   }, []);
 
-  const handleDownloadPNG = useCallback(() => {
+  const handleDownload = useCallback(() => {
     if (!certificate) {
       toast.error("Certificate not ready for download");
       return;
@@ -568,16 +768,24 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
 
     // Try on-screen capture first (usually more robust), then offscreen fallback
     captureOnscreenNormalized()
-      .catch(() => renderCertificateOffscreen())
+      .catch((err) => {
+        console.warn(
+          "Onscreen capture failed, falling back to offscreen:",
+          err
+        );
+        return renderCertificateOffscreen();
+      })
       .then((dataUrl) => {
         const courseName =
           certificate?.courseName ||
           certificate?.program?.name ||
           "Certificate";
-        const fileName = `${courseName.replace(
-          /\s+/g,
-          "_"
-        )}_${displayName.replace(/\s+/g, "_")}.jpeg`;
+        const namePart = (
+          certificate.studentName ||
+          enteredName ||
+          "Student"
+        ).replace(/\s+/g, "_");
+        const fileName = `${courseName.replace(/\s+/g, "_")}_${namePart}.jpeg`;
 
         const link = document.createElement("a");
         link.download = fileName;
@@ -585,20 +793,17 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         link.click();
         toast.success("Certificate downloaded as image!");
       })
-      .catch(() => {
-        toast.error(
-          "An error occurred while generating your certificate. Please try again."
-        );
+      .catch((err) => {
+        console.error("Error generating certificate image:", err);
+        const msg =
+          err?.message ||
+          "An error occurred while generating your certificate. Please try again.";
+        toast.error(msg);
       })
       .finally(() => {
         setIsDownloading(false);
       });
   }, [certificate, captureOnscreenNormalized, renderCertificateOffscreen]);
-
-  const handleDownload = useCallback(() => {
-    // Reuse the same download logic for PDF
-    handleDownloadPNG();
-  }, [handleDownloadPNG]);
 
   const handleShare = (platform: string) => {
     const shareUrl = window.location.href;
@@ -951,7 +1156,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={handleDownloadPNG}
+                          onClick={handleDownload}
                           disabled={isDownloading}
                           className="w-full"
                         >
@@ -962,40 +1167,14 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                             </>
                           ) : (
                             <>
-                              <ImageIcon className="w-4 h-4 mr-2" />
-                              Download PNG
-                            </>
-                          )}
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Download as PNG image</p>
-                      </TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          onClick={handleDownload}
-                          disabled={isDownloading}
-                          variant="outline"
-                          className="w-full"
-                        >
-                          {isDownloading ? (
-                            <>
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600 mr-2"></div>
-                              Generating...
-                            </>
-                          ) : (
-                            <>
                               <Download className="w-4 h-4 mr-2" />
-                              Download PDF
+                              Download Image
                             </>
                           )}
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Download as high-quality PDF</p>
+                        <p>Download as high-quality image</p>
                       </TooltipContent>
                     </Tooltip>
 
@@ -1143,7 +1322,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                       <Building2 className="w-4 h-4 text-gray-400" />
                       <span className="text-gray-600">Organization:</span>
                       <span className="font-medium">
-                        {orgData?.shortName || orgData?.name || "N/A"}
+                        {orgData?.name || "N/A"}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">

@@ -94,8 +94,8 @@ export default function CertificateTemplate2({
       <div
         className="flex justify-center bg-[#FEFEFD] items-center shadow-md px-16 py-10 rounded-lg relative overflow-hidden text-[#4D4D4D]"
         style={{
-          width: "640px",
-          height: "500px",
+          width: "1056px",
+          height: "600px",
         }}
       >
         {/* Repeating wavy background */}

@@ -74,10 +74,10 @@ export default function CertificateTemplate16({
   return (
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
-        className="flex shadow-sm rounded p-4"
+        className="flex shadow-sm rounded p-4 "
         style={{
-          width: "640px",
-          height: "500px",
+          width: "1056px",
+          height: "550px",
           background: "#2A2D30",
         }}
       >

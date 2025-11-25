@@ -82,7 +82,7 @@ export default function CertificateTemplate7({
     >
       <div
         className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
-        style={{ width: "600px", height: "500px" }}
+        style={{ width: "1056px", height: "600px" }}
       >
         <div className="flex flex-col gap-10 items-start w-3/4 p-10">
           <div

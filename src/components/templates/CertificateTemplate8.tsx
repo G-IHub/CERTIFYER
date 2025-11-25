@@ -68,7 +68,7 @@ export default function CertificateTemplate8({
       <div
         className="flex justify-center items-center shadow-md w-3xl p-10 rounded-sm relative text-[#4D4D4D] font-['Montserrat'] overflow-hidden"
         style={{
-          background: "linear-gradient(to right, #DDB4FB, #FDBA18)",
+          background: "linear-gradient(to right, #DDB4FB, #FDBA18)", width: "1056px", height: "600px",
         }}
       >
         <div>

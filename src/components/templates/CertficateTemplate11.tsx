@@ -82,8 +82,8 @@ export default function CertificateTemplate11({
       <div
         className="flex justify-center items-center shadow-md rounded-md relative overflow-hidden bg-white"
         style={{
-          width: "640px",
-          height: "500px",
+          width: "1056px",
+          height: "600px",
           paddingRight: "80px",
           paddingLeft: "80px",
           fontFamily: "'Noto Serif', serif",

@@ -67,7 +67,7 @@ export default function CertificateTemplate4({
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
         className="flex justify-center bg-white items-center shadow-md rounded-lg relative overflow-hidden border"
-        style={{ width: "640px", height: "500px", padding: "24px" }}
+        style={{ width: "1056px", height: "600px", padding: "24px" }}
       >
         <div>
           {ribbon1 && (

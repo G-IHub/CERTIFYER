@@ -75,7 +75,7 @@ export default function CertificateTemplate12({
     <div className={`${containerClass} ${transformClass} bg-transparent`}>
       <div
         className="flex shadow-md rounded-sm relative overflow-hidden bg-white"
-        style={{ width: "640px", height: "500px" }}
+        style={{ width: "1056px", height: "600px" }}
       >
         <div className="flex flex-col gap-10 items-start w-5/6 p-10">
           <div className="space-y-2">
