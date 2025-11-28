@@ -104,9 +104,16 @@ const Footer: React.FC = () => {
             </a> */}
           </div>
         </div>
-        <div className="space-y-4">
-          <img src={logo} alt="logo" className="w-30 mb-4" />
-          <p className="text-white/70">Empowering educators to create and manage certificates with ease</p>
+        <div className="flex flex-col items-start space-y-4">
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="logo" className="w-20" />
+            <p className="text-orange-500 font-medium hidden md:block md:text-xl">
+              Certifyer
+            </p>
+          </div>
+          <p className="text-white/70">
+            Empowering educators to create and manage certificates with ease
+          </p>
           {/* <p className="text-sm text-white/70">
             Get the latest updates about Designership's new features and product
             updates.
