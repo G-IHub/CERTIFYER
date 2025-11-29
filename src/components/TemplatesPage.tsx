@@ -19,7 +19,6 @@ import CertificateRenderer from "./CertificateRenderer";
 import PreviewWrapper from "./PreviewWrapper";
 import type { Organization } from "../App";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
-import TemplateReseedButton from "./TemplateReseedButton";
 
 // Simple error boundary for preview rendering
 class TemplateErrorBoundary extends React.Component<
@@ -242,28 +241,7 @@ export default function TemplatesPage({
           </p>
         </div>
 
-        <TemplateReseedButton />
-
-        {/* Reseed Templates Button */}
-        {/* <Button
-          variant="outline"
-          size="sm"
-          onClick={handleReseed}
-          disabled={isReseeding}
-          className="flex-shrink-0"
-        >
-          {isReseeding ? (
-            <>
-              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-              Reseeding...
-            </>
-          ) : (
-            <>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Reseed Templates
-            </>
-          )}
-        </Button> */}
+        {/* Reseed Templates Button removed per user request. */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
