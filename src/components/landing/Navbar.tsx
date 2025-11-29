@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/logo.png";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { Link } from "react-scroll";
@@ -48,8 +48,9 @@ const Navbar: React.FC = () => {
         } z-50`}
       >
         <div className="flex justify-between items-center md:rounded-lg px-4 py-5 h-14 bg-white md:bg-[#FFFFFF66] border-2 border-[#FFFFFF1F] text-sm">
-          <div>
-            <img src={logo} alt="logo" className="w-20 md:w-24" />
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="logo" className="w-10" />
+            <p className="text-orange-500 font-medium hidden md:block md:text-xl">Certifyer</p>
           </div>
 
           <button

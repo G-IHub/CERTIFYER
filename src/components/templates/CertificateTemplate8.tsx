@@ -40,7 +40,7 @@ export default function CertificateTemplate8({
     mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
   const containerClass = isPreview
-    ? "w-full mx-auto origin-center overflow-visible"
+    ? "w-full mx-auto origin-center overflow-visible flex justify-center"
     : "min-w-[1056px] flex justify-center items-center";
 
   useEffect(() => {

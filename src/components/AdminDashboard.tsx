@@ -135,7 +135,7 @@ import {
   buildFullCertificateUrl,
   normalizeCertificateUrl,
 } from "../utils/certificateUtils";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo.png";
 // import Footer from "../components/landing/Footer";
 
 // Organization is the new name for Subsidiary
@@ -3178,7 +3178,12 @@ export default function AdminDashboard({
           {/* Footer - Sticky at bottom */}
           <footer className="bg-black text-white px-4 md:px-8 py-6 flex-shrink-0">
             <div className="flex items-center justify-between gap-4">
-              <img src={certifyerLogo} alt="Certifyer Logo" className="h-5" />
+              <div className="flex items-center gap-2">
+                <img src={logo} alt="logo" className="w-10" />
+                <p className="text-orange-500 font-medium hidden md:block md:text-xl">
+                  Certifyer
+                </p>
+              </div>
               <p className="text-sm md:text-base">
                 Empowering educators to create and manage certificates with
                 ease.

@@ -36,7 +36,7 @@ import { toast } from "sonner";
 import type { UserAccount } from "../App";
 import { authApi } from "../utils/api";
 import { projectId } from "../utils/supabase/info";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
 interface AuthPageProps {
