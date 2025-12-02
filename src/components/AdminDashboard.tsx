@@ -1739,9 +1739,8 @@ export default function AdminDashboard({
         {/* Main Content Area */}
         <main className="flex-1 flex flex-col overflow-hidden">
           {/* Top Header Bar */}
-          <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4 flex-shrink-0">
+          {/* <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4 flex-shrink-0">
             <div className="flex items-center justify-between">
-              {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className="md:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -1757,7 +1756,7 @@ export default function AdminDashboard({
                   {activeTab === "certificates" && "Certificate Management"}
                   {activeTab === "testimonials" && "Student Testimonials"}
                   {activeTab === "analytics" && "Analytics & Reports"}
-                  {/* {activeTab === "billing" && "Billing & Subscription"} */}
+                  {activeTab === "billing" && "Billing & Subscription"}
                   {activeTab === "settings" && "Platform Settings"}
                 </h2>
                 <p className="text-xs md:text-sm text-gray-500 mt-1 truncate">
@@ -1775,7 +1774,7 @@ export default function AdminDashboard({
                 </div>
               )}
             </div>
-          </header>
+          </header> */}
 
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto">
