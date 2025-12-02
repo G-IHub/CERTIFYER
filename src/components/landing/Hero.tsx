@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
     <section className="flex flex-col justify-center mt-40 md:mb-10 items-center md:mt-0 md:flex-row py-6 px-10 md:px-28">
       <div className="space-y-3 max-w-lg md:max-w-md">
         <h2 className="font-medium text-3xl md:text-5xl tracking-tight">
-          Generate, Manage & Monetize Your Certificates with Ease.
+          Generate, Issue & Manage Your Certificates with Ease.
         </h2>
         <p className="text-[#696969] text-base md:text-lg">
           A modern multi-tenant platform for organizations and educators to

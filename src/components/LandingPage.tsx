@@ -26,7 +26,9 @@ export default function LandingPage() {
       </div>
       <div className="relative z-40">
         <Navbar />
-        <Hero />
+        <section id="hero">
+          <Hero />
+        </section>
         <About />
         <section id="features">
           <CoreFeatures />

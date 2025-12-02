@@ -43,14 +43,23 @@ const Navbar: React.FC = () => {
         ref={navRef}
         className={`fixed top-0 left-0 w-full transition-all duration-300 ${
           isScrolled
-            ? "bg-white md:fixed p-0"
-            : "p-0 md:py-6 md:px-28 md:sticky"
+            ? "bg-white md:fixed p-3"
+            : "p-5 md:py-6 md:px-28 md:sticky"
         } z-50`}
       >
-        <div className="flex justify-between items-center md:rounded-lg px-4 py-5 h-14 bg-white md:bg-[#FFFFFF66] border-2 border-[#FFFFFF1F] text-sm">
+        <div className="flex justify-between items-center md:rounded-lg px-4 py-8 w-[450px] h-14 bg-white md:bg-[#FFFFFF66] border-2 border-[#FFFFFF1F] text-sm">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="logo" className="w-10" />
-            <p className="text-orange-500 font-medium hidden md:block md:text-xl">Certifyer</p>
+            <Link
+              to="hero"
+              smooth={true}
+              duration={500}
+              className="flex items-center cursor-pointer"
+            >
+              <img src={logo} alt="logo" className="w-12" />
+              <p className="text-orange-500 text-2xl font-medium hidden md:block md:text-xl">
+                Certifyer
+              </p>
+            </Link>
           </div>
 
           <button
@@ -65,16 +74,7 @@ const Navbar: React.FC = () => {
             )}
           </button>
 
-          <div className="hidden md:flex gap-12 items-center">
-            <Link
-              to="work"
-              smooth={true}
-              duration={500}
-              offset={-50}
-              className="hover:text-orange-500 cursor-pointer"
-            >
-              How It Works
-            </Link>
+          <div className="hidden text-lg md:flex gap-12 items-center">
             <Link
               to="features"
               smooth={true}
@@ -85,6 +85,15 @@ const Navbar: React.FC = () => {
               Features
             </Link>
             <Link
+              to="work"
+              smooth={true}
+              duration={500}
+              offset={-50}
+              className="hover:text-orange-500 cursor-pointer"
+            >
+              How It Works
+            </Link>
+            <Link
               to="testimonials"
               smooth={true}
               duration={500}
@@ -93,7 +102,7 @@ const Navbar: React.FC = () => {
             >
               Testimonials
             </Link>
-            <Link
+            {/* <Link
               to="prices"
               smooth={true}
               duration={500}
@@ -101,7 +110,7 @@ const Navbar: React.FC = () => {
               className="hover:text-orange-500 cursor-pointer"
             >
               Pricing
-            </Link>
+            </Link> */}
           </div>
 
           <div className="hidden md:flex gap-8 items-center">
@@ -110,13 +119,13 @@ const Navbar: React.FC = () => {
                 navigate("/login");
                 setIsMenuOpen(false);
               }}
-              className="text-orange-500 text-left cursor-pointer"
+              className="text-orange-500 text-left text-lg cursor-pointer"
             >
               Log In
             </button>
             <button
               onClick={() => navigate("/signup")}
-              className="bg-orange-500 rounded-full text-white px-5 py-2 cursor-pointer"
+              className="bg-orange-500 rounded-full text-lg text-white px-5 py-2 cursor-pointer"
             >
               Get Started
             </button>
@@ -131,16 +140,6 @@ const Navbar: React.FC = () => {
           >
             <div className="flex flex-col gap-10">
               <Link
-                to="work"
-                smooth={true}
-                duration={500}
-                offset={-50}
-                className="hover:text-orange-500"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                How It Works
-              </Link>
-              <Link
                 to="features"
                 smooth={true}
                 duration={500}
@@ -149,6 +148,16 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Features
+              </Link>
+              <Link
+                to="work"
+                smooth={true}
+                duration={500}
+                offset={-50}
+                className="hover:text-orange-500"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                How It Works
               </Link>
               <Link
                 to="testimonials"
@@ -160,7 +169,7 @@ const Navbar: React.FC = () => {
               >
                 Testimonials
               </Link>
-              <Link
+              {/* <Link
                 to="prices"
                 smooth={true}
                 duration={500}
@@ -169,7 +178,7 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Pricing
-              </Link>
+              </Link> */}
 
               <a
                 href=""
