@@ -1480,7 +1480,7 @@ export default function AdminDashboard({
                     {user.username}
                   </p>
                   <div className="flex items-center gap-1">
-                    <Building2 className="w-3 h-3 text-primary flex-shrink-0" />
+                    <img src={currentOrganization?.logo} className="w-8 mt-1 " />
                     <p className="text-xs text-gray-500 truncate">
                       {currentOrganization?.name || user.company}
                     </p>
@@ -1584,12 +1584,12 @@ export default function AdminDashboard({
           </nav>
 
           {/* Sign Out Button */}
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-gray-200 bg-black ">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
-                  className={`w-full text-gray-600 hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors ${
+                  className={`w-full text-gray-600 bg-black hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors ${
                     navCollapsed ? "px-2" : ""
                   }`}
                   onClick={() => {
@@ -1602,11 +1602,11 @@ export default function AdminDashboard({
                   }}
                 >
                   <LogOut
-                    className={`w-4 h-4 ${
+                    className={`w-4 h-4 text-white ${
                       navCollapsed ? "" : "mr-2"
                     } flex-shrink-0`}
                   />
-                  {!navCollapsed && <span>Sign Out</span>}
+                  {!navCollapsed && <span className="text-white" >Sign Out</span>}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right">
