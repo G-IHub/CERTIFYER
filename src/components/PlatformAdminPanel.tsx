@@ -50,10 +50,11 @@ import {
   Crown,
   MessageCircle,
 } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "sonner@2.0.3";
 import { publicAnonKey, projectId } from "../utils/supabase/info";
 import BillingSettings from "./BillingSettings";
 import AdminEmailsView from "./AdminEmailsView";
+import PlatformAnalytics from "./PlatformAnalytics";
 
 interface PlatformAdminPanelProps {
   adminEmail: string;
@@ -1153,157 +1154,7 @@ export default function PlatformAdminPanel({
           )}
 
           {activeView === "analytics" && (
-            <div className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Organizations</CardTitle>
-                    <CardDescription className="text-xs">
-                      Total organizations
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-1">
-                    <div className="text-2xl text-gray-900">
-                      {adminStats?.totalOrganizations ??
-                        stats.totalOrganizations}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Total organizations on platform
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Certificates</CardTitle>
-                    <CardDescription className="text-xs">
-                      Total certificates issued
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-1">
-                    <div className="text-2xl text-gray-900">
-                      {adminStats?.totalCertificates ?? stats.totalCertificates}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Certificates generated across platform
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Testimonials</CardTitle>
-                    <CardDescription className="text-xs">
-                      Total testimonials submitted
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-1">
-                    <div className="text-2xl text-gray-900">
-                      {adminStats?.totalTestimonials ?? 0}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      All-time testimonials collected
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">Revenue</CardTitle>
-                    <CardDescription className="text-xs">
-                      Total payments received
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-1">
-                    <div className="text-2xl text-gray-900">
-                      {typeof adminStats?.totalRevenue === "number"
-                        ? adminStats.totalRevenue.toLocaleString()
-                        : "$0"}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      Reported revenue (raw units)
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Platform Insights</CardTitle>
-                  <CardDescription className="text-xs">
-                    Key metrics and trends
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
-                        <p className="text-sm text-gray-900">Templates</p>
-                        <p className="text-xl text-gray-500">
-                          {adminStats?.totalTemplates ?? 0}
-                        </p>
-                      </div>
-                      <FileText className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
-                        <p className="text-sm text-gray-900">
-                          Premium Organizations
-                        </p>
-                        <p className="text-xl text-gray-500">
-                          {adminStats?.premiumUsers ??
-                            organizations.filter((o) => o.isPremium).length}
-                        </p>
-                      </div>
-                      <Crown className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
-                        <p className="text-sm text-gray-900">
-                          Free Organizations
-                        </p>
-                        <p className="text-xl text-gray-500">
-                          {adminStats?.freeUsers ??
-                            organizations.filter((o) => !o.isPremium).length}
-                        </p>
-                      </div>
-                      <Building2 className="w-5 h-5 text-gray-400" />
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div>
-                        <p className="text-sm text-gray-900">
-                          Total Testimonials
-                        </p>
-                        <p className="text-xl text-gray-500">
-                          {adminStats?.totalTestimonials ??
-                            stats.totalTestimonials ??
-                            0}
-                        </p>
-                      </div>
-                      <MessageCircle className="w-5 h-5 text-primary" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              {/* Debug: show raw adminStats for troubleshooting (remove in production) */}
-              {adminStats && (
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">
-                      Debug: Raw adminStats
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      Server-provided analytics payload
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <pre className="text-xs text-gray-700 overflow-auto max-h-48">
-                      {JSON.stringify(adminStats, null, 2)}
-                    </pre>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+            <PlatformAnalytics accessToken={accessToken} />
           )}
         </div>
       </main>
