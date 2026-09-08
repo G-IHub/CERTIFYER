@@ -114,3 +114,86 @@ export const buildFullCertificateUrl = (certificateUrl: string | undefined): str
   const fullUrl = `${window.location.origin}/${normalized}`;
   return fullUrl;
 };
+
+/**
+ * Add ordinal suffix to day (e.g., 1 -> "1st", 2 -> "2nd", 3 -> "3rd", 4 -> "4th")
+ */
+export const getOrdinalSuffix = (day: number): string => {
+  if (day > 3 && day < 21) return `${day}th`;
+  switch (day % 10) {
+    case 1:
+      return `${day}st`;
+    case 2:
+      return `${day}nd`;
+    case 3:
+      return `${day}rd`;
+    default:
+      return `${day}th`;
+  }
+};
+
+/**
+ * Format a single date or start-to-end date range into a clean certificate date string
+ * Examples:
+ * - "2025-09-10" to "2025-09-11" => "10th – 11th September, 2025"
+ * - "2025-09-25" to "2025-10-05" => "25th September – 5th October, 2025"
+ * - "2024-12-28" to "2025-01-10" => "28th December, 2024 – 10th January, 2025"
+ * - "2025-09-10" (single) => "September 10, 2025"
+ */
+export const formatCertificateDateRange = (
+  startDate?: string,
+  endDate?: string,
+  fallbackSingleDate?: string
+): string => {
+  if (startDate && endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+      const startDay = start.getDate();
+      const endDay = end.getDate();
+      const startMonth = start.toLocaleDateString("en-US", { month: "long" });
+      const endMonth = end.toLocaleDateString("en-US", { month: "long" });
+      const startYear = start.getFullYear();
+      const endYear = end.getFullYear();
+
+      // Same exact day
+      if (startDay === endDay && startMonth === endMonth && startYear === endYear) {
+        return `${startMonth} ${startDay}, ${startYear}`;
+      }
+
+      // Same month & year: "10th – 11th September, 2025"
+      if (startMonth === endMonth && startYear === endYear) {
+        return `${getOrdinalSuffix(startDay)} – ${getOrdinalSuffix(endDay)} ${startMonth}, ${startYear}`;
+      }
+
+      // Different month, same year: "25th September – 5th October, 2025"
+      if (startYear === endYear) {
+        return `${getOrdinalSuffix(startDay)} ${startMonth} – ${getOrdinalSuffix(endDay)} ${endMonth}, ${startYear}`;
+      }
+
+      // Different years: "28th December, 2024 – 10th January, 2025"
+      return `${getOrdinalSuffix(startDay)} ${startMonth}, ${startYear} – ${getOrdinalSuffix(endDay)} ${endMonth}, ${endYear}`;
+    }
+  }
+
+  const dateToFormat = endDate || startDate || fallbackSingleDate;
+  if (!dateToFormat) {
+    return new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  const parsed = new Date(dateToFormat);
+  if (!isNaN(parsed.getTime())) {
+    return parsed.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
+
+  return dateToFormat;
+};

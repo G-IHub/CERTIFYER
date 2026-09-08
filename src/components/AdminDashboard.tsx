@@ -147,6 +147,7 @@ import {
   generateCertificateId,
   buildFullCertificateUrl,
   normalizeCertificateUrl,
+  formatCertificateDateRange,
 } from "../utils/certificateUtils";
 import logoPng from "../assets/logo.png";
 // import Footer from "../components/landing/Footer";
@@ -327,6 +328,13 @@ export default function AdminDashboard({
   const [genCourseName, setGenCourseName] = useState("");
   const [genCourseDescription, setGenCourseDescription] = useState("");
   const [genCompletionDate, setGenCompletionDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [genDateMode, setGenDateMode] = useState<"single" | "range">("single");
+  const [genStartDate, setGenStartDate] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [genEndDate, setGenEndDate] = useState(
     new Date().toISOString().split("T")[0],
   );
   const [genSelectedTemplate, setGenSelectedTemplate] = useState("");
@@ -1089,6 +1097,15 @@ export default function AdminDashboard({
         allowedEmailsCount: currentAllowedEmails.length,
       });
 
+      const effectiveDateFormatted =
+        genDateMode === "range"
+          ? formatCertificateDateRange(genStartDate, genEndDate)
+          : new Date(genCompletionDate).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+
       // Generate new certificate
       const response = await certificateApi.generate(accessToken, {
         organizationId: genCurrentUserOrganization.id,
@@ -1096,7 +1113,10 @@ export default function AdminDashboard({
         certificateHeader: genCertificateHeader.trim(),
         courseName: genCourseName.trim(),
         courseDescription: genCourseDescription.trim(),
-        completionDate: genCompletionDate,
+        completionDate: effectiveDateFormatted,
+        startDate: genDateMode === "range" ? genStartDate : undefined,
+        endDate: genDateMode === "range" ? genEndDate : undefined,
+        dateMode: genDateMode,
         template: genSelectedTemplate, // Add template
         signatories: signatories.length > 0 ? signatories : undefined,
         logos: logos.length > 0 ? logos : undefined,
@@ -2928,65 +2948,184 @@ export default function AdminDashboard({
                             )}
                           </div>
 
-                          {/* Completion Date */}
-                          <div className="space-y-2">
-                            <Label htmlFor="genCompletionDateGen">
-                              Completion Date{" "}
-                              <span className="text-red-500">*</span>
-                            </Label>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className={`w-full justify-start text-left font-normal ${!genCompletionDate ? "text-muted-foreground" : ""}`}
+                          {/* Certificate Date Selector (Single vs Range) */}
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <Label className="text-sm font-semibold text-gray-800">
+                                Certificate Date <span className="text-red-500">*</span>
+                              </Label>
+                              <div className="inline-flex rounded-lg border border-gray-200 p-0.5 bg-gray-50 text-xs">
+                                <button
+                                  type="button"
+                                  onClick={() => setGenDateMode("single")}
+                                  className={`px-3 py-1 rounded-md font-medium transition-all ${
+                                    genDateMode === "single"
+                                      ? "bg-white text-indigo-600 shadow-xs"
+                                      : "text-gray-600 hover:text-gray-900"
+                                  }`}
                                 >
-                                  <Calendar className="mr-2 h-4 w-4" />
-                                  {genCompletionDate ? (
-                                    new Date(
-                                      genCompletionDate,
-                                    ).toLocaleDateString("en-US", {
-                                      month: "long",
-                                      day: "numeric",
-                                      year: "numeric",
-                                    })
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent
-                                className="w-auto p-0"
-                                align="start"
-                              >
-                                <CalendarUI
-                                  mode="single"
-                                  selected={
-                                    genCompletionDate
-                                      ? new Date(genCompletionDate)
-                                      : undefined
-                                  }
-                                  onSelect={(date) => {
-                                    if (date) {
-                                      const offset = date.getTimezoneOffset();
-                                      const adjustedDate = new Date(
-                                        date.getTime() - offset * 60 * 1000,
-                                      );
-                                      setGenCompletionDate(
-                                        adjustedDate
-                                          .toISOString()
-                                          .split("T")[0],
-                                      );
-                                    } else {
-                                      setGenCompletionDate("");
-                                    }
-                                  }}
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                            <p className="text-xs text-gray-500">
-                              The date when the course was completed
-                            </p>
+                                  Single Date
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setGenDateMode("range")}
+                                  className={`px-3 py-1 rounded-md font-medium transition-all ${
+                                    genDateMode === "range"
+                                      ? "bg-white text-indigo-600 shadow-xs"
+                                      : "text-gray-600 hover:text-gray-900"
+                                  }`}
+                                >
+                                  Date Range (Start – End)
+                                </button>
+                              </div>
+                            </div>
+
+                            {genDateMode === "single" ? (
+                              <div className="space-y-1">
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      variant={"outline"}
+                                      className={`w-full justify-start text-left font-normal ${!genCompletionDate ? "text-muted-foreground" : ""}`}
+                                    >
+                                      <Calendar className="mr-2 h-4 w-4" />
+                                      {genCompletionDate ? (
+                                        new Date(
+                                          genCompletionDate,
+                                        ).toLocaleDateString("en-US", {
+                                          month: "long",
+                                          day: "numeric",
+                                          year: "numeric",
+                                        })
+                                      ) : (
+                                        <span>Pick a date</span>
+                                      )}
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                  >
+                                    <CalendarUI
+                                      mode="single"
+                                      selected={
+                                        genCompletionDate
+                                          ? new Date(genCompletionDate)
+                                          : undefined
+                                      }
+                                      onSelect={(date) => {
+                                        if (date) {
+                                          const offset = date.getTimezoneOffset();
+                                          const adjustedDate = new Date(
+                                            date.getTime() - offset * 60 * 1000,
+                                          );
+                                          setGenCompletionDate(
+                                            adjustedDate
+                                              .toISOString()
+                                              .split("T")[0],
+                                          );
+                                        } else {
+                                          setGenCompletionDate("");
+                                        }
+                                      }}
+                                      initialFocus
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                                <p className="text-xs text-gray-500">
+                                  The date when the course was completed
+                                </p>
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  <div className="space-y-1">
+                                    <Label htmlFor="genStartDate" className="text-xs text-gray-600">
+                                      Start Date
+                                    </Label>
+                                    <Popover>
+                                      <PopoverTrigger asChild>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full justify-start text-left font-normal ${!genStartDate ? "text-muted-foreground" : ""}`}
+                                        >
+                                          <Calendar className="mr-2 h-4 w-4" />
+                                          {genStartDate ? (
+                                            new Date(
+                                              genStartDate,
+                                            ).toLocaleDateString("en-US", {
+                                              month: "short",
+                                              day: "numeric",
+                                              year: "numeric",
+                                            })
+                                          ) : (
+                                            <span>Pick start date</span>
+                                          )}
+                                        </Button>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="w-auto p-0" align="start">
+                                        <CalendarUI
+                                          mode="single"
+                                          selected={genStartDate ? new Date(genStartDate) : undefined}
+                                          onSelect={(date) => {
+                                            if (date) {
+                                              const offset = date.getTimezoneOffset();
+                                              const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+                                              setGenStartDate(adjustedDate.toISOString().split("T")[0]);
+                                            }
+                                          }}
+                                          initialFocus
+                                        />
+                                      </PopoverContent>
+                                    </Popover>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <Label htmlFor="genEndDate" className="text-xs text-gray-600">
+                                      End Date
+                                    </Label>
+                                    <Popover>
+                                      <PopoverTrigger asChild>
+                                        <Button
+                                          variant={"outline"}
+                                          className={`w-full justify-start text-left font-normal ${!genEndDate ? "text-muted-foreground" : ""}`}
+                                        >
+                                          <Calendar className="mr-2 h-4 w-4" />
+                                          {genEndDate ? (
+                                            new Date(
+                                              genEndDate,
+                                            ).toLocaleDateString("en-US", {
+                                              month: "short",
+                                              day: "numeric",
+                                              year: "numeric",
+                                            })
+                                          ) : (
+                                            <span>Pick end date</span>
+                                          )}
+                                        </Button>
+                                      </PopoverTrigger>
+                                      <PopoverContent className="w-auto p-0" align="start">
+                                        <CalendarUI
+                                          mode="single"
+                                          selected={genEndDate ? new Date(genEndDate) : undefined}
+                                          onSelect={(date) => {
+                                            if (date) {
+                                              const offset = date.getTimezoneOffset();
+                                              const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+                                              setGenEndDate(adjustedDate.toISOString().split("T")[0]);
+                                            }
+                                          }}
+                                          initialFocus
+                                        />
+                                      </PopoverContent>
+                                    </Popover>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-2 p-2.5 rounded-md bg-indigo-50/70 border border-indigo-100 text-xs text-indigo-900">
+                                  <span className="font-semibold text-indigo-700">Display Preview:</span>
+                                  <span>{formatCertificateDateRange(genStartDate, genEndDate)}</span>
+                                </div>
+                              </div>
+                            )}
                           </div>
 
                           {/* Restricted Certificate Downloads Feature */}
@@ -3537,7 +3676,31 @@ export default function AdminDashboard({
                                           header={genCertificateHeader}
                                           courseTitle={genCourseName}
                                           description={genCourseDescription}
-                                          date={genCompletionDate}
+                                          date={
+                                            genDateMode === "range"
+                                              ? formatCertificateDateRange(
+                                                  genStartDate,
+                                                  genEndDate,
+                                                )
+                                              : new Date(
+                                                  genCompletionDate,
+                                                ).toLocaleDateString("en-US", {
+                                                  year: "numeric",
+                                                  month: "long",
+                                                  day: "numeric",
+                                                })
+                                          }
+                                          startDate={
+                                            genDateMode === "range"
+                                              ? genStartDate
+                                              : undefined
+                                          }
+                                          endDate={
+                                            genDateMode === "range"
+                                              ? genEndDate
+                                              : undefined
+                                          }
+                                          dateMode={genDateMode}
                                           recipientName="Sample Student Name"
                                           isPreview={true}
                                           mode="template-selection"

@@ -2,12 +2,16 @@ import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
 import medal from "../../assets/gold-seal.png";
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 
 interface CertificateTemplate45Props {
   header?: string;
   courseTitle?: string;
   description?: string;
   date?: string;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -35,6 +39,9 @@ export default function CertificateTemplate45({
   courseTitle = "4th FACULTY OF PHARMACY SCIENTIFIC CONFERENCE",
   description = "TRANSLATIONAL RESEARCH AND STRATEGIC PARTNERSHIPS: ADVANCING PHARMACY AND HEALTH SYSTEMS",
   date = "10th – 11th September, 2025",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Mr. Ezeobiora Chijioke Emmanuel",
   organizationName = "UNIVERSITY OF LAGOS",
   organizationLogo,
@@ -78,11 +85,7 @@ export default function CertificateTemplate45({
       : null;
   const fallbackLogo = organizationLogo;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const displayDate = formatCertificateDateRange(startDate, endDate, date);
 
   // Header display logic
   const isDefaultHeader =
@@ -374,7 +377,7 @@ export default function CertificateTemplate45({
             className="text-[12px] font-bold tracking-normal"
             style={{ color: accentCoral }}
           >
-            {formattedDate}
+            {displayDate}
           </div>
 
           {description && (

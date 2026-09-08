@@ -52,6 +52,9 @@ interface CertificateRendererProps {
   courseTitle: string;
   description?: string;
   date: string;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
   recipientName: string;
   isPreview?: boolean;
   mode?: "student" | "template-selection";
@@ -80,6 +83,9 @@ export default function CertificateRenderer({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName,
   isPreview = false,
   mode = "student",
@@ -125,6 +131,9 @@ export default function CertificateRenderer({
     courseTitle,
     description,
     date,
+    startDate,
+    endDate,
+    dateMode,
     recipientName,
     isPreview,
     mode,

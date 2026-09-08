@@ -699,6 +699,9 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
               certificate.courseDescription || ""
             }
             date={certificate.completionDate}
+            startDate={certificate.startDate}
+            endDate={certificate.endDate}
+            dateMode={certificate.dateMode}
             recipientName={displayName}
             isPreview={false}
             mode="student"
@@ -1258,6 +1261,9 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                           courseTitle={certificate.courseName || "Course"}
                           description={certificate.courseDescription || ""}
                           date={certificate.completionDate}
+                          startDate={certificate.startDate}
+                          endDate={certificate.endDate}
+                          dateMode={certificate.dateMode}
                           recipientName={displayName}
                           isPreview={true}
                           mode="student"

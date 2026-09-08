@@ -10,6 +10,7 @@ import { Card, CardContent } from "./ui/card";
 import { toast } from "sonner";
 import { certificateApi } from "../utils/api";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
+import { formatCertificateDateRange } from "../utils/certificateUtils";
 
 // TEMPORARY WORKAROUND: Define update function inline to bypass cache issues
 const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/make-server-a611b057`;
@@ -23,6 +24,9 @@ const updateCertificate = async (
     courseName?: string;
     courseDescription?: string;
     completionDate?: string;
+    startDate?: string;
+    endDate?: string;
+    dateMode?: "single" | "range";
     template?: string;
     signatories?: any[];
     restrictDownload?: boolean;
@@ -87,6 +91,9 @@ export function EditCertificateModal({
   const [courseDescription, setCourseDescription] = useState("");
   const [certificateHeader, setCertificateHeader] = useState("");
   const [completionDate, setCompletionDate] = useState("");
+  const [dateMode, setDateMode] = useState<"single" | "range">("single");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [selectedSignatories, setSelectedSignatories] = useState<string[]>([]);
   const [restrictDownload, setRestrictDownload] = useState(false);
   const [allowedEmails, setAllowedEmails] = useState<string[]>([]);
@@ -108,6 +115,15 @@ export function EditCertificateModal({
         certificate.completionDate?.split("T")[0] ||
           new Date().toISOString().split("T")[0],
       );
+      if (certificate.dateMode === "range" || (certificate.startDate && certificate.endDate)) {
+        setDateMode("range");
+        setStartDate(certificate.startDate || certificate.completionDate?.split("T")[0] || new Date().toISOString().split("T")[0]);
+        setEndDate(certificate.endDate || certificate.completionDate?.split("T")[0] || new Date().toISOString().split("T")[0]);
+      } else {
+        setDateMode("single");
+        setStartDate(certificate.startDate || new Date().toISOString().split("T")[0]);
+        setEndDate(certificate.endDate || new Date().toISOString().split("T")[0]);
+      }
       setRestrictDownload(certificate.restrictDownload || false);
       setAllowedEmails(certificate.allowedEmails || []);
       setMonetizationEnabled(certificate.monetizationEnabled || false);
@@ -188,13 +204,25 @@ export function EditCertificateModal({
         .map((id) => availableSignatories.find((s: any) => s.id === id))
         .filter(Boolean);
 
+      const effectiveDateFormatted =
+        dateMode === "range"
+          ? formatCertificateDateRange(startDate, endDate)
+          : new Date(completionDate).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+
       // Update certificate using inline function (bypasses cache issues)
       const response = await updateCertificate(accessToken, certificate.id, {
         organizationId: certificate.organizationId,
         certificateHeader: certificateHeader.trim(),
         courseName: courseName.trim(),
         courseDescription: courseDescription.trim(),
-        completionDate,
+        completionDate: effectiveDateFormatted,
+        startDate: dateMode === "range" ? startDate : undefined,
+        endDate: dateMode === "range" ? endDate : undefined,
+        dateMode: dateMode,
         template: certificate.template,
         signatories: signatories.length > 0 ? signatories : undefined,
         restrictDownload,
@@ -305,16 +333,82 @@ export function EditCertificateModal({
               />
             </div>
 
-            {/* Completion Date */}
-            <div>
-              <Label htmlFor="completionDate">Completion Date</Label>
-              <Input
-                id="completionDate"
-                type="date"
-                value={completionDate}
-                onChange={(e) => setCompletionDate(e.target.value)}
-                disabled={isLoading}
-              />
+            {/* Certificate Date Selector (Single vs Range) */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-semibold text-gray-800">
+                  Certificate Date
+                </Label>
+                <div className="inline-flex rounded-lg border border-gray-200 p-0.5 bg-gray-50 text-xs">
+                  <button
+                    type="button"
+                    onClick={() => setDateMode("single")}
+                    className={`px-3 py-1 rounded-md font-medium transition-all ${
+                      dateMode === "single"
+                        ? "bg-white text-indigo-600 shadow-sm"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    Single Date
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setDateMode("range")}
+                    className={`px-3 py-1 rounded-md font-medium transition-all ${
+                      dateMode === "range"
+                        ? "bg-white text-indigo-600 shadow-sm"
+                        : "text-gray-600 hover:text-gray-900"
+                    }`}
+                  >
+                    Date Range (Start – End)
+                  </button>
+                </div>
+              </div>
+
+              {dateMode === "single" ? (
+                <div>
+                  <Input
+                    id="completionDate"
+                    type="date"
+                    value={completionDate}
+                    onChange={(e) => setCompletionDate(e.target.value)}
+                    disabled={isLoading}
+                  />
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="space-y-1">
+                      <Label htmlFor="editStartDate" className="text-xs text-gray-600">
+                        Start Date
+                      </Label>
+                      <Input
+                        id="editStartDate"
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="editEndDate" className="text-xs text-gray-600">
+                        End Date
+                      </Label>
+                      <Input
+                        id="editEndDate"
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 p-2.5 rounded-md bg-indigo-50/70 border border-indigo-100 text-xs text-indigo-900">
+                    <span className="font-semibold text-indigo-700">Display Preview:</span>
+                    <span>{formatCertificateDateRange(startDate, endDate)}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Signatories */}
