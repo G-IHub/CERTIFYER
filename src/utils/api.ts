@@ -576,6 +576,27 @@ export const productPaymentApi = {
 
 // ==================== TEMPLATE API (GLOBAL TEMPLATE LIBRARY) ====================
 
+const BUILTIN_CODE_TEMPLATES = [
+  {
+    id: "template45",
+    name: "Royal Academic Conference",
+    description:
+      "Prestigious academic conference certificate featuring deep royal purple & gold intersecting geometric diamonds, dual crest logos, and a golden embossed seal",
+    config: {
+      layout: "academic-geometric",
+      colors: {
+        background: "#FFFFFF",
+        primary: "#4C1D95",
+        secondary: "#D99E30",
+      },
+    },
+    type: "default" as const,
+    isDefault: true,
+    visibility_type: "public" as const,
+    createdAt: new Date().toISOString(),
+  },
+];
+
 export const templateApi = {
   // Get all templates (default + user-created) - now supports visibility filtering
   getAll: async (organizationId?: string) => {
@@ -584,32 +605,55 @@ export const templateApi = {
       url.searchParams.append('organizationId', organizationId);
     }
     
-    const response = await fetch(url.toString(), {
-      method: 'GET',
-      headers: getAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to get templates');
+    let result: any = { templates: [] };
+    try {
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: getAuthHeaders(),
+      });
+      
+      if (response.ok) {
+        result = await response.json();
+      }
+    } catch (e) {
+      console.warn('Failed to fetch remote templates, falling back to local list', e);
     }
-    
-    return await response.json();
+
+    // Merge any locally registered templates that are not yet in remote KV store
+    const templates = result.templates || [];
+    const existingIds = new Set(templates.map((t: any) => t.id));
+    for (const bt of BUILTIN_CODE_TEMPLATES) {
+      if (!existingIds.has(bt.id)) {
+        templates.push(bt);
+      }
+    }
+    result.templates = templates;
+    return result;
   },
 
   // Get a specific template by ID - no auth required
   getById: async (templateId: string) => {
-    const response = await fetch(`${API_BASE_URL}/templates/${templateId}`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to get template');
+    try {
+      const response = await fetch(`${API_BASE_URL}/templates/${templateId}`, {
+        method: 'GET',
+        headers: getAuthHeaders(),
+      });
+      
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (e) {
+      // Fallback below
+    }
+
+    const fallback = BUILTIN_CODE_TEMPLATES.find(
+      (t) => t.id === templateId || t.id === `template${templateId}`
+    );
+    if (fallback) {
+      return { template: fallback };
     }
     
-    return await response.json();
+    throw new Error('Failed to get template');
   },
 
   // Create a new template (user-created) - requires auth

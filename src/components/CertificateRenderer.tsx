@@ -42,6 +42,7 @@ import CertificateTemplate41 from "./templates/CertificateTemplate41";
 import CertificateTemplate42 from "./templates/CertificateTemplate42";
 import CertificateTemplate43 from "./templates/CertificateTemplate43";
 import CertificateTemplate44 from "./templates/CertificateTemplate44";
+import CertificateTemplate45 from "./templates/CertificateTemplate45";
 import type { Logo } from "../App";
 import type { ThemeColors } from "../types/theme";
 
@@ -285,6 +286,9 @@ export default function CertificateRenderer({
 
     case "44":
       return <CertificateTemplate44 {...templateProps} />;
+
+    case "45":
+      return <CertificateTemplate45 {...templateProps} />;
 
       // All other template IDs fall back to Template 1
       default:

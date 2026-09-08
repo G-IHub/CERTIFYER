@@ -1166,6 +1166,25 @@ const DEFAULT_TEMPLATES = [
     organization_id: null,
     createdAt: new Date().toISOString(),
   },
+  {
+    id: "template45",
+    name: "Royal Academic Conference",
+    description:
+      "Prestigious academic conference certificate featuring deep royal purple & gold intersecting geometric diamonds, dual crest logos, and a golden embossed seal",
+    config: {
+      layout: "academic-geometric",
+      colors: {
+        background: "#FFFFFF",
+        primary: "#4C1D95",
+        secondary: "#D99E30",
+      },
+    },
+    type: "default",
+    isDefault: true,
+    visibility_type: "public",
+    organization_id: null,
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 // ==================== AUTH ROUTES ====================
