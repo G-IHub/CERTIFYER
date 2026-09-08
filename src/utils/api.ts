@@ -613,6 +613,24 @@ const BUILTIN_CODE_TEMPLATES = [
     visibility_type: "public" as const,
     createdAt: new Date().toISOString(),
   },
+  {
+    id: "template47",
+    name: "Poster Presentation Gold Ribbon",
+    description:
+      "Prestigious academic conference certificate featuring a 3D twisted metallic gold ribbon, dotted royal purple arch, solid gold header bar, and presentation title block",
+    config: {
+      layout: "poster-presentation-ribbon",
+      colors: {
+        background: "#FFFFFF",
+        primary: "#581C87",
+        secondary: "#D49E35",
+      },
+    },
+    type: "default" as const,
+    isDefault: true,
+    visibility_type: "public" as const,
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 export const templateApi = {
