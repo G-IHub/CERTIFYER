@@ -1184,6 +1184,25 @@ const DEFAULT_TEMPLATES = [
     organization_id: null,
     createdAt: new Date().toISOString(),
   },
+  {
+    id: "template46",
+    name: "Golden Waves Conference",
+    description:
+      "Distinguished academic certificate featuring right-side sweeping gold & royal purple waves, gold ribbon banner, and rosette medallion seal",
+    config: {
+      layout: "golden-waves",
+      colors: {
+        background: "#FFFFFF",
+        primary: "#581C87",
+        secondary: "#D49E35",
+      },
+    },
+    type: "default",
+    isDefault: true,
+    visibility_type: "public",
+    organization_id: null,
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 // ==================== AUTH ROUTES ====================

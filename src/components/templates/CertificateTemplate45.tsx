@@ -36,7 +36,7 @@ interface CertificateTemplate45Props {
 
 export default function CertificateTemplate45({
   header = "OF PARTICIPATION",
-  courseTitle = "4th FACULTY OF PHARMACY SCIENTIFIC CONFERENCE",
+  courseTitle = "4TH FACULTY OF PHARMACY SCIENTIFIC CONFERENCE",
   description = "TRANSLATIONAL RESEARCH AND STRATEGIC PARTNERSHIPS: ADVANCING PHARMACY AND HEALTH SYSTEMS",
   date = "10th – 11th September, 2025",
   startDate,
@@ -118,7 +118,6 @@ export default function CertificateTemplate45({
       >
         {/* --- TOP LEFT GEOMETRY --- */}
         <polygon points="0,0 85,0 0,85" fill={darkCharcoal} />
-        {/* Purple diamond outer */}
         <rect
           x="-35"
           y="20"
@@ -129,7 +128,6 @@ export default function CertificateTemplate45({
           strokeWidth="6"
           fill="none"
         />
-        {/* Gold diamond top-left */}
         <rect
           x="15"
           y="80"
