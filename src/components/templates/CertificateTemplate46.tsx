@@ -62,17 +62,17 @@ export default function CertificateTemplate46({
   const bg = themeColors?.background ?? "#FFFFFF";
   const textDark = themeColors?.text ?? "#111827";
 
-  useEffect(() => {
-    const id = "cert-font-t46";
-    if (!document.getElementById(id)) {
-      const link = document.createElement("link");
-      link.id = id;
-      link.rel = "stylesheet";
-      link.href =
-        "https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Kalam:wght@400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap";
-      document.head.appendChild(link);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const id = "cert-font-t46";
+  //   if (!document.getElementById(id)) {
+  //     const link = document.createElement("link");
+  //     link.id = id;
+  //     link.rel = "stylesheet";
+  //     link.href =
+  //       "https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Kalam:wght@400;700&family=Montserrat:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap";
+  //     document.head.appendChild(link);
+  //   }
+  // }, []);
 
   const logo1 =
     organizationLogos && organizationLogos[0]?.url
@@ -291,7 +291,7 @@ export default function CertificateTemplate46({
               filter: "drop-shadow(0 1px 1px rgba(180, 130, 20, 0.25))",
             }}
           >
-            CERTIFICATE
+            {header?.split(" ")[0] || "CERTIFICATE"}
           </h2>
 
           {/* Golden Swallowtail Ribbon */}
@@ -359,7 +359,7 @@ export default function CertificateTemplate46({
               className="absolute inset-0 flex items-center justify-center text-[13.5px] font-black tracking-[0.18em] uppercase pb-1.5"
               style={{ color: primaryPurple }}
             >
-              — {subHeader} —
+              {header?.split(" ").slice(1).join(" ") || "OF ACHIEVEMENT"}
             </span>
           </div>
 
@@ -399,17 +399,13 @@ export default function CertificateTemplate46({
             {courseTitle}
           </h4>
 
-          <div
-            className="text-[14px] font-extrabold tracking-wider text-gray-900 mt-0.5"
-          >
+          <div className="text-[14px] font-extrabold tracking-wider text-gray-900 mt-0.5">
             {displayDate}
           </div>
 
           {description && (
             <div className="mt-1 flex flex-col items-center">
-              <span
-                className="text-[14px] font-black tracking-[0.14em] uppercase text-gray-900 block"
-              >
+              <span className="text-[14px] font-black tracking-[0.14em] uppercase text-gray-900 block">
                 THEME:
               </span>
               <p
@@ -495,7 +491,11 @@ export default function CertificateTemplate46({
               </defs>
 
               {/* 16-Point Fluted Gold Rosette Cogwheel */}
-              <g fill="url(#goldRosetteGradT46)" stroke="#A87518" strokeWidth="0.8">
+              <g
+                fill="url(#goldRosetteGradT46)"
+                stroke="#A87518"
+                strokeWidth="0.8"
+              >
                 {[...Array(16)].map((_, i) => (
                   <circle
                     key={i}

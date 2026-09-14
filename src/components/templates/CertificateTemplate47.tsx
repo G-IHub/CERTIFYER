@@ -383,9 +383,9 @@ export default function CertificateTemplate47({
         {/* --- 5. PRESENTATION TITLE BLOCK --- */}
         {customMessage && (
           <div className="text-center max-w-[520px] mx-auto flex flex-col items-center -my-0.5">
-            <span className="text-[9.5px] font-black tracking-[0.16em] uppercase text-gray-900 block">
+            {/* <span className="text-[9.5px] font-black tracking-[0.16em] uppercase text-gray-900 block">
               PRESENTATION TITLE:
-            </span>
+            </span> */}
             <p
               className="text-[15px] font-bold tracking-normal uppercase leading-[1.25] text-gray-900 font-['Oswald'] max-w-[500px] mt-0.5"
             >
