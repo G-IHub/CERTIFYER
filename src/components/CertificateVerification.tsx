@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
+import { formatCertificateDateRange } from "../utils/certificateUtils";
 import SEOHead from "./SEOHead";
 import logo from "../assets/logo.png"
 
@@ -27,6 +28,9 @@ interface VerificationResult {
     certificateHeader: string;
     courseDescription?: string;
     completionDate: string;
+    startDate?: string;
+    endDate?: string;
+    dateMode?: "single" | "range";
     issuedDate: string;
     studentName?: string;
     template: string;
@@ -311,7 +315,9 @@ export default function CertificateVerification() {
                       </span>
                     </div>
                     <p className="font-semibold">
-                      {formatDate(result.certificate.completionDate)}
+                      {result.certificate.dateMode === "range" && result.certificate.startDate && result.certificate.endDate
+                        ? formatCertificateDateRange(result.certificate.startDate, result.certificate.endDate)
+                        : formatDate(result.certificate.completionDate)}
                     </p>
                   </div>
 

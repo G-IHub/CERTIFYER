@@ -68,6 +68,9 @@ interface CertificateData {
   certificateHeader?: string; // New format field
   courseDescription?: string; // New format field
   completionDate: string;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
   issuedDate?: string;
   generatedAt?: string; // Backend field
   status?: "valid" | "revoked" | "expired" | "active";
@@ -445,6 +448,9 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
             subsidiary: org,
             organization: org,
             completionDate: cert.completionDate,
+            startDate: cert.startDate,
+            endDate: cert.endDate,
+            dateMode: cert.dateMode,
             issuedDate: cert.generatedAt,
             generatedAt: cert.generatedAt,
             status: cert.status === "active" ? "valid" : cert.status,

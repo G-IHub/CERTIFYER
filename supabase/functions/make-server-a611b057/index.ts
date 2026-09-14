@@ -2247,6 +2247,9 @@ app.post("/make-server-a611b057/certificates", async (c) => {
       courseName,
       courseDescription,
       completionDate,
+      startDate,
+      endDate,
+      dateMode,
       template,
       students,
       customTemplateConfig,
@@ -2265,6 +2268,9 @@ app.post("/make-server-a611b057/certificates", async (c) => {
       courseId: courseId || "none",
       courseName: courseName || "MISSING",
       certificateHeader: certificateHeader || "MISSING",
+      startDate: startDate || "none",
+      endDate: endDate || "none",
+      dateMode: dateMode || "none",
       template: template || "none",
       hasCustomTemplate: !!customTemplateConfig,
       hasStudents: !!students,
@@ -2382,6 +2388,9 @@ app.post("/make-server-a611b057/certificates", async (c) => {
         certificateHeader,
         courseDescription,
         completionDate: completionDate || new Date().toISOString(),
+        startDate: startDate || null,
+        endDate: endDate || null,
+        dateMode: dateMode || (startDate && endDate ? "range" : "single"),
         template: template || "impact", // Store template
         customTemplateConfig: customTemplateConfig || null, // Store custom template config
         signatories: signatories || [], // Store signatories
@@ -2467,7 +2476,10 @@ app.post("/make-server-a611b057/certificates", async (c) => {
           status: "active",
           emailSent: false,
           downloadCount: 0,
-          completionDate: student.completionDate || new Date().toISOString(),
+          completionDate: student.completionDate || completionDate || new Date().toISOString(),
+          startDate: student.startDate || startDate || null,
+          endDate: student.endDate || endDate || null,
+          dateMode: student.dateMode || dateMode || (startDate && endDate ? "range" : "single"),
           restrictDownload: restrictDownload || false, // NEW: Download restriction flag
           allowedEmails: allowedEmails || [], // NEW: List of allowed student emails
           monetizationEnabled: monetizationEnabled || false,
@@ -3029,6 +3041,9 @@ app.get("/make-server-a611b057/certificates/:id/verify", async (c) => {
         certificateHeader: certificate.certificateHeader,
         courseDescription: certificate.courseDescription,
         completionDate: certificate.completionDate,
+        startDate: certificate.startDate || null,
+        endDate: certificate.endDate || null,
+        dateMode: certificate.dateMode || (certificate.startDate && certificate.endDate ? "range" : "single"),
         issuedDate: certificate.createdAt,
         studentName: certificate.studentName || null,
         template: certificate.template,
@@ -6816,6 +6831,9 @@ app.post("/make-server-a611b057/certificates", async (c) => {
       templateId: certificate.templateId || certificate.course?.template,
       customMessage: certificate.customMessage || "",
       completionDate: certificate.completionDate,
+      startDate: certificate.startDate || null,
+      endDate: certificate.endDate || null,
+      dateMode: certificate.dateMode || (certificate.startDate && certificate.endDate ? "range" : "single"),
       certificateUrl: certificate.certificateUrl,
       generatedAt: certificate.generatedAt || new Date().toISOString(),
       generatedBy: user.id,
@@ -6872,6 +6890,9 @@ app.post("/make-server-a611b057/certificates/bulk", async (c) => {
         templateId: cert.templateId || cert.course?.template,
         customMessage: cert.customMessage || "",
         completionDate: cert.completionDate,
+        startDate: cert.startDate || null,
+        endDate: cert.endDate || null,
+        dateMode: cert.dateMode || (cert.startDate && cert.endDate ? "range" : "single"),
         certificateUrl: cert.certificateUrl,
         generatedAt: cert.generatedAt || new Date().toISOString(),
         generatedBy: user.id,
@@ -7059,6 +7080,18 @@ app.put("/make-server-a611b057/certificates/:id", async (c) => {
         updates.completionDate !== undefined
           ? updates.completionDate
           : certificate.completionDate,
+      startDate:
+        updates.startDate !== undefined
+          ? updates.startDate
+          : certificate.startDate,
+      endDate:
+        updates.endDate !== undefined
+          ? updates.endDate
+          : certificate.endDate,
+      dateMode:
+        updates.dateMode !== undefined
+          ? updates.dateMode
+          : certificate.dateMode,
       template:
         updates.template !== undefined
           ? updates.template
@@ -7108,6 +7141,9 @@ app.put("/make-server-a611b057/certificates/:id", async (c) => {
       certificateHeader: updatedCertificate.certificateHeader,
       courseDescription: updatedCertificate.courseDescription,
       completionDate: updatedCertificate.completionDate,
+      startDate: updatedCertificate.startDate,
+      endDate: updatedCertificate.endDate,
+      dateMode: updatedCertificate.dateMode,
       restrictDownload: updatedCertificate.restrictDownload,
       allowedEmailsCount: updatedCertificate.allowedEmails?.length || 0,
     });

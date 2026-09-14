@@ -386,6 +386,9 @@ export default function CertificateGenerationModal({
           courseName: backendCert.courseName,
           courseDescription: backendCert.courseDescription,
           completionDate: backendCert.completionDate,
+          startDate: backendCert.startDate || (dateMode === "range" ? startDate : undefined),
+          endDate: backendCert.endDate || (dateMode === "range" ? endDate : undefined),
+          dateMode: backendCert.dateMode || dateMode,
           customTemplateConfig:
             backendCert.customTemplateConfig || templateConfig,
         };
@@ -400,6 +403,9 @@ export default function CertificateGenerationModal({
         setCourseDescription("");
         setCertificateHeader("Certificate of Completion");
         setCompletionDate(new Date().toISOString().split("T")[0]);
+        setDateMode("single");
+        setStartDate(new Date().toISOString().split("T")[0]);
+        setEndDate(new Date().toISOString().split("T")[0]);
       } else {
         toast.error("Failed to generate certificate");
       }

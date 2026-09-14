@@ -1159,6 +1159,9 @@ export default function AdminDashboard({
         courseName: genCourseName.trim(),
         certificateHeader: genCertificateHeader.trim(),
         courseDescription: genCourseDescription.trim(),
+        startDate: response.certificates[0]?.startDate || (genDateMode === "range" ? genStartDate : undefined),
+        endDate: response.certificates[0]?.endDate || (genDateMode === "range" ? genEndDate : undefined),
+        dateMode: response.certificates[0]?.dateMode || genDateMode,
         organization: genCurrentUserOrganization,
       };
 
@@ -1178,6 +1181,9 @@ export default function AdminDashboard({
       setGenCourseDescription("");
       setGenCertificateHeader("Certificate of Completion");
       setGenCompletionDate(new Date().toISOString().split("T")[0]);
+      setGenDateMode("single");
+      setGenStartDate(new Date().toISOString().split("T")[0]);
+      setGenEndDate(new Date().toISOString().split("T")[0]);
       setGenRestrictDownload(false); // Reset restriction toggle
       setGenAllowedEmails([]); // Clear allowed emails
       setGenEmailInput(""); // Clear email input
@@ -1303,13 +1309,25 @@ export default function AdminDashboard({
               .map((id) => genAvailableLogos.find((l: any) => l.id === id))
               .filter(Boolean);
 
+            const effectiveBulkDateFormatted =
+              genDateMode === "range"
+                ? formatCertificateDateRange(genStartDate, genEndDate)
+                : new Date(genCompletionDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  });
+
             // Use the generate API with students array
             const response = await certificateApi.generate(accessToken, {
               organizationId: genCurrentUserOrganization.id,
               certificateHeader: genCertificateHeader.trim(),
               courseName: genCourseName.trim(),
               courseDescription: genCourseDescription.trim(),
-              completionDate: genCompletionDate,
+              completionDate: effectiveBulkDateFormatted,
+              startDate: genDateMode === "range" ? genStartDate : undefined,
+              endDate: genDateMode === "range" ? genEndDate : undefined,
+              dateMode: genDateMode,
               template: genSelectedTemplate,
               customTemplateConfig: genCustomTemplateConfig,
               signatories: signatories.length > 0 ? signatories : undefined,
@@ -1317,7 +1335,7 @@ export default function AdminDashboard({
               students: students.map((s) => ({
                 name: s.name,
                 email: s.email,
-                completionDate: s.completionDate || genCompletionDate,
+                completionDate: s.completionDate || effectiveBulkDateFormatted,
               })),
               restrictDownload: genRestrictDownload,
               allowedEmails: currentAllowedEmails,

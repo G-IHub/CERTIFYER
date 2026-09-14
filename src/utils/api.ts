@@ -252,6 +252,9 @@ export const certificateApi = {
     courseName?: string;
     courseDescription?: string;
     completionDate?: string;
+    startDate?: string;
+    endDate?: string;
+    dateMode?: "single" | "range";
     template?: string;
     customTemplateConfig?: any;
     students?: Array<{ name: string; email?: string; completionDate?: string }>;
@@ -342,6 +345,9 @@ export const certificateApi = {
     courseName?: string;
     courseDescription?: string;
     completionDate?: string;
+    startDate?: string;
+    endDate?: string;
+    dateMode?: "single" | "range";
     template?: string;
     signatories?: any[];
     restrictDownload?: boolean;

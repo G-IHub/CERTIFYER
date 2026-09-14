@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/logo.png";
 import { projectId } from "../utils/supabase/info";
+import { formatCertificateDateRange } from "../utils/certificateUtils";
 
 const API_BASE = `https://${projectId}.supabase.co/functions/v1/make-server-a611b057`;
 
@@ -25,6 +26,9 @@ interface VerifyResult {
     certificateHeader?: string;
     courseDescription?: string;
     completionDate?: string;
+    startDate?: string;
+    endDate?: string;
+    dateMode?: "single" | "range";
     issuedDate?: string;
     studentName?: string;
     template?: string;
@@ -117,19 +121,24 @@ export default function VerificationPage() {
 
   const courseName =
     cert?.courseName || cert?.certificateHeader || "Certificate";
-  const formattedDate = cert?.completionDate
-    ? new Date(cert.completionDate).toLocaleDateString("en-NG", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : cert?.issuedDate
-      ? new Date(cert.issuedDate).toLocaleDateString("en-NG", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      : null;
+  const formattedDate =
+    cert?.dateMode === "range" && cert?.startDate && cert?.endDate
+      ? formatCertificateDateRange(cert.startDate, cert.endDate)
+      : cert?.completionDate && !isNaN(new Date(cert.completionDate).getTime())
+        ? new Date(cert.completionDate).toLocaleDateString("en-NG", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : cert?.completionDate
+          ? cert.completionDate
+          : cert?.issuedDate && !isNaN(new Date(cert.issuedDate).getTime())
+            ? new Date(cert.issuedDate).toLocaleDateString("en-NG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : null;
 
   return (
     <div

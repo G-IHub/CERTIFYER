@@ -63,17 +63,17 @@ export default function CertificateTemplate45({
   const bg = themeColors?.background ?? "#FFFFFF";
   const textDark = themeColors?.text ?? "#18181B";
 
-  useEffect(() => {
-    const id = "cert-font-t45";
-    if (!document.getElementById(id)) {
-      const link = document.createElement("link");
-      link.id = id;
-      link.rel = "stylesheet";
-      link.href =
-        "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap";
-      document.head.appendChild(link);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const id = "cert-font-t45";
+  //   if (!document.getElementById(id)) {
+  //     const link = document.createElement("link");
+  //     link.id = id;
+  //     link.rel = "stylesheet";
+  //     link.href =
+  //       "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap";
+  //     document.head.appendChild(link);
+  //   }
+  // }, []);
 
   const logo1 =
     organizationLogos && organizationLogos[0]?.url
@@ -86,17 +86,6 @@ export default function CertificateTemplate45({
   const fallbackLogo = organizationLogo;
 
   const displayDate = formatCertificateDateRange(startDate, endDate, date);
-
-  // Header display logic
-  const isDefaultHeader =
-    !header ||
-    header.toUpperCase() === "CERTIFICATE" ||
-    header.toUpperCase() === "CERTIFICATE OF PARTICIPATION" ||
-    header.toUpperCase() === "OF PARTICIPATION";
-
-  const subHeader = isDefaultHeader
-    ? "OF PARTICIPATION"
-    : header.toUpperCase();
 
   return (
     <div
@@ -331,13 +320,13 @@ export default function CertificateTemplate45({
             className="text-[34px] font-black tracking-wider leading-none uppercase font-['Playfair_Display']"
             style={{ color: primaryColor }}
           >
-            CERTIFICATE
+            {header?.split(" ")[0] || "CERTIFICATE"}
           </h2>
           <h3
             className="text-[16px] font-extrabold tracking-widest leading-snug uppercase mt-1"
             style={{ color: darkCharcoal }}
           >
-            {subHeader}
+            {header?.split(" ").slice(1).join(" ") || "OF ACHIEVEMENT"}
           </h3>
           <p
             className="text-[12px] font-semibold mt-1 tracking-wide"
@@ -359,7 +348,7 @@ export default function CertificateTemplate45({
         </div>
 
         {/* --- OCCASION, COURSE/EVENT TITLE, DATE & THEME --- */}
-        <div className="text-center max-w-[580px] mx-auto flex flex-col items-center gap-0.5 -mt-20">
+        <div className="text-center max-w-[580px] mx-auto flex flex-col items-center gap-0.5 -mt-16">
           <span className="text-[11px] font-normal text-gray-800">
             On the occasion of the
           </span>
