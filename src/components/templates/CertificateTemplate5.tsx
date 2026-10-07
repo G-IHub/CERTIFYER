@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useEffect } from "react";
 import ribbonUrl from "../../assets/RIBBON.png";
 import gNaturesLogo from "../../assets/g-natures_logo.png";
@@ -9,7 +10,7 @@ interface CertificateTemplate5Props {
   header?: string;
   courseTitle?: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -23,6 +24,9 @@ interface CertificateTemplate5Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate5({
@@ -30,6 +34,9 @@ export default function CertificateTemplate5({
   courseTitle = "Of Completion",
   description = "This Certificate is Presented to:",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Noor ul ain Fatima",
   isPreview = false,
   organizationName = "G-Natures",
@@ -57,11 +64,30 @@ export default function CertificateTemplate5({
   //   }
   // }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"
@@ -112,7 +138,7 @@ export default function CertificateTemplate5({
           <div className="space-y-2">
             <p className="w-full border-b-2 font-semibold text-2xl tracking-wider" style={{ borderColor: themeColors?.secondary ?? '#16a34a' }}>{recipientName}</p>
             <p className="max-w-xl text-sm">{description}</p>
-            <div className="text-sm text-black font-bold">{formattedDate}</div>
+            <div className="text-sm text-black font-bold">{displayDate}</div>
           </div>
 
           <div className="flex gap-10 w-full items-center justify-center -mt-4">

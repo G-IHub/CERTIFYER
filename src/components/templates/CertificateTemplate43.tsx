@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -6,7 +7,7 @@ interface Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -21,6 +22,9 @@ interface Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate43({
@@ -28,6 +32,9 @@ export default function CertificateTemplate43({
   courseTitle = "Creative Excellence Programme",
   description,
   date = "2024-01-01",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Full Name Here",
   organizationName = "Your Organisation",
   organizationLogo,
@@ -59,7 +66,32 @@ export default function CertificateTemplate43({
 
   const logos = organizationLogos ?? [];
 
-  return (
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
+
+    return (
     <div style={{
       width: 800, height: 600, position: "relative",
       background: bg, overflow: "hidden",
@@ -180,7 +212,7 @@ export default function CertificateTemplate43({
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "white" }} />
           </div>
           <p style={{ color: `${textCol}99`, fontSize: 11, margin: 0 }}>
-            Date awarded: <strong style={{ color: textCol }}>{date}</strong>
+            Date awarded: <strong style={{ color: textCol }}>{displayDate}</strong>
           </p>
         </div>
       </div>

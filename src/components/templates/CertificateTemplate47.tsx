@@ -89,13 +89,30 @@ export default function CertificateTemplate47({
   const displayHeader = (header || "CERTIFICATE OF POSTER PRESENTATION").toUpperCase();
 
   // Date formatting
-  const displayDate =
-    startDate && endDate
-      ? formatCertificateDateRange(startDate, endDate).toUpperCase()
-      : date
-      ? date.toUpperCase()
-      : "11TH - 12TH SEPTEMBER, 2024";
-
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate).toUpperCase();
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date).toUpperCase();
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate).toUpperCase();
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+    }
+    return "";
+  })();
   const customMessage = "GENOME FEATURES AND BIOSYNTHETIC GENE CLUSTERS ANALYSIS OF ENDOPHYTIC ACTINOBACTERIUM STREPTOMYCES SP. STRAIN PGLAC3X ISOLATED FROM PIPER GUINEENSE";
 
   return (

@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useRef, useEffect } from "react";
 import medal from "../../assets/iwdAward.png";
 import type { Logo } from "../../App";
@@ -19,6 +20,9 @@ interface CertificateTemplate8Props {
   signatoryTitle2?: string;
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate8({
@@ -26,6 +30,9 @@ export default function CertificateTemplate8({
   courseTitle = "Certificate Program",
   description = "This certificate is awarded in recognition of your active participation and dedication to excellence.",
   date = "2026-04-18",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Recipient Name",
   isPreview = false,
   organizationName = "Your Organization",
@@ -57,11 +64,30 @@ export default function CertificateTemplate8({
     }
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   // Determine which logo(s) to use
   const logo1 = organizationLogos && organizationLogos[0]?.url
@@ -267,7 +293,7 @@ export default function CertificateTemplate8({
 
                 <div className="flex self-end">
                   <p className="text-xs text-[#04B8A0]">
-                    {formattedDate} | Ogbomoso, Oyo State
+                    {displayDate} | Ogbomoso, Oyo State
                   </p>
                 </div>
               </div>

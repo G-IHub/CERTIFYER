@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useRef, useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -9,7 +10,7 @@ interface CertificateTemplate13Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -23,6 +24,9 @@ interface CertificateTemplate13Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate13({
@@ -30,6 +34,9 @@ export default function CertificateTemplate13({
   courseTitle,
   description = "For demonstrating exceptional skills and dedication in completing the program with outstanding performance and commitment to excellence.",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Name Surname",
   isPreview = false,
   organizationName = "Your Organization",
@@ -71,11 +78,30 @@ export default function CertificateTemplate13({
     };
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   // Determine signature count
   const hasSignature1 = signatoryName1 || signatoryTitle1 || signatureUrl1;
@@ -251,7 +277,7 @@ export default function CertificateTemplate13({
                     className="text-sm font-medium"
                     style={{ color: "#4D4D4D" }}
                   >
-                    {formattedDate || "DATE"}
+                    {displayDate || "DATE"}
                   </div>
                 </div>
               )}

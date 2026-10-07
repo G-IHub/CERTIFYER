@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -6,7 +7,7 @@ interface CertificateTemplate20Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -20,6 +21,9 @@ interface CertificateTemplate20Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate20({
@@ -27,6 +31,9 @@ export default function CertificateTemplate20({
   courseTitle,
   description = "For exceptional achievement in cybersecurity, blockchain technology, and digital innovation.",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Name Surname",
   isPreview = false,
   organizationName = "Tech Academy",
@@ -59,11 +66,30 @@ export default function CertificateTemplate20({
     }
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   const logosToDisplay = organizationLogos || [];
   const hasLogos = logosToDisplay.length > 0;
@@ -263,11 +289,7 @@ export default function CertificateTemplate20({
                 fontFamily: "'Fira Code', monospace",
               }}
             >
-              {new Date(date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}
+              {displayDate}
             </div>
           </div>
 

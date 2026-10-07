@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef, useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -6,7 +7,7 @@ interface CertificateTemplate26Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -22,6 +23,9 @@ interface CertificateTemplate26Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate26({
@@ -29,6 +33,9 @@ export default function CertificateTemplate26({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Student Name",
   isPreview = false,
   organizationName = "Your Organization",
@@ -64,7 +71,40 @@ export default function CertificateTemplate26({
   const logosToDisplay = organizationLogos || [];
   const hasLogos = logosToDisplay.length > 0;
 
-  return (
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
+  const displayYear = (() => {
+    const d = endDate || startDate || date;
+    if (!d) return new Date().getFullYear();
+    const parsed = new Date(d);
+    if (!isNaN(parsed.getTime())) return parsed.getFullYear();
+    const match = d.match(/\b(20\d\d)\b/);
+    return match ? match[1] : new Date().getFullYear();
+  })();
+
+    return (
     <div
       ref={ref}
       style={{
@@ -444,7 +484,7 @@ export default function CertificateTemplate26({
                 fontFamily: "'Lato', sans-serif",
               }}
             >
-              {new Date(date).getFullYear()}
+              {displayYear}
             </div>
             <div
               style={{
@@ -474,10 +514,7 @@ export default function CertificateTemplate26({
               fontFamily: "'Lato', sans-serif",
             }}
           >
-            {new Date(date).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-            })}
+            {displayDate}
           </div>
         </div>
 

@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -8,7 +9,7 @@ interface Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -23,6 +24,9 @@ interface Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate44({
@@ -30,6 +34,9 @@ export default function CertificateTemplate44({
   courseTitle = "Leadership & Management Programme",
   description,
   date = "2024-01-01",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Full Name Here",
   organizationName = "Your Organisation",
   organizationLogo,
@@ -71,11 +78,30 @@ export default function CertificateTemplate44({
       : null;
   const fallbackLogo = organizationLogo;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   return (
     // Fixed 800×600 canvas — width/height must stay inline (Tailwind has no w-[800px] preset)
@@ -270,7 +296,7 @@ export default function CertificateTemplate44({
               style={{ background: teal }}
             />
             <p className="text-[11px] m-0" style={{ color: "black" }}>
-              Date: <strong style={{ color: "black" }}>{formattedDate}</strong>
+              Date: <strong style={{ color: "black" }}>{displayDate}</strong>
             </p>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -13,7 +14,7 @@ interface CertificateTemplate2Props {
   header?: string;
   recipientName?: string;
   description?: string;
-  date: string;
+  date?: string;
   isPreview?: boolean;
   topShapeUrl?: string;
   centerLogoUrl?: string;
@@ -31,6 +32,9 @@ interface CertificateTemplate2Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate2({
@@ -39,6 +43,9 @@ export default function CertificateTemplate2({
   recipientName = "Name Surname",
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   organizationLogo,
   organizationLogos,
   organizationName = "Organization Name",
@@ -66,11 +73,30 @@ export default function CertificateTemplate2({
     }
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"
@@ -163,7 +189,7 @@ export default function CertificateTemplate2({
           </p>
           
 
-          <p className="text-sm text-gray-500 -mt-7 font-bold">{formattedDate}</p>
+          <p className="text-sm text-gray-500 -mt-7 font-bold">{displayDate}</p>
 
           <div className="flex gap-10 w-full items-center justify-center">
             {signatoryName1 && (

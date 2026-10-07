@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef, useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -6,7 +7,7 @@ interface CertificateTemplate39Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -25,6 +26,9 @@ interface CertificateTemplate39Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate39({
@@ -32,6 +36,9 @@ export default function CertificateTemplate39({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName,
   isPreview = false,
   organizationName,
@@ -70,7 +77,32 @@ export default function CertificateTemplate39({
   const background = themeColors?.background ?? "#1a1a1a";
   const text = themeColors?.text ?? "#ffffff";
 
-  return (
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
+
+    return (
     <div
       ref={ref}
       style={{
@@ -473,7 +505,7 @@ export default function CertificateTemplate39({
             className="text-xs font-semibold border px-4 py-2"
             style={{ color: text, borderColor: text }}
           >
-            Held on: {date}
+            Held on: {displayDate}
           </p>
         </div>
 

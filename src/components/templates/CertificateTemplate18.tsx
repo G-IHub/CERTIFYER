@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -11,7 +12,7 @@ interface CertificateTemplate18Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -25,6 +26,9 @@ interface CertificateTemplate18Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate18({
@@ -32,6 +36,9 @@ export default function CertificateTemplate18({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Student Name",
   isPreview = false,
   organizationName = "Genomac Institute Inc.",
@@ -51,11 +58,30 @@ export default function CertificateTemplate18({
   const scale =
     mode === "student" ? "transform-scale-[0.3]" : "transform-scale-100";
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"
@@ -149,7 +175,7 @@ export default function CertificateTemplate18({
                     className="text-lg font-bold"
                     // style={{ color: "#4D4D4D" }}
                   >
-                    {formattedDate || "DATE"}
+                    {displayDate || "DATE"}
                   </div>
                 </div>
               )}

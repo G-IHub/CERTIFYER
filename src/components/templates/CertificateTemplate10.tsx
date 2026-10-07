@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useEffect, useRef } from "react";
 import medal from "../../assets/gold-seal.png";
 import medal2 from "../../assets/red-star-stamp.png";
@@ -8,7 +9,7 @@ interface CertificateTemplate19Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -26,6 +27,7 @@ interface CertificateTemplate19Props {
   endDate?: string;
   dateDisplayMode?: "completion" | "range";
   themeColors?: ThemeColors;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate19({
@@ -48,6 +50,7 @@ export default function CertificateTemplate19({
   mode = "student",
   startDate,
   endDate,
+  dateMode,
   dateDisplayMode = "completion",
   themeColors,
 }: CertificateTemplate19Props) {
@@ -70,28 +73,30 @@ export default function CertificateTemplate19({
   //   }
   // }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
-  // Format start and end dates if in range mode
-  const formattedStartDate = startDate
-    ? new Date(startDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
-
-  const formattedEndDate = endDate
-    ? new Date(endDate).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "";
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   // Determine which logos to use (new logos array or fallback to legacy)
     const logo1 =
@@ -171,7 +176,7 @@ export default function CertificateTemplate19({
           <p className="text-xl uppercase font-bold tracking-widest">
             {courseTitle}
           </p>
-          <p className="-my-7">Held on: {formattedDate}</p>
+          <p className="-my-7">Held on: {displayDate}</p>
 
           {/* Signatures Section */}
           <div className="flex justify-between items-center">

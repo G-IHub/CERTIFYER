@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -7,7 +8,7 @@ interface Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -22,6 +23,9 @@ interface Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate41({
@@ -29,6 +33,9 @@ export default function CertificateTemplate41({
   courseTitle = "Professional Development Programme",
   description,
   date = "2024-01-01",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Full Name Here",
   organizationName = "Your Organisation",
   organizationLogo,
@@ -68,11 +75,30 @@ export default function CertificateTemplate41({
       : null;
   const fallbackLogo = organizationLogo;
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   return (
     <div
@@ -347,7 +373,7 @@ export default function CertificateTemplate41({
           <div style={{ width: 20, height: 2, background: accent }} />
           <p style={{ color: `${textCol}77`, fontSize: 10, margin: 0 }}>
             Awarded on:{" "}
-            <strong style={{ color: textCol }}>{formattedDate}</strong>
+            <strong style={{ color: textCol }}>{displayDate}</strong>
           </p>
         </div>
         {/* Signatures */}

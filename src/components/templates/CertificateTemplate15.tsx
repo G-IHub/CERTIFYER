@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef, useEffect } from "react";
 import medal from "../../assets/iwdAward.png";
 import type { Logo } from "../../App";
@@ -19,6 +20,9 @@ interface CertificateTemplate15Props {
   signatoryTitle2?: string;
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate15({
@@ -26,6 +30,9 @@ export default function CertificateTemplate15({
   courseTitle = "OF APPRECIATION",
   description = "In recognition of your outstanding participation, dedication, and contribution toward the success of the International Women's Day Conference.",
   date = "2026-03-08",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Recipient Name",
   isPreview = false,
   organizationName = "Women Techmakers Ogbomoso",

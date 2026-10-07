@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef, useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -6,7 +7,7 @@ interface CertificateTemplate31Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -22,6 +23,9 @@ interface CertificateTemplate31Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate31({
@@ -29,6 +33,9 @@ export default function CertificateTemplate31({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Student Name",
   isPreview = false,
   organizationName = "Your Organization",
@@ -63,7 +70,32 @@ export default function CertificateTemplate31({
   const logosToDisplay = organizationLogos || [];
   const hasLogos = logosToDisplay.length > 0;
 
-  return (
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
+
+    return (
     <div
       ref={ref}
       style={{
@@ -461,11 +493,7 @@ export default function CertificateTemplate31({
                 fontWeight: 700,
               }}
             >
-              {new Date(date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {displayDate}
             </div>
           </div>
 

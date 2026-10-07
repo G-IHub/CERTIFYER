@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React from "react";
 import { Award, Star } from "lucide-react";
 import type { ThemeColors } from "../../types/theme";
@@ -7,7 +8,7 @@ interface CertificateTemplate6Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -30,6 +31,9 @@ interface CertificateTemplate6Props {
     signatureUrl?: string;
   }>;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate6({
@@ -37,6 +41,9 @@ export default function CertificateTemplate6({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Student Name",
   isPreview = false,
   organizationName = "Your Organization",
@@ -65,11 +72,31 @@ export default function CertificateTemplate6({
   const displayRecipientName = recipientName;
 
   // Format date
-  const formattedDate = new Date(displayIssueDate).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    const rawDate = issueDate || date;
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, rawDate);
+      }
+      if (rawDate) {
+        return formatCertificateDateRange(undefined, undefined, rawDate);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, rawDate);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (rawDate) {
+      return formatCertificateDateRange(undefined, undefined, rawDate);
+    }
+    return "";
+  })();
 
   const containerClass = isPreview
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"
@@ -295,7 +322,7 @@ export default function CertificateTemplate6({
                     className="text-sm font-medium"
                     style={{ color: "#4D4D4D" }}
                   >
-                    {formattedDate || "DATE"}
+                    {displayDate || "DATE"}
                   </div>
                 </div>
               )}

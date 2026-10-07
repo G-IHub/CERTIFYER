@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useEffect, useRef } from "react";
 import type { ThemeColors } from "../../types/theme";
 import type { Logo } from "../../App";
@@ -12,7 +13,7 @@ interface CertificateTemplate14Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -26,6 +27,9 @@ interface CertificateTemplate14Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate14({
@@ -33,6 +37,9 @@ export default function CertificateTemplate14({
   courseTitle,
   description = "For outstanding achievement and remarkable contribution to the program, demonstrating excellence and commitment throughout.",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Name Surname",
   isPreview = false,
   organizationName = "Your Organization",
@@ -66,11 +73,30 @@ export default function CertificateTemplate14({
     };
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   // Determine which logo(s) to use
   const logo1 = organizationLogos && organizationLogos[0]?.url
@@ -328,7 +354,7 @@ export default function CertificateTemplate14({
                     className="text-sm font-medium"
                     style={{ color: "#4D4D4D" }}
                   >
-                    {formattedDate || "DATE"}
+                    {displayDate || "DATE"}
                   </div>
                 </div>
               )}

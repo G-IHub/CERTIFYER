@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useRef, useEffect } from "react";
 import type { Logo } from "../../App";
 import type { ThemeColors } from "../../types/theme";
@@ -6,7 +7,7 @@ interface CertificateTemplate1Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -21,6 +22,9 @@ interface CertificateTemplate1Props {
   mode?: "student" | "template-selection";
   certificateId?: string;
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate1({
@@ -28,6 +32,9 @@ export default function CertificateTemplate1({
   courseTitle,
   description,
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName,
   isPreview = false,
   organizationName,
@@ -69,8 +76,33 @@ export default function CertificateTemplate1({
     : null;
   const fallbackLogo = organizationLogo;
 
+      // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
+
     return (
-      <div
+    <div
         ref={ref}
         style={{
           width: "800px",
@@ -489,7 +521,7 @@ export default function CertificateTemplate1({
               className="text-xs font-semibold border px-4 py-2"
               style={{ borderColor: themeColors?.text ?? "#172554" }}
             >
-              Held on: {date}
+              Held on: {displayDate}
             </p>
           </div>
 

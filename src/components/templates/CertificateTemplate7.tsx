@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import { useEffect } from "react";
 import type { ThemeColors } from "../../types/theme";
 import upperUrl from "../../assets/UpperShape.png";
@@ -11,7 +12,7 @@ interface CertificateTemplate7Props {
   header1?: string;
   // courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   courseTitle?: string;
@@ -26,6 +27,9 @@ interface CertificateTemplate7Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate7({
@@ -34,6 +38,9 @@ export default function CertificateTemplate7({
   // courseTitle,
   description = "This certificate acknowledges your outstanding contribution and dedication to the Design project, showcasing your commitment to excellence, innovation, and teamwork.",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Name Surname",
   isPreview = false,
   courseTitle = "Course Title",
@@ -70,11 +77,30 @@ export default function CertificateTemplate7({
   }, []);
 
   // formatted date
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   // Determine which logo(s) to use
   const logo1 =
@@ -172,7 +198,7 @@ export default function CertificateTemplate7({
             organized by <b>{organizationName}</b>{" "}
           </p>
 
-          <p className="font-bold text-black -mt-4">Date: {formattedDate} </p>
+          <p className="font-bold text-black -mt-4">Date: {displayDate} </p>
 
           <div className="flex gap-10 w-full items-center justify-center z-50 mt-4">
             <div className="space-y-2">

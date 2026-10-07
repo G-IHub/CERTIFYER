@@ -1,3 +1,4 @@
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 import React, { useRef, useEffect } from "react";
 import type { Logo } from "../../App";
 import type { ThemeColors } from "../../types/theme";
@@ -6,7 +7,7 @@ interface CertificateTemplate21Props {
   header: string;
   courseTitle: string;
   description?: string;
-  date: string;
+  date?: string;
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -20,6 +21,9 @@ interface CertificateTemplate21Props {
   signatureUrl2?: string;
   mode?: "student" | "template-selection";
   themeColors?: ThemeColors;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
 }
 
 export default function CertificateTemplate21({
@@ -27,6 +31,9 @@ export default function CertificateTemplate21({
   courseTitle,
   description = "For outstanding achievement in healthcare excellence, medical innovation, and patient care.",
   date,
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Name Surname",
   isPreview = false,
   organizationName = "Medical Institute",
@@ -56,11 +63,30 @@ export default function CertificateTemplate21({
     }
   }, []);
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate);
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date);
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date);
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate);
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date);
+    }
+    return "";
+  })();
 
   const logosToDisplay = organizationLogos || [];
   const hasLogos = logosToDisplay.length > 0;
@@ -258,11 +284,7 @@ export default function CertificateTemplate21({
                 fontFamily: "'Fira Code', monospace",
               }}
             >
-              {new Date(date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}
+              {displayDate}
             </div>
           </div>
 

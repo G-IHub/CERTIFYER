@@ -96,13 +96,30 @@ export default function CertificateTemplate46({
     : header.toUpperCase();
 
   // Date formatting
-  const displayDate =
-    startDate && endDate
-      ? formatCertificateDateRange(startDate, endDate).toUpperCase()
-      : date
-      ? date.toUpperCase()
-      : "11TH - 12TH SEPTEMBER, 2024";
-
+    // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate).toUpperCase();
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date).toUpperCase();
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+      }
+    }
+    if (dateMode === "single") {
+      return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate).toUpperCase();
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+    }
+    return "";
+  })();
   return (
     <div
       className="relative overflow-hidden select-none shadow-xl flex flex-col justify-between"
