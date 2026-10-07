@@ -5,12 +5,16 @@ import patternUrl from "../../assets/Pattern.png";
 import leftDecorUrl from "../../assets/ins_left.png";
 import rightDecorUrl from "../../assets/ins_right.png";
 import ribbonUrl from "../../assets/ins_ribbon.png";
+import { formatCertificateDateRange } from "../../utils/certificateUtils";
 
 interface CertificateTemplate3Props {
   header?: string;
   courseTitle?: string;
   description?: string;
-  date: string;
+  date?: string;
+  startDate?: string;
+  endDate?: string;
+  dateMode?: "single" | "range";
   recipientName?: string;
   isPreview?: boolean;
   organizationName?: string;
@@ -32,6 +36,9 @@ export default function CertificateTemplate3({
   description =
     "This Is To Certify That The Above-Mentioned Individual Has Completed A Three-Months Training In PERSONALIZED RESEARCH TRAINING IN TRANSCRIPTOMINCS Organized by Genomac Services & Consult.",
   date = "March, 2026",
+  startDate,
+  endDate,
+  dateMode,
   recipientName = "Adeade Favour Ololade",
   isPreview = false,
   organizationName = "Genomac Institute Inc",
@@ -52,12 +59,6 @@ export default function CertificateTemplate3({
     ? "w-full mx-auto origin-center overflow-visible flex justify-center"
     : "min-w-[1056px] flex justify-center items-center";
 
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
   // Determine which logo(s) to use
   const logo1 = organizationLogos && organizationLogos[0]?.url
     ? organizationLogos[0]
@@ -66,6 +67,28 @@ export default function CertificateTemplate3({
     ? organizationLogos[1]
     : null;
   const fallbackLogo = organizationLogo;
+
+  // Date formatting
+  const displayDate = (() => {
+    if (dateMode === "range") {
+      if (startDate && endDate) {
+        return formatCertificateDateRange(startDate, endDate).toUpperCase();
+      }
+      if (startDate || endDate) {
+        return formatCertificateDateRange(startDate, endDate, date).toUpperCase();
+      }
+      if (date) {
+        return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+      }
+    }
+    if (startDate && endDate) {
+      return formatCertificateDateRange(startDate, endDate).toUpperCase();
+    }
+    if (date) {
+      return formatCertificateDateRange(undefined, undefined, date).toUpperCase();
+    }
+    return "MARCH, 2026";
+  })();
 
     return (
     <div
@@ -167,7 +190,7 @@ export default function CertificateTemplate3({
               {description}
             </p>
             <p className="p-2 text-xs border font-medium" style={{ color: themeColors?.primary ?? '#581c87', borderColor: themeColors?.primary ?? '#581c87' }}>
-              Held on: {formattedDate}
+              Dated: {displayDate}
             </p>
           </div>
 
