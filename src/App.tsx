@@ -42,6 +42,7 @@ import VerificationPage from "./components/VerificationPage";
 import StorefrontPage from "./components/StorefrontPage";
 import ProductAccessPage from "./components/ProductAccessPage";
 import ProductLandingPage from "./components/ProductLandingPage";
+import ShortLinkRedirect from "./components/ShortLinkRedirect";
 
 const defaultOrgLogo = "https://via.placeholder.com/256x256.png?text=Org+Logo";
 
@@ -961,6 +962,9 @@ export default function App() {
             path="/certificate/*"
             element={<StudentCertificate subsidiaries={organizations} />}
           />
+
+          {/* Short certificate links with custom suffixes - public */}
+          <Route path="/c/:code" element={<ShortLinkRedirect />} />
 
           {/* Certificate verification route - public */}
           <Route

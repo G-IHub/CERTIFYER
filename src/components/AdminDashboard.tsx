@@ -125,6 +125,7 @@ const AnalyticsView = React.lazy(() => import("./AnalyticsView"));
 const OrganizationSettings = React.lazy(() => import("./OrganizationSettings"));
 const MonetizationPage = React.lazy(() => import("./MonetizationPage"));
 const DigitalProductsPage = React.lazy(() => import("./DigitalProductsPage"));
+const ShortLinksView = React.lazy(() => import("./ShortLinksView"));
 import type { Course, Subsidiary, UserProfile } from "../App";
 import {
   LineChart,
@@ -142,6 +143,7 @@ import {
 import { copyToClipboard } from "../utils/clipboard";
 import { certificateApi, testimonialApi } from "../utils/api";
 import { projectId } from "../utils/supabase/info";
+import { createShortLink } from "../utils/shortLinkApi";
 import {
   generateSecureCertificateUrl,
   generateCertificateId,
@@ -1165,7 +1167,15 @@ export default function AdminDashboard({
         organization: genCurrentUserOrganization,
       };
 
-      // Short links are disabled — keep only the secure encrypted URL
+      // Short links — automatically initialize in background
+      createShortLink({
+        organizationId: backendCert.organizationId,
+        courseId: courseSlug,
+        certificateId: backendCert.id,
+        targetUrl: encryptedPath,
+        courseName: genCourseName.trim(),
+        certificateData: certificate,
+      }).catch((e) => console.warn("Auto short link error:", e));
 
       // Add to current session results (for Results tab)
       setGenGeneratedCertificates([certificate]);
@@ -1682,6 +1692,12 @@ export default function AdminDashboard({
                 icon: FileText,
               },
               {
+                id: "short-links",
+                name: "Link Shortener",
+                icon: Link2,
+                badge: "NEW",
+              },
+              {
                 id: "testimonials",
                 name: "Testimonials",
                 icon: MessageSquare,
@@ -1842,6 +1858,12 @@ export default function AdminDashboard({
                     id: "certificates",
                     name: "Certificates",
                     icon: FileText,
+                  },
+                  {
+                    id: "short-links",
+                    name: "Short Links",
+                    icon: Link2,
+                    badge: "NEW",
                   },
                   {
                     id: "testimonials",
@@ -3971,6 +3993,17 @@ export default function AdminDashboard({
                                       </Button>
                                       <Button
                                         size="sm"
+                                        variant="outline"
+                                        className="cursor-pointer border-orange-200 text-orange-700 hover:bg-orange-50"
+                                        onClick={() => {
+                                          setActiveTab("short-links");
+                                        }}
+                                      >
+                                        <Link2 className="w-4 h-4 mr-1.5 text-primary" />
+                                        Custom Link
+                                      </Button>
+                                      <Button
+                                        size="sm"
                                         className="cursor-pointer"
                                         onClick={(e) => {
                                           const fullUrl =
@@ -4300,6 +4333,19 @@ export default function AdminDashboard({
                     accessToken={accessToken}
                   />
                 </React.Suspense>
+              )}
+
+              {activeTab === "short-links" && (
+                <div className="px-4 md:px-8 py-6">
+                  <React.Suspense fallback={<AnalyticsSkeleton />}>
+                    <ShortLinksView
+                      currentOrganization={currentOrganization}
+                      accessToken={accessToken}
+                      allCertificates={allCertificates}
+                      onRefreshCertificates={refreshCertificates}
+                    />
+                  </React.Suspense>
+                </div>
               )}
 
               {/* Templates tab is rendered above inside the Tabs component; avoid duplicate rendering here. */}

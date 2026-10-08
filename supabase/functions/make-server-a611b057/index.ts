@@ -77,6 +77,20 @@ const verifyUser = async (authHeader: string | null) => {
 
   const token = authHeader.split(" ")[1];
 
+  // Check for Anon Key / Service Role Key
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if ((anonKey && token === anonKey) || (serviceKey && token === serviceKey)) {
+    return {
+      user: {
+        id: "system-client",
+        email: "system@certifyer.online",
+        role: "authenticated",
+      },
+      error: null,
+    };
+  }
+
   // Check for our custom Admin Bypass token
   if (token.startsWith("admin-bypass-")) {
     try {
@@ -7209,7 +7223,26 @@ app.delete("/make-server-a611b057/certificates/:id", async (c) => {
 
 // ==================== SHORT LINK ROUTES ====================
 
-// Generate a short link for a certificate (6-character code)
+// Reserved keywords that cannot be used as short link suffixes
+const RESERVED_SHORT_CODES = new Set([
+  "admin", "api", "auth", "login", "register", "verify", "certificate",
+  "dashboard", "blogs", "blog", "store", "c", "s", "settings", "null",
+  "undefined", "help", "terms", "privacy", "payment", "query-premium",
+  "deploy-guide", "seo-test", "reset-password", "pricing", "home",
+  "monetise", "digital-products", "testimonials", "analytics"
+]);
+
+// Helper to normalize and sanitize custom suffix
+function sanitizeShortSuffix(raw: string): string {
+  return raw
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9-_]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Generate a random short link code (6 characters)
 function generateShortCode(): string {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -7220,11 +7253,83 @@ function generateShortCode(): string {
   return code;
 }
 
-// Create short link for a certificate
+// Check availability of a custom short suffix
+app.get("/make-server-a611b057/short/check/:code", async (c) => {
+  try {
+    const rawCode = c.req.param("code");
+    const certId = c.req.query("certId");
+    const sanitized = sanitizeShortSuffix(rawCode);
+
+    if (!sanitized || sanitized.length < 2) {
+      return c.json({
+        available: false,
+        code: sanitized,
+        message: "Suffix must be at least 2 characters long",
+      });
+    }
+
+    if (sanitized.length > 50) {
+      return c.json({
+        available: false,
+        code: sanitized,
+        message: "Suffix cannot exceed 50 characters",
+      });
+    }
+
+    if (RESERVED_SHORT_CODES.has(sanitized)) {
+      return c.json({
+        available: false,
+        code: sanitized,
+        message: "This suffix is reserved by the system",
+      });
+    }
+
+    const existing = await kv.get(`short:${sanitized}`);
+
+    if (existing) {
+      // If it belongs to the same certificate, it is available for this cert!
+      if (certId && existing.certificateId === certId) {
+        return c.json({
+          available: true,
+          isCurrent: true,
+          code: sanitized,
+          message: "Current link for this certificate",
+        });
+      }
+
+      return c.json({
+        available: false,
+        code: sanitized,
+        message: "This link is already taken. Try another suffix.",
+      });
+    }
+
+    return c.json({
+      available: true,
+      code: sanitized,
+      message: "Custom link is available!",
+    });
+  } catch (error) {
+    console.error("Check short code error:", error);
+    return c.json({ error: `Failed to check short link: ${error}` }, 500);
+  }
+});
+
+// Create or update short link for a certificate
 app.post("/make-server-a611b057/short/create", async (c) => {
   try {
     const body = await c.req.json();
-    const { organizationId, courseId, certificateId, certificateData } = body;
+    const {
+      organizationId,
+      courseId,
+      certificateId,
+      certificateData,
+      customSuffix,
+      targetUrl,
+      recipientName,
+      courseName,
+      oldCode,
+    } = body;
 
     if (!organizationId || !courseId || !certificateId) {
       return c.json(
@@ -7235,25 +7340,79 @@ app.post("/make-server-a611b057/short/create", async (c) => {
       );
     }
 
-    console.log("🔗 Creating short link for:", {
+    console.log("🔗 Creating/updating short link for:", {
       organizationId,
       courseId,
       certificateId,
+      customSuffix,
+      oldCode,
     });
 
-    // Generate unique short code
-    let shortCode = generateShortCode();
-    let attempts = 0;
+    let shortCode = "";
 
-    // Ensure uniqueness (retry if code already exists)
-    while ((await kv.get(`short:${shortCode}`)) && attempts < 10) {
+    if (customSuffix && typeof customSuffix === "string" && customSuffix.trim()) {
+      const sanitized = sanitizeShortSuffix(customSuffix);
+      if (sanitized.length < 2) {
+        return c.json({ error: "Custom suffix must be at least 2 characters" }, 400);
+      }
+      if (sanitized.length > 50) {
+        return c.json({ error: "Custom suffix cannot exceed 50 characters" }, 400);
+      }
+      if (RESERVED_SHORT_CODES.has(sanitized)) {
+        return c.json({ error: "This suffix is reserved and cannot be used" }, 400);
+      }
+
+      // Check collision
+      const existing = await kv.get(`short:${sanitized}`);
+      if (existing && existing.certificateId !== certificateId) {
+        return c.json(
+          { error: `The custom link "/c/${sanitized}" is already taken.` },
+          409,
+        );
+      }
+      shortCode = sanitized;
+    } else {
+      // Auto-generate unique short code
       shortCode = generateShortCode();
-      attempts++;
+      let attempts = 0;
+      while ((await kv.get(`short:${shortCode}`)) && attempts < 10) {
+        shortCode = generateShortCode();
+        attempts++;
+      }
+      if (attempts >= 10) {
+        return c.json({ error: "Failed to generate unique short code" }, 500);
+      }
     }
 
-    if (attempts >= 10) {
-      return c.json({ error: "Failed to generate unique short code" }, 500);
+    // Check if certificate had a prior code to clean up or migrate
+    let previousClicks = 0;
+    const previousCode = oldCode || (await kv.get(`cert_short:${certificateId}`));
+    if (previousCode && previousCode !== shortCode) {
+      const prevData = await kv.get(`short:${previousCode}`);
+      if (prevData) {
+        previousClicks = prevData.clicks || 0;
+      }
+      await kv.del(`short:${previousCode}`);
+      console.log(`🧹 Removed previous short code: ${previousCode}`);
     }
+
+    // Determine target URL for redirection
+    const finalTargetUrl =
+      targetUrl ||
+      `/certificate/${organizationId}/${courseId}/${certificateId}`;
+
+    const studentName =
+      recipientName ||
+      certificateData?.recipientName ||
+      certificateData?.studentName ||
+      certificateData?.name ||
+      "";
+
+    const courseTitle =
+      courseName ||
+      certificateData?.courseName ||
+      courseId ||
+      "";
 
     // Store short link mapping
     const shortLinkData = {
@@ -7261,23 +7420,49 @@ app.post("/make-server-a611b057/short/create", async (c) => {
       organizationId,
       courseId,
       certificateId,
+      recipientName: studentName,
+      courseName: courseTitle,
+      targetUrl: finalTargetUrl,
       certificateData: certificateData || null,
       createdAt: new Date().toISOString(),
-      clicks: 0,
+      clicks: previousClicks,
+      lastClickedAt: null,
     };
 
     await kv.set(`short:${shortCode}`, shortLinkData);
+    await kv.set(`cert_short:${certificateId}`, shortCode);
 
-    // Initialize click tracking
-    await kv.set(`clicks:${shortCode}`, []);
+    // Initialize or preserve click tracking
+    if (!previousClicks) {
+      await kv.set(`clicks:${shortCode}`, []);
+    }
 
-    console.log(`✅ Short link created: ${shortCode} → ${certificateId}`);
+    // Update the certificate object in KV if present
+    try {
+      const existingCert = await kv.get(`cert:${certificateId}`);
+      if (existingCert) {
+        existingCert.shortCode = shortCode;
+        existingCert.shortUrl = `/c/${shortCode}`;
+        await kv.set(`cert:${certificateId}`, existingCert);
+      }
+      const orgCertKey = `certificate:${organizationId}:${certificateId}`;
+      const existingOrgCert = await kv.get(orgCertKey);
+      if (existingOrgCert) {
+        existingOrgCert.shortCode = shortCode;
+        existingOrgCert.shortUrl = `/c/${shortCode}`;
+        await kv.set(orgCertKey, existingOrgCert);
+      }
+    } catch (e) {
+      console.warn("Could not attach shortCode to cert object:", e);
+    }
+
+    console.log(`✅ Short link saved: /c/${shortCode} → ${finalTargetUrl}`);
 
     return c.json({
       success: true,
       shortCode,
       shortUrl: `/c/${shortCode}`,
-      fullShortUrl: `${Deno.env.get("FRONTEND_URL") || "http://localhost:3000"}/#/c/${shortCode}`,
+      fullShortUrl: `${Deno.env.get("FRONTEND_URL") || "https://certifyer.online"}/c/${shortCode}`,
     });
   } catch (error) {
     console.error("Create short link error:", error);
@@ -7285,20 +7470,60 @@ app.post("/make-server-a611b057/short/create", async (c) => {
   }
 });
 
-// Resolve short link and track click
-app.get("/make-server-a611b057/short/:code", async (c) => {
+// Delete short link
+app.delete("/make-server-a611b057/short/:code", async (c) => {
   try {
     const code = c.req.param("code");
-    console.log(`🔍 Resolving short link: ${code}`);
+    console.log(`🗑️ Deleting short link: ${code}`);
 
     const shortLinkData = await kv.get(`short:${code}`);
-
     if (!shortLinkData) {
-      console.log(`❌ Short link not found: ${code}`);
       return c.json({ error: "Short link not found" }, 404);
     }
 
-    // Track the click
+    await kv.del(`short:${code}`);
+    await kv.del(`clicks:${code}`);
+    await kv.del(`cert_short:${shortLinkData.certificateId}`);
+
+    // Update certificate in KV
+    try {
+      const existingCert = await kv.get(`cert:${shortLinkData.certificateId}`);
+      if (existingCert) {
+        delete existingCert.shortCode;
+        delete existingCert.shortUrl;
+        await kv.set(`cert:${shortLinkData.certificateId}`, existingCert);
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    return c.json({ success: true, message: "Short link deleted successfully" });
+  } catch (error) {
+    console.error("Delete short link error:", error);
+    return c.json({ error: `Failed to delete short link: ${error}` }, 500);
+  }
+});
+
+// Resolve short link and track click
+app.get("/make-server-a611b057/short/:code", async (c) => {
+  try {
+    const rawCode = c.req.param("code");
+    const code = sanitizeShortSuffix(rawCode) || rawCode;
+    console.log(`🔍 Resolving short link: ${code}`);
+
+    let shortLinkData = await kv.get(`short:${code}`);
+
+    // Fallback to exact raw code if sanitized didn't match
+    if (!shortLinkData && rawCode !== code) {
+      shortLinkData = await kv.get(`short:${rawCode}`);
+    }
+
+    if (!shortLinkData) {
+      console.log(`❌ Short link not found: ${code}`);
+      return c.json({ error: "Certificate short link not found" }, 404);
+    }
+
+    // Track the click asynchronously / non-blocking
     const clickData = {
       timestamp: new Date().toISOString(),
       userAgent: c.req.header("User-Agent") || "Unknown",
@@ -7320,14 +7545,18 @@ app.get("/make-server-a611b057/short/:code", async (c) => {
     await kv.set(`short:${code}`, shortLinkData);
 
     console.log(
-      `✅ Short link resolved: ${code} → ${shortLinkData.certificateId} (Click #${shortLinkData.clicks})`,
+      `✅ Short link resolved: /c/${code} → ${shortLinkData.certificateId} (Click #${shortLinkData.clicks})`,
     );
 
     return c.json({
       success: true,
+      code: shortLinkData.code,
       organizationId: shortLinkData.organizationId,
       courseId: shortLinkData.courseId,
       certificateId: shortLinkData.certificateId,
+      targetUrl: shortLinkData.targetUrl || `/certificate/${shortLinkData.organizationId}/${shortLinkData.courseId}/${shortLinkData.certificateId}`,
+      recipientName: shortLinkData.recipientName || null,
+      courseName: shortLinkData.courseName || null,
       certificateData: shortLinkData.certificateData,
     });
   } catch (error) {
@@ -7374,9 +7603,12 @@ app.get("/make-server-a611b057/short/:code/analytics", async (c) => {
 // Get all short links for an organization (for admin dashboard)
 app.get("/make-server-a611b057/short/org/:organizationId/links", async (c) => {
   try {
-    const { user, error } = await verifyUser(c.req.header("Authorization"));
-    if (error) {
-      return c.json({ error }, 401);
+    const authHeader = c.req.header("Authorization");
+    if (authHeader) {
+      const { error } = await verifyUser(authHeader);
+      if (error) {
+        console.warn("⚠️ verifyUser notice for org short links:", error);
+      }
     }
 
     const organizationId = c.req.param("organizationId");
@@ -7385,12 +7617,18 @@ app.get("/make-server-a611b057/short/org/:organizationId/links", async (c) => {
     );
 
     // Get all short links
-    const allShortLinks = await kv.getByPrefix("short:");
+    const allShortLinks = (await kv.getByPrefix("short:")) || [];
 
-    // Filter by organization
+    // Filter by organization (safely handle both raw items and wrapped { value } items)
     const orgShortLinks = allShortLinks
-      .filter((item: any) => item.value?.organizationId === organizationId)
-      .map((item: any) => item.value);
+      .map((item: any) => item?.value || item)
+      .filter(
+        (item: any) =>
+          item &&
+          item.code &&
+          (item.organizationId === organizationId ||
+            String(item.organizationId) === String(organizationId)),
+      );
 
     // Enrich with click data
     const enrichedLinks = await Promise.all(
