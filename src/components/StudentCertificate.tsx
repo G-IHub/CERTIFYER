@@ -687,10 +687,11 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         <div
           id="export-root"
           style={{
-            width: "1000px",
+            width: "800px",
             height: "600px",
             background: "#ffffff",
             overflow: "hidden",
+            position: "relative",
           }}
         >
           <CertificateRenderer
@@ -709,7 +710,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
             endDate={certificate.endDate}
             dateMode={certificate.dateMode}
             recipientName={displayName}
-            isPreview={false}
+            isPreview={true}
             mode="student"
             organizationName={orgData?.name}
             organizationLogo={orgData?.logo}
@@ -733,14 +734,16 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         </div>,
       );
 
-      await new Promise((r) => setTimeout(r, 50));
-      const target = (container.querySelector('#export-root [class*="w-[1000px]"][class*="h-[600px]"]') as HTMLElement) || (container.querySelector("#export-root") as HTMLElement) || container;
+      await new Promise((r) => setTimeout(r, 100));
+      const target = (container.querySelector('#export-root [data-certificate-wrapper]') as HTMLElement) ||
+                     (container.querySelector('#export-root') as HTMLElement) ||
+                     container;
       try { await sanitizeImagesForExport(target as HTMLElement); } catch (e) {}
       await waitForImages(target as HTMLElement);
 
       const measuredRect = (target as HTMLElement).getBoundingClientRect();
-      const measuredWidth = Math.max(1, Math.round(measuredRect.width));
-      const measuredHeight = Math.max(1, Math.round(measuredRect.height));
+      const measuredWidth = Math.max(1, Math.round(measuredRect.width)) || 800;
+      const measuredHeight = Math.max(1, Math.round(measuredRect.height)) || 600;
 
       container.style.width = `${measuredWidth}px`;
       container.style.height = `${measuredHeight}px`;
@@ -749,14 +752,15 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
       try {
         const disabled = disableCrossOriginStyleSheets();
         try {
-          const pr = Math.min(200, window.devicePixelRatio || 1);
+          const pr = Math.min(2, window.devicePixelRatio || 1);
+          const pixelRatio = pr > 1 ? pr : 2;
           dataUrl = await toJpeg(target as HTMLElement, {
             cacheBust: true,
             backgroundColor: "#ffffff",
             width: measuredWidth,
             height: measuredHeight,
-            pixelRatio: pr,
-            quality: .0,
+            pixelRatio: pixelRatio,
+            quality: 0.95,
           });
 
           const cropElem = (target.querySelector(":scope > *") as HTMLElement) || target;
@@ -765,10 +769,17 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
             const cropRect = cropElem.getBoundingClientRect();
             const offsetX = cropRect.left - containerRect.left;
             const offsetY = cropRect.top - containerRect.top;
-            try {
-              dataUrl = await cropDataUrl(dataUrl, offsetX * pr, offsetY * pr, cropRect.width * pr, cropRect.height * pr);
-            } catch (e) {
-              console.warn("Cropping offscreen image failed:", e);
+            if (
+              Math.abs(offsetX) > 2 ||
+              Math.abs(offsetY) > 2 ||
+              Math.abs(cropRect.width - containerRect.width) > 5 ||
+              Math.abs(cropRect.height - containerRect.height) > 5
+            ) {
+              try {
+                dataUrl = await cropDataUrl(dataUrl, offsetX * pixelRatio, offsetY * pixelRatio, cropRect.width * pixelRatio, cropRect.height * pixelRatio);
+              } catch (e) {
+                console.warn("Cropping offscreen image failed:", e);
+              }
             }
           }
         } finally {
