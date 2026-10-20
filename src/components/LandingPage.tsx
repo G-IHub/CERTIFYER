@@ -20,7 +20,7 @@ export default function LandingPage() {
         description="Generate, manage, and verify professional certificates for your organization. Multi-tenant SaaS with customizable templates, real-time previews, secure verification, and bulk email distribution."
         type="website"
       />
-      <div className="bg-linear-to-b from-[#FFCB9E52] to-[#FFFBF8] font-['Inter'] min-h-screen relative overflow-hidden">
+      <div className="bg-linear-to-b from-[#FFCB9E52] to-[#FFFBF8] dark:from-gray-950 dark:to-gray-900 font-['Inter'] min-h-screen relative overflow-hidden text-gray-900 dark:text-gray-100 transition-colors">
         <div className="">
           <div className="absolute blur-sm -top-26 -left-30 bg-linear-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
           <div className="absolute blur-sm top-20 -left-40 bg-linear-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />

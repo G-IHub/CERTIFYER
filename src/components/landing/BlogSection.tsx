@@ -32,14 +32,14 @@ export default function BlogSection() {
   }
 
   return (
-    <section className="py-16 px-4 bg-white relative z-10">
+    <section className="py-16 px-4 bg-white dark:bg-gray-950 relative z-10 transition-colors">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             Latest from Our Blog
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Stay updated with the latest insights, tips, and news about
             certificate management
           </p>
@@ -51,13 +51,13 @@ export default function BlogSection() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-gray-100 rounded-lg overflow-hidden animate-pulse"
+                className="bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden animate-pulse"
               >
-                <div className="w-full h-48 bg-gray-200"></div>
+                <div className="w-full h-48 bg-gray-200 dark:bg-gray-700"></div>
                 <div className="p-6">
-                  <div className="h-6 bg-gray-200 rounded mb-3"></div>
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded mb-3"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3"></div>
                 </div>
               </div>
             ))}
@@ -67,10 +67,10 @@ export default function BlogSection() {
             {blogs.map((blog) => (
               <article
                 key={blog.id}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col"
+                className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col"
               >
                 {/* Blog Image */}
-                <div className="w-full h-48 bg-gray-100 overflow-hidden">
+                <div className="w-full h-48 bg-gray-100 dark:bg-gray-800 overflow-hidden">
                   {blog.image ? (
                     <img
                       src={blog.image}
@@ -78,7 +78,7 @@ export default function BlogSection() {
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-50">
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-50 dark:from-orange-950/40 dark:to-orange-900/20">
                       <span className="text-4xl">📝</span>
                     </div>
                   )}
@@ -87,7 +87,7 @@ export default function BlogSection() {
                 {/* Blog Content */}
                 <div className="p-6 flex-1 flex flex-col">
                   {/* Meta Info */}
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
                     <div className="flex items-center gap-1">
                       <User className="w-4 h-4" />
                       <span>{blog.author}</span>
@@ -99,14 +99,14 @@ export default function BlogSection() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold mb-3 line-clamp-2 hover:text-[#FF7700] transition-colors">
+                  <h3 className="text-xl font-bold mb-3 line-clamp-2 hover:text-[#FF7700] transition-colors text-gray-900 dark:text-gray-100">
                     <Link to={`/blog/${blog.id}`}>
                       {decodeHtmlEntities(blog.title)}
                     </Link>
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-gray-600 mb-4 line-clamp-3 flex-1">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 flex-1">
                     {decodeHtmlEntities(blog.excerpt)}
                   </p>
 

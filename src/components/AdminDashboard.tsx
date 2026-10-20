@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { isOrgPremium } from "../utils/subscriptionUtils";
+import { ThemeToggle } from "./ThemeToggle";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import {
   Dialog,
@@ -1586,15 +1587,15 @@ export default function AdminDashboard({
         enabled={!!currentOrganization?.id && !!accessToken}
       />
 
-      <div className="flex h-screen bg-gray-50 overflow-hidden">
+      <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden text-gray-900 dark:text-gray-100 transition-colors">
         {/* Left Sidebar Navigation - Hidden on Mobile */}
         <aside
           className={`${
             navCollapsed ? "w-20" : "w-64"
-          } bg-white border-r border-gray-200 flex-col transition-all duration-300 ease-in-out relative hidden md:flex overflow-y-auto`}
+          } bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-col transition-all duration-300 ease-in-out relative hidden md:flex overflow-y-auto`}
         >
           {/* Logo and Company Info */}
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-800">
             <div
               className={`flex items-center ${
                 navCollapsed ? "justify-center" : "gap-3"
@@ -1602,7 +1603,7 @@ export default function AdminDashboard({
             >
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center cursor-default overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center cursor-default overflow-hidden flex-shrink-0">
                     <img
                       src={certifyerLogo}
                       alt="Certifyer"
@@ -1616,10 +1617,10 @@ export default function AdminDashboard({
               </Tooltip>
               {!navCollapsed && (
                 <div className="overflow-hidden">
-                  <h1 className="font-bold text-gray-900 truncate">
+                  <h1 className="font-bold text-gray-900 dark:text-gray-100 truncate">
                     Certifyer
                   </h1>
-                  <p className="text-xs text-gray-500 truncate">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                     Certificate Platform
                   </p>
                 </div>
@@ -1628,9 +1629,9 @@ export default function AdminDashboard({
 
             {/* User Info */}
             {!navCollapsed && (
-              <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-lg">
                 <div className="flex-1 overflow-hidden">
-                  <p className="text-sm font-medium text-gray-900 truncate">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                     {user.username}
                   </p>
                   <div className="flex items-center gap-1">
@@ -1638,7 +1639,7 @@ export default function AdminDashboard({
                       src={currentOrganization?.logo}
                       className="w-8 mt-1 "
                     />
-                    <p className="text-xs text-gray-500 truncate">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                       {currentOrganization?.name || user.company}
                     </p>
                   </div>
@@ -1660,9 +1661,9 @@ export default function AdminDashboard({
                 }
               >
                 {navCollapsed ? (
-                  <ChevronRight className="w-5 h-5 text-black hover:text-gray-400" />
+                  <ChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" />
                 ) : (
-                  <ChevronLeft className="w-5 h-5 text-black hover:text-gray-400" />
+                  <ChevronLeft className="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white" />
                 )}
               </button>
             </TooltipTrigger>
@@ -1741,8 +1742,8 @@ export default function AdminDashboard({
                         navCollapsed ? "justify-center" : "gap-3"
                       } px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         activeTab === item.id
-                          ? "bg-primary/5 text-primary"
-                          : "text-gray-700 hover:bg-gray-50"
+                          ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
                       <Icon className="w-5 h-5 flex-shrink-0" />
@@ -1767,12 +1768,12 @@ export default function AdminDashboard({
           </nav>
 
           {/* Sign Out Button */}
-          <div className="p-4 border-t border-gray-200 h-16 bg-black">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800 h-16 bg-black">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
-                  className={`w-full text-gray-600 bg-black hover:text-red-600 hover:border-orange-400 hover:bg-black transition-colors hover:cursor-pointer ${
+                  className={`w-full text-gray-300 bg-black hover:text-red-400 hover:border-orange-400 hover:bg-black transition-colors hover:cursor-pointer ${
                     navCollapsed ? "px-2 hover:cursor-pointer" : ""
                   }`}
                   onClick={() => {
@@ -1805,12 +1806,12 @@ export default function AdminDashboard({
 
         {/* Mobile Navigation Sheet */}
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetContent side="left" className="w-72 p-0">
-            <div className="flex flex-col h-full bg-white">
+          <SheetContent side="left" className="w-72 p-0 border-r border-gray-200 dark:border-gray-800">
+            <div className="flex flex-col h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
               {/* Logo and Company Info */}
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                  <div className="w-10 h-10 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
                     <img
                       src={certifyerLogo}
                       alt="Certifyer"
@@ -1818,22 +1819,22 @@ export default function AdminDashboard({
                     />
                   </div>
                   <div>
-                    <h1 className="font-bold text-gray-900">Certifyer</h1>
-                    <p className="text-xs text-gray-500">
+                    <h1 className="font-bold text-gray-900 dark:text-gray-100">Certifyer</h1>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       Certificate Platform
                     </p>
                   </div>
                 </div>
 
                 {/* User Info */}
-                <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-lg">
                   <div className="flex-1 overflow-hidden">
-                    <p className="text-sm font-medium text-gray-900 truncate">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                       {user.username}
                     </p>
                     <div className="flex items-center gap-1">
                       <Building2 className="w-3 h-3 text-primary flex-shrink-0" />
-                      <p className="text-xs text-gray-500 truncate">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {currentOrganization?.name || user.company}
                       </p>
                     </div>
@@ -1910,8 +1911,8 @@ export default function AdminDashboard({
                       }}
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         activeTab === item.id
-                          ? "bg-primary/5 text-primary"
-                          : "text-gray-700 hover:bg-gray-50"
+                          ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
                       <Icon className="w-5 h-5 flex-shrink-0" />
@@ -1927,10 +1928,10 @@ export default function AdminDashboard({
               </nav>
 
               {/* Sign Out Button */}
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-gray-200 dark:border-gray-800">
                 <Button
                   variant="outline"
-                  className="w-full text-gray-600 hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors"
+                  className="w-full text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-800 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                   onClick={() => {
                     if (window.confirm("Are you sure you want to sign out?")) {
                       toast.success("Signing out...");
@@ -1949,42 +1950,30 @@ export default function AdminDashboard({
         </Sheet>
 
         {/* Main Content Area */}
-        <main className="flex-1 flex flex-col overflow-hidden">
+        <main className="flex-1 flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-950 transition-colors">
           {/* Top Header Bar */}
-          <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4 flex-shrink-0">
+          <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-4 md:px-8 py-4 flex-shrink-0 transition-colors">
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="md:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6 text-gray-600" />
+                <Menu className="w-6 h-6 text-gray-600 dark:text-gray-300" />
               </button>
 
-              {/* <div className="flex-1 md:flex-none">
-                <h2 className="text-lg md:text-2xl font-bold text-gray-900 truncate">
-                  {activeTab === "overview" && "Dashboard Overview"}
-                  {activeTab === "templates" && "Certificate Templates"}
-                  {activeTab === "certificates" && "Certificate Management"}
-                  {activeTab === "testimonials" && "Student Testimonials"}
-                  {activeTab === "analytics" && "Analytics & Reports"}
-                  {activeTab === "billing" && "Billing & Subscription"}
-                  {activeTab === "settings" && "Platform Settings"}
-                </h2>
-                <p className="text-xs md:text-sm text-gray-500 mt-1 truncate">
-                  {currentOrganization?.name || "Loading..."}
-                </p>
-              </div> */}
-
-              {currentOrganization && (
-                <div className="flex items-center gap-2">
-                  <img
-                    src={currentOrganization.logo}
-                    alt={currentOrganization.name}
-                    className="h-10 w-auto rounded"
-                  />
-                </div>
-              )}
+              <div className="flex items-center gap-3 ml-auto">
+                <ThemeToggle />
+                {currentOrganization && (
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={currentOrganization.logo}
+                      alt={currentOrganization.name}
+                      className="h-10 w-auto rounded border border-gray-200 dark:border-gray-700 bg-white"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
@@ -2057,10 +2046,10 @@ export default function AdminDashboard({
                             </div>
                           </div>
                           <div className="flex-1 text-center md:text-left">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                               Complete Your Setup
                             </h3>
-                            <p className="text-sm text-gray-600 mb-4">
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                               Add your organization name to get started with
                               creating courses and issuing professional certificates.
                             </p>
@@ -2541,19 +2530,19 @@ export default function AdminDashboard({
                             <Label>Certificate Template *</Label>
                             <div
                               onClick={() => setActiveTab("templates")}
-                              className="flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50/30 cursor-pointer transition-all group"
+                              className="flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-indigo-50/30 dark:hover:bg-indigo-950/20 cursor-pointer transition-all group"
                             >
                               {genSelectedTemplate ? (
                                 <>
-                                  <div className="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 transition-colors">
-                                    <FileText className="w-6 h-6 text-indigo-600" />
+                                  <div className="flex-shrink-0 w-12 h-12 bg-indigo-100 dark:bg-indigo-950/60 rounded-lg flex items-center justify-center group-hover:bg-indigo-200 dark:group-hover:bg-indigo-900/60 transition-colors">
+                                    <FileText className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="font-semibold text-gray-900">
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">
                                       {genSelectedTemplateName ||
                                         "Selected Template"}
                                     </p>
-                                    <p className="text-sm text-gray-500 capitalize">
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
                                       {genSelectedTemplate} style
                                     </p>
                                   </div>
@@ -2565,21 +2554,21 @@ export default function AdminDashboard({
                                       e.stopPropagation();
                                       setActiveTab("templates");
                                     }}
-                                    className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+                                    className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-950/40"
                                   >
                                     Change
                                   </Button>
                                 </>
                               ) : (
                                 <>
-                                  <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-100 transition-colors">
-                                    <Upload className="w-6 h-6 text-gray-400 group-hover:text-indigo-600 transition-colors" />
+                                  <div className="flex-shrink-0 w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-indigo-100 dark:group-hover:bg-indigo-950/50 transition-colors">
+                                    <Upload className="w-6 h-6 text-gray-400 dark:text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
                                   </div>
                                   <div className="flex-1">
-                                    <p className="font-semibold text-gray-900">
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">
                                       Choose a certificate template
                                     </p>
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
                                       Select from previously used or browse all
                                       templates
                                     </p>
@@ -2994,14 +2983,14 @@ export default function AdminDashboard({
                               <Label className="text-sm font-semibold text-gray-800">
                                 Certificate Date <span className="text-red-500">*</span>
                               </Label>
-                              <div className="inline-flex rounded-lg border border-gray-200 p-0.5 bg-gray-50 text-xs">
+                              <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 p-0.5 bg-gray-50 dark:bg-gray-800 text-xs">
                                 <button
                                   type="button"
                                   onClick={() => setGenDateMode("single")}
                                   className={`px-3 py-1 rounded-md font-medium transition-all ${
                                     genDateMode === "single"
-                                      ? "bg-white text-indigo-600 shadow-xs"
-                                      : "text-gray-600 hover:text-gray-900"
+                                      ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-xs"
+                                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                   }`}
                                 >
                                   Single Date
@@ -3011,8 +3000,8 @@ export default function AdminDashboard({
                                   onClick={() => setGenDateMode("range")}
                                   className={`px-3 py-1 rounded-md font-medium transition-all ${
                                     genDateMode === "range"
-                                      ? "bg-white text-indigo-600 shadow-xs"
-                                      : "text-gray-600 hover:text-gray-900"
+                                      ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-xs"
+                                      : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                                   }`}
                                 >
                                   Date Range (Start – End)
@@ -3219,7 +3208,7 @@ export default function AdminDashboard({
                                 </div>
                                 <div>
                                   <h4
-                                    className={`text-base font-semibold transition-colors ${!genRestrictDownload ? "text-gray-900" : ""}`}
+                                    className={`text-base font-semibold transition-colors ${!genRestrictDownload ? "text-gray-900 dark:text-gray-100" : ""}`}
                                     style={
                                       genRestrictDownload
                                         ? { color: "var(--primary)" }
@@ -3228,7 +3217,7 @@ export default function AdminDashboard({
                                   >
                                     Restrict Certificate Downloads
                                   </h4>
-                                  <p className="text-xs text-gray-500 mt-0.5">
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                     Only allow specific email addresses to
                                     download certificates
                                   </p>
@@ -3593,7 +3582,7 @@ export default function AdminDashboard({
                                 </div>
                                 <div>
                                   <h4
-                                    className={`text-base font-semibold transition-colors ${!genMonetizationEnabled ? "text-gray-900" : ""}`}
+                                    className={`text-base font-semibold transition-colors ${!genMonetizationEnabled ? "text-gray-900 dark:text-gray-100" : ""}`}
                                     style={
                                       genMonetizationEnabled
                                         ? { color: "var(--primary)" }
@@ -3602,7 +3591,7 @@ export default function AdminDashboard({
                                   >
                                     Monetize this certificate
                                   </h4>
-                                  <p className="text-xs text-gray-500 mt-0.5">
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                     Require payment before students can access
                                     and download
                                   </p>
@@ -4193,18 +4182,18 @@ export default function AdminDashboard({
                                   {/* Certificate Info */}
                                   <div className="space-y-3 pr-6">
                                     <div>
-                                      <h3 className="font-semibold text-gray-900">
+                                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">
                                         {cert.courseName ||
                                           "Certificate of Completion"}
                                       </h3>
-                                      <p className="text-sm text-gray-500 mt-1">
+                                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                         {cert.certificateHeader ||
                                           cert.studentName ||
                                           "Certificate Link"}
                                       </p>
                                     </div>
 
-                                    <div className="flex items-center gap-1 text-xs text-gray-500">
+                                    <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                                       <Calendar className="w-3 h-3" />
                                       <span>
                                         {new Date(
@@ -4219,7 +4208,7 @@ export default function AdminDashboard({
                                   </div>
 
                                   {/* Actions */}
-                                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                                     <Button
                                       variant="outline"
                                       size="sm"
@@ -4274,11 +4263,11 @@ export default function AdminDashboard({
                         </div>
                       ) : (
                         <div className="text-center py-12">
-                          <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                          <h3 className="text-lg font-semibold mb-2 text-gray-900">
+                          <FileText className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
                             No Certificates Yet
                           </h3>
-                          <p className="text-gray-600 mb-6">
+                          <p className="text-gray-600 dark:text-gray-400 mb-6">
                             Get started by generating your first certificate
                           </p>
                           <Button onClick={() => setActiveTab("generate")}>

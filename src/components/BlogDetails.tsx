@@ -71,16 +71,16 @@ export default function BlogDetails() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-gray-50 py-10 lg:-mt-30">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-10 lg:-mt-30 transition-colors">
           <div className="max-w-4xl mx-auto px-4">
             <div className="animate-pulse">
-              <div className="h-12 bg-gray-200 rounded mb-4"></div>
-              <div className="h-6 bg-gray-200 rounded w-1/3 mb-6"></div>
-              <div className="w-full h-100 bg-gray-200 rounded"></div>
+              <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded mb-4"></div>
+              <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded w-1/3 mb-6"></div>
+              <div className="w-full h-100 bg-gray-200 dark:bg-gray-800 rounded"></div>
               <div className="mt-6 space-y-4">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-5/6"></div>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function BlogDetails() {
 
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex items-center justify-center transition-colors">
         <div className="text-center">
           <h2 className="text-xl font-semibold">Post not found</h2>
           <div className="mt-4">
@@ -114,22 +114,22 @@ export default function BlogDetails() {
         type="article"
       />
       <Navbar />
-      <div className="min-h-screen bg-gray-50 py-10 lg:-mt-30">
-        <div className="my-8 ml-20">
-            <Link
-              to="/blogs"
-              className="inline-flex items-center gap-2 px-4 py-2 text-gray-500 font-semibold rounded-md hover:text-gray-700 "
-            >
-              &larr; Back to Blog
-            </Link>
-          </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-10 lg:-mt-30 transition-colors">
+        <div className="my-8 max-w-4xl mx-auto px-4">
+          <Link
+            to="/blogs"
+            className="inline-flex items-center gap-2 px-4 py-2 text-gray-500 dark:text-gray-400 font-semibold rounded-md hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+          >
+            &larr; Back to Blog
+          </Link>
+        </div>
         <div className="max-w-4xl mx-auto px-4"> 
-          <div className="">
+          <div>
             <div className="text-start">
-              <h1 className="text-5xl font-bold">
+              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100">
                 {decodeHtmlEntities(post.title)}
               </h1>
-              <div className="text-sm text-gray-500 mt-2 mb-6">
+              <div className="text-sm text-gray-500 dark:text-gray-400 mt-2 mb-6">
                 <span>{post.author}</span> •{" "}
                 <span>{new Date(post.date).toLocaleDateString()}</span>
               </div>
@@ -141,23 +141,23 @@ export default function BlogDetails() {
             />
 
             {/* WordPress HTML Content */}
-            <div className="mt-6 text-gray-800">
+            <div className="mt-6 text-gray-800 dark:text-gray-200">
               <div
-                className="prose prose-xl max-w-none text-2xl text-gray-700 tracking-wide leading-loose
-                  prose-headings:font-bold prose-headings:text-gray-900
+                className="prose prose-xl dark:prose-invert max-w-none text-2xl text-gray-700 dark:text-gray-300 tracking-wide leading-loose
+                  prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-gray-100
                   prose-h1:text-5xl prose-h1:mt-8 prose-h1:mb-4
                   prose-h2:text-4xl prose-h2:mt-6 prose-h2:mb-3
                   prose-h3:text-3xl prose-h3:mt-5 prose-h3:mb-2
-                  prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4
-                  prose-a:text-[#FF7700] prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-gray-900 prose-strong:font-semibold
+                  prose-p:text-lg prose-p:leading-relaxed prose-p:mb-4 prose-p:text-gray-700 dark:prose-p:text-gray-300
+                  prose-a:text-[#FF7700] dark:prose-a:text-orange-400 prose-a:no-underline hover:prose-a:underline
+                  prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-strong:font-semibold
                   prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
                   prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-4
-                  prose-li:text-lg prose-li:mb-1
+                  prose-li:text-lg prose-li:mb-1 prose-li:text-gray-700 dark:prose-li:text-gray-300
                   prose-blockquote:border-l-4 prose-blockquote:border-[#FF7700] 
-                  prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600
-                  prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded
-                  prose-pre:bg-gray-800 prose-pre:text-white prose-pre:p-4 prose-pre:rounded-lg
+                  prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400
+                  prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-2 prose-code:py-1 prose-code:rounded
+                  prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900 prose-pre:text-white prose-pre:p-4 prose-pre:rounded-lg
                   prose-img:rounded-lg prose-img:shadow-md"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />

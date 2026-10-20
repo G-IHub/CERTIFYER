@@ -180,7 +180,7 @@ export default function CertificateTemplate3({
             >
               {recipientName}
             </p>
-            <p className="text-xs font-bold -mt-2">
+            <p className="text-xs font-bold text-black -mt-2">
               For successfully participating in the fully funded program on:
             </p>
             <p className="text-xl font-bold -mt-3" style={{ color: themeColors?.primary ?? '#581c87' }}>
@@ -197,7 +197,7 @@ export default function CertificateTemplate3({
           <div className="flex gap-10 w-full items-center justify-center mt-10">
             {signatoryName1 && (
               <div className="space-y-2">
-                <p className="border-b w-40 text-center tracking-wide font-[Great_Vibes]">
+                <p className="border-b border-black/40 w-40 text-center tracking-wide font-[Great_Vibes]">
                   {signatureUrl1 && (
                     <img
                       src={signatureUrl1}
@@ -211,7 +211,7 @@ export default function CertificateTemplate3({
                   <p className="text-center text-sm font-medium" style={{ color: themeColors?.primary ?? '#581c87' }}>
                     {signatoryName1}
                   </p>
-                  <p className="text-center text-[9px] italic font-medium">
+                  <p className="text-center text-[9px] italic font-medium text-black">
                     {signatoryTitle1}
                   </p>
                 </div>
@@ -220,7 +220,7 @@ export default function CertificateTemplate3({
 
             {signatoryName2 && (
               <div className="space-y-2">
-                <p className="border-b w-40 text-center tracking-wide font-[Great_Vibes]">
+                <p className="border-b border-black/40 w-40 text-center tracking-wide font-[Great_Vibes]">
                   {signatureUrl2 && (
                     <img
                       src={signatureUrl2}
@@ -234,7 +234,7 @@ export default function CertificateTemplate3({
                   <p className="text-center text-sm font-medium" style={{ color: themeColors?.primary ?? '#581c87' }}>
                     {signatoryName2}
                   </p>
-                  <p className="text-center text-[9px] italic font-medium">
+                  <p className="text-center text-[9px] italic font-medium text-black">
                     {signatoryTitle2}
                   </p>
                 </div>

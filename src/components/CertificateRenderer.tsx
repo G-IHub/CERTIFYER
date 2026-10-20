@@ -317,17 +317,39 @@ export default function CertificateRenderer({
 
   const rendered = renderTemplate();
 
-  if (!showQR) return rendered;
+  if (!showQR) {
+    return (
+      <div
+        data-certificate-wrapper="true"
+        className="certificate-sandbox light"
+        style={{
+          position: "relative",
+          width: "fit-content",
+          height: "fit-content",
+          display: "inline-block",
+          colorScheme: "light",
+          color: "#111827",
+          backgroundColor: "transparent",
+        }}
+      >
+        {rendered}
+      </div>
+    );
+  }
 
   // Overlay QR badge — bottom-right corner, on top of every template
   return (
     <div
       data-certificate-wrapper="true"
+      className="certificate-sandbox light"
       style={{
         position: "relative",
         width: "fit-content",
         height: "fit-content",
         display: "inline-block",
+        colorScheme: "light",
+        color: "#111827",
+        backgroundColor: "transparent",
       }}
     >
       {rendered}

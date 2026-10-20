@@ -57,19 +57,19 @@ const Story: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] font-['Inter'] min-h-screen relative overflow-hidden">
+    <div className="bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] dark:from-gray-950 dark:to-gray-900 font-['Inter'] min-h-screen relative overflow-hidden transition-colors text-gray-900 dark:text-gray-100">
       {/* Decorative background elements */}
       <div className="">
-        <div className="absolute blur-sm -top-26 -left-30 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
-        <div className="absolute blur-sm top-20 -left-40 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
-        <div className="absolute blur-sm -top-10 -left-33 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
-        <div className="absolute blur-sm -top-37 -left-21 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
-        <div className="absolute blur-sm -top-37 left-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45" />
-        <div className="absolute blur-sm -top-26 -right-30 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45" />
-        <div className="absolute blur-sm top-20 -right-40 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45" />
-        <div className="absolute blur-sm -top-10 -right-33 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45" />
-        <div className="absolute blur-sm -top-37 -right-21 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45" />
-        <div className="absolute blur-sm -top-37 right-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45" />
+        <div className="absolute blur-sm -top-26 -left-30 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm top-20 -left-40 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-10 -left-33 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-37 -left-21 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-37 left-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 -rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-26 -right-30 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm top-20 -right-40 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-10 -right-33 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-37 -right-21 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45 dark:opacity-20" />
+        <div className="absolute blur-sm -top-37 right-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-100 w-12 rotate-45 dark:opacity-20" />
       </div>
 
       <div className="relative z-40">
@@ -80,10 +80,10 @@ const Story: React.FC = () => {
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="space-y-4 flex flex-col items-center">
               {/* <img src={logo} alt="logo" className="w-16" /> */}
-              <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-gray-900">
+              <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                 Our Story
               </h1>
-              <p className="text-[#696969] text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+              <p className="text-[#696969] dark:text-gray-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
                 From a simple idea to a global platform empowering organizations
                 to celebrate achievements through beautiful, secure
                 certificates.
@@ -99,23 +99,17 @@ const Story: React.FC = () => {
                   <span>Get Started</span>
                 </span>
               </button>
-              {/* <button
-                onClick={() => navigate("/")}
-                className="border-2 border-orange-400 text-[#FF7700] px-6 py-3 rounded-full cursor-pointer hover:scale-105 transition-transform duration-300 font-semibold"
-              >
-                Back to Home
-              </button> */}
             </div>
           </div>
 
           {/* How Certifyer Began */}
-          <div className="w-full bg-[#FAFAFA]">
+          <div className="w-full bg-[#FAFAFA] dark:bg-gray-900/60">
             <div className="max-w-4xl mx-auto text-center space-y-8 py-10">
               <div className="space-y-4">
-                <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900">
+                <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                   How Certifyer Began
                 </h1>
-                <p className="text-[#696969] text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
+                <p className="text-[#696969] dark:text-gray-400 text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
                   Certifyer was born out of a simple but recurring challenge:
                   issuing certificates should not be stressful. Across
                   trainings, workshops, webinars, and community courses, we
@@ -134,10 +128,10 @@ const Story: React.FC = () => {
           {/* The Journey */}
           <div className="max-w-4xl mx-auto text-center space-y-8 py-10">
             <div className="space-y-4">
-              <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900">
+              <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                 The Journey
               </h1>
-              <div className="text-[#696969] text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
+              <div className="text-[#696969] dark:text-gray-400 text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
                 <p className="mb-4 text-left">
                   The journey of Certifyer started with a clear goal: make
                   certificate generation fast, professional, and accessible to
@@ -149,15 +143,15 @@ const Story: React.FC = () => {
                   templates to reusing outdated designs. These insights shaped
                   our decision to focus on:
                 </p>
-                <ul className="list-disc pl-6 space-y-2 marker:text-[#696969]">
+                <ul className="list-disc pl-6 space-y-2 marker:text-[#696969] dark:marker:text-gray-400">
                   <li>
-                    <strong>Speed and simplicity</strong>
+                    <strong className="text-gray-900 dark:text-gray-100">Speed and simplicity</strong>
                   </li>
                   <li>
-                    <strong>Professional, ready-made templates</strong>
+                    <strong className="text-gray-900 dark:text-gray-100">Professional, ready-made templates</strong>
                   </li>
                   <li>
-                    <strong>A workflow that requires no design skills</strong>
+                    <strong className="text-gray-900 dark:text-gray-100">A workflow that requires no design skills</strong>
                   </li>
                 </ul>
                 <p>
@@ -173,10 +167,10 @@ const Story: React.FC = () => {
           {/* Values Section */}
           <section className="py-10 md:py-16 px-4 md:px-28 w-full md:w-auto">
             <div className="max-w-5xl mx-auto">
-              <h2 className="font-extrabold text-3xl md:text-4xl text-center mb-4">
+              <h2 className="font-extrabold text-3xl md:text-4xl text-center mb-4 text-gray-900 dark:text-gray-100">
                 Our Core Values
               </h2>
-              <p className="text-[#696969] text-base text-center md:text-lg">
+              <p className="text-[#696969] dark:text-gray-400 text-base text-center md:text-lg">
                 These principles guide everything we do
               </p>
 
@@ -184,13 +178,13 @@ const Story: React.FC = () => {
                 {values.map((value, index) => (
                   <div
                     key={index}
-                    className="bg-white p-6 rounded-lg border-2 border-[#FFE0C6] hover:border-[#FF7700] transition-colors duration-300"
+                    className="bg-white dark:bg-gray-900 p-6 rounded-lg border-2 border-[#FFE0C6] dark:border-gray-800 hover:border-[#FF7700] dark:hover:border-orange-500 transition-colors duration-300"
                   >
                     <div className="text-3xl mb-3">{value.icon}</div>
-                    <h3 className="text-xl font-extrabold text-gray-900 mb-2">
+                    <h3 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">
                       {value.title}
                     </h3>
-                    <p className="text-[#696969] leading-relaxed text-sm">
+                    <p className="text-[#696969] dark:text-gray-400 leading-relaxed text-sm">
                       {value.description}
                     </p>
                   </div>
@@ -201,22 +195,22 @@ const Story: React.FC = () => {
 
           {/* Mission & Vision Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 w-full max-w-4xl py-10">
-            <div className="space-y-4 p-8 rounded-lg bg-white border-2 border-[#FFE0C6] hover:border-[#FF7700] transition-colors duration-300">
-              <h2 className="font-extrabold text-2xl text-gray-900">
+            <div className="space-y-4 p-8 rounded-lg bg-white dark:bg-gray-900 border-2 border-[#FFE0C6] dark:border-gray-800 hover:border-[#FF7700] dark:hover:border-orange-500 transition-colors duration-300">
+              <h2 className="font-extrabold text-2xl text-gray-900 dark:text-gray-100">
                 Our Mission
               </h2>
-              <p className="text-[#696969] text-base leading-relaxed">
+              <p className="text-[#696969] dark:text-gray-400 text-base leading-relaxed">
                 To empower organizations worldwide to celebrate and showcase
                 learner achievements through beautiful, secure, and trackable
                 certificates that drive visibility, credibility, and impact.
               </p>
             </div>
 
-            <div className="space-y-4 p-8 rounded-lg bg-white border-2 border-[#FFE0C6] hover:border-[#FF7700] transition-colors duration-300">
-              <h2 className="font-extrabold text-2xl text-gray-900">
+            <div className="space-y-4 p-8 rounded-lg bg-white dark:bg-gray-900 border-2 border-[#FFE0C6] dark:border-gray-800 hover:border-[#FF7700] dark:hover:border-orange-500 transition-colors duration-300">
+              <h2 className="font-extrabold text-2xl text-gray-900 dark:text-gray-100">
                 Our Vision
               </h2>
-              <p className="text-[#696969] text-base leading-relaxed">
+              <p className="text-[#696969] dark:text-gray-400 text-base leading-relaxed">
                 A world where every achievement is celebrated, verified, and
                 leveraged to create opportunities. We envision certificates as
                 powerful tools for learner empowerment and organizational
@@ -228,35 +222,35 @@ const Story: React.FC = () => {
           {/* The Process */}
           <div className="max-w-4xl py-10 mx-auto text-center space-y-8">
             <div className="space-y-4">
-              <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900">
+              <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                 The Process
               </h1>
-              <div className="text-[#696969] text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
+              <div className="text-[#696969] dark:text-gray-400 text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
                 <p className="mb-4 text-left">
                   Certifyer was developed using a thoughtful and iterative
                   process:
                 </p>
 
-                <ol className="list-decimal pl-6 space-y-2 marker:text-[#696969]">
+                <ol className="list-decimal pl-6 space-y-2 marker:text-[#696969] dark:marker:text-gray-400">
                   <li className="mb-2">
-                    <strong>Research & Ideation:</strong> We identified the core
+                    <strong className="text-gray-900 dark:text-gray-100">Research & Ideation:</strong> We identified the core
                     needs of trainers, educators, and event organizers and
                     defined the essential features required for a reliable
                     certificate platform.
                   </li>
                   <li className="mb-2">
-                    <strong>Design & User Experience:</strong> We focused on
+                    <strong className="text-gray-900 dark:text-gray-100">Design & User Experience:</strong> We focused on
                     clean layouts, clear typography, and a simple interface to
                     ensure certificates look credible and official, while the
                     platform remains easy to use.
                   </li>
                   <li className="mb-2">
-                    <strong>Development & Testing:</strong> Built with modern
+                    <strong className="text-gray-900 dark:text-gray-100">Development & Testing:</strong> Built with modern
                     web technologies, Certifyer was tested across devices to
                     ensure performance, responsiveness, and reliability.
                   </li>
                   <li className="mb-2">
-                    <strong>Feedback & Improvement:</strong> Early users and
+                    <strong className="text-gray-900 dark:text-gray-100">Feedback & Improvement:</strong> Early users and
                     internal testing helped refine the platform, improve
                     usability, and prepare it for launch.
                   </li>
@@ -265,58 +259,19 @@ const Story: React.FC = () => {
             </div>
           </div>
 
-          {/* The Team */}
-          {/* <div className="max-w-4xl mx-auto text-center space-y-8">
-            <div className="space-y-4">
-              <h1 className="font-extrabold text-4xl md:text-6xl tracking-tight text-gray-900">
-                The Team
-              </h1>
-              <div className="text-[#696969] text-left text-lg md:text-xl leading-relaxed max-w-7xl mx-auto">
-                <p className="mb-4 text-left">
-                  Certifyer is built by a small but dedicated team passionate
-                  about education, technology, and digital innovation.
-                </p>
-
-                <p>We combine experience in:</p>
-
-                <ol className="list-decimal pl-6 space-y-2 marker:text-[#696969]">
-                  <li className="mb-2">
-                    <strong>Software Engineering</strong>
-                  </li>
-                  <li className="mb-2">
-                    <strong>Product Developemnt</strong>
-                  </li>
-                  <li className="mb-2">
-                    <strong>Digital education and training</strong>
-                  </li>
-                  <li className="mb-2">
-                    <strong>Community building</strong>
-                  </li>
-                </ol>
-
-                <p>
-                  Backed by Genomac Holdings and supported by the innovation
-                  ecosystem at G‑iHub, our team is committed to building tools
-                  that empower learning, recognition, and professional growth.
-                </p>
-              </div>
-            </div>
-          </div> */}
-
           {/* Why We're Building Certifyer */}
           <div className="max-w-4xl mx-auto text-left py-20 space-y-8 mt-10">
             <div className="space-y-4">
-              <h1 className="font-extrabold text-center text-4xl md:text-6xl tracking-tight text-gray-900">
+              <h1 className="font-extrabold text-center text-4xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                 Why We're Building Certifyer
               </h1>
-              <p>Why We're Building Certifyer</p>
-              <p className="">
+              <p className="text-gray-700 dark:text-gray-300">
                 Certificates are more than documents — they represent effort,
                 learning, and achievement. Certifyer exists to help individuals
                 and organizations deliver that recognition with clarity,
                 professionalism, and ease.
               </p>
-              <p>
+              <p className="text-gray-700 dark:text-gray-300">
                 As we continue to grow, our focus remains on building reliable
                 tools that support digital learning, skill development, and
                 scalable education systems.
@@ -327,11 +282,13 @@ const Story: React.FC = () => {
           {/* Looking Ahead */}
           <div className="max-w-4xl mx-auto text-left py-20 space-y-8 mt-10">
             <div className="space-y-4">
-              <h1 className="font-extrabold text-center text-4xl md:text-6xl tracking-tight text-gray-900">
+              <h1 className="font-extrabold text-center text-4xl md:text-6xl tracking-tight text-gray-900 dark:text-gray-100">
                 Looking Ahead
               </h1>
-              <p>Certifyer is just getting started.</p>
-              <p className="">
+              <p className="text-gray-700 dark:text-gray-300">
+                Certifyer is just getting started.
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
                 Our roadmap includes expanding features, supporting larger
                 organizations, and integrating deeper tools for verification,
                 branding, and automation. We’re building with the future of

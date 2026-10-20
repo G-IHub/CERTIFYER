@@ -8,29 +8,29 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const FAQ: React.FC = () => {
   return (
-    <section className="bg-white px-6 sm:px-6 md:px-28 py-8 md:py-16">
+    <section className="bg-white dark:bg-gray-950 px-6 sm:px-6 md:px-28 py-8 md:py-16 transition-colors">
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-8 md:mb-12">
-          <h2 className="font-extrabold text-2xl sm:text-3xl md:text-4xl leading-tight">
+          <h2 className="font-extrabold text-2xl sm:text-3xl md:text-4xl leading-tight text-gray-900 dark:text-gray-100">
             Frequently Asked Questions
           </h2>
-          <p className="leading-7 text-sm sm:text-base text-gray-600">
+          <p className="leading-7 text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Can't find the answers you're looking for? Reach out to our customer
             support team.
           </p>
         </div>
 
-        <div className="mx-auto w-full max-w-3xl divide-y-2 divide-gray-200 border-b-2 border-gray-200 transition-all duration-300 rounded-lg overflow-hidden bg-white">
+        <div className="mx-auto w-full max-w-3xl divide-y-2 divide-gray-200 dark:divide-gray-800 border-b-2 border-gray-200 dark:border-gray-800 transition-all duration-300 rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-sm">
           <Disclosure as="div" className="p-4 sm:p-6">
             <DisclosureButton className="group flex w-full items-center justify-between text-left">
-              <span className="leading-6 font-medium text-sm sm:text-base">
+              <span className="leading-6 font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100">
                 Do I need design skills to create certificates?
               </span>
-              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 group-data-open:rotate-180 transform transition-transform duration-200" />
+              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 dark:text-gray-400 group-data-open:rotate-180 transform transition-transform duration-200" />
             </DisclosureButton>
             <DisclosurePanel
               transition
-              className="mt-3 text-sm sm:text-base text-gray-600 origin-top transition duration-200 ease-out"
+              className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 origin-top transition duration-200 ease-out"
             >
               Not at all! Simply choose a ready-made template, upload your logo,
               and customize the details. You'll have a beautiful certificate in
@@ -40,14 +40,14 @@ const FAQ: React.FC = () => {
 
           <Disclosure as="div" className="p-4 sm:p-6">
             <DisclosureButton className="group flex w-full items-center justify-between text-left">
-              <span className="leading-6 font-medium text-sm sm:text-base">
+              <span className="leading-6 font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100">
                 Are the certificates downloadable or shareable?
               </span>
-              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 group-data-open:rotate-180 transform transition-transform duration-200" />
+              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 dark:text-gray-400 group-data-open:rotate-180 transform transition-transform duration-200" />
             </DisclosureButton>
             <DisclosurePanel
               transition
-              className="mt-3 text-sm sm:text-base text-gray-600 origin-top transition duration-200 ease-out"
+              className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 origin-top transition duration-200 ease-out"
             >
               Certificates can be downloaded as PNGs and shared via unique
               links. You can also embed them in emails or post them to social
@@ -57,14 +57,14 @@ const FAQ: React.FC = () => {
 
           <Disclosure as="div" className="p-4 sm:p-6">
             <DisclosureButton className="group flex w-full items-center justify-between text-left">
-              <span className="leading-6 font-medium text-sm sm:text-base">
+              <span className="leading-6 font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100">
                 Can I add signatories or my organization's logo?
               </span>
-              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 group-data-open:rotate-180 transform transition-transform duration-200" />
+              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 dark:text-gray-400 group-data-open:rotate-180 transform transition-transform duration-200" />
             </DisclosureButton>
             <DisclosurePanel
               transition
-              className="mt-3 text-sm sm:text-base text-gray-600 origin-top transition duration-200 ease-out"
+              className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 origin-top transition duration-200 ease-out"
             >
               Yes. Upload your organization's logo and add multiple signatories
               with custom titles. Signatures can be added as images or via
@@ -74,12 +74,12 @@ const FAQ: React.FC = () => {
 
           <Disclosure as="div" className="p-4 sm:p-6">
             <DisclosureButton className="group flex w-full items-center justify-between text-left" >
-              <span className="leading-6 font-medium text-sm sm:text-base" >
+              <span className="leading-6 font-medium text-sm sm:text-base text-gray-900 dark:text-gray-100" >
                 Can I get feedback from my students?
               </span>
-              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 group-data-open:rotate-180 transform transition duration-200" />
+              <ChevronDownIcon className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 dark:text-gray-400 group-data-open:rotate-180 transform transition duration-200" />
             </DisclosureButton>
-            <DisclosurePanel transition className="mt-3 text-sm sm:text-base text-gray-600 origin-top transition duration-200 ease-out">
+            <DisclosurePanel transition className="mt-3 text-sm sm:text-base text-gray-600 dark:text-gray-400 origin-top transition duration-200 ease-out">
               Yes. Students can optionally send feedback on a course, and you can retrieve and consequently download them for other uses in the Testimonials tab.
             </DisclosurePanel>
           </Disclosure>

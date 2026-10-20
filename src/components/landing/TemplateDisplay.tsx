@@ -99,12 +99,12 @@ const TemplateDisplay = () => {
   const CurrentTemplate = templates[currentIndex].component;
 
   return (
-    <section className='bg-white px-6 md:px-28 py-16 flex flex-col justify-center items-center gap-8'>
+    <section className='bg-white dark:bg-gray-950 px-6 md:px-28 py-16 flex flex-col justify-center items-center gap-8 transition-colors'>
       <div className='text-center space-y-4 w-full'>
-        <h2 className='font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight text-gray-900'>
+        <h2 className='font-extrabold text-2xl sm:text-3xl md:text-4xl tracking-tight text-gray-900 dark:text-gray-100'>
           Beautiful Certificate Templates
         </h2>
-        <p className='text-[#696969] leading-6 text-sm md:text-base max-w-2xl mx-auto'>
+        <p className='text-[#696969] dark:text-gray-400 leading-6 text-sm md:text-base max-w-2xl mx-auto'>
           Choose from our collection of professionally designed templates. Customize to match your brand.
         </p>
       </div>
@@ -112,9 +112,9 @@ const TemplateDisplay = () => {
       {/* Carousel */}
       <div className='w-full max-w-5xl relative flex items-center justify-center'>
         {/* Template Display */}
-        <div className='bg-gray-50 rounded-sm md:rounded-lg p-4 sm:p-8 shadow-md border border-gray-200 flex justify-center items-center min-h-64 sm:min-h-96'>
+        <div className='bg-gray-50 dark:bg-gray-900 rounded-sm md:rounded-lg p-4 sm:p-8 shadow-md border border-gray-200 dark:border-gray-800 flex justify-center items-center min-h-64 sm:min-h-96 transition-colors'>
           <TemplateErrorBoundary>
-            <div className="scale-[0.5] md:scale-[1] origin-center">
+            <div className="scale-[0.5] md:scale-[1] origin-center certificate-sandbox light" data-certificate-wrapper="true">
             <PreviewWrapper  origin="center" wrapperSize={2}>
               <CurrentTemplate
                 {...sampleData}

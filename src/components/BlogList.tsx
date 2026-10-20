@@ -31,20 +31,20 @@ export default function BlogList() {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen bg-gray-50 py-10">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-10 transition-colors">
           <div className="max-w-6xl mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-6">Blog</h1>
+            <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">Blog</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden animate-pulse"
+                  className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-lg shadow-sm overflow-hidden animate-pulse"
                 >
-                  <div className="w-full h-40 bg-gray-200"></div>
+                  <div className="w-full h-40 bg-gray-200 dark:bg-gray-800"></div>
                   <div className="p-4">
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-3"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded mb-3"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-1/2"></div>
                   </div>
                 </div>
               ))}
@@ -58,13 +58,13 @@ export default function BlogList() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 py-10 lg:-mt-30">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-10 lg:-mt-30 transition-colors">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-6">Blog</h1>
+          <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">Blog</h1>
 
           {blogs.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">
                 No blog posts available yet. Check back soon!
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function BlogList() {
               {blogs.map((post) => (
                 <article
                   key={post.id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col"
+                  className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow"
                 >
                   {post.image ? (
                     <img
@@ -82,25 +82,25 @@ export default function BlogList() {
                       className="w-full h-40 object-cover"
                     />
                   ) : (
-                    <div className="w-full h-40 flex items-center justify-center bg-linear-to-br from-orange-100 to-orange-50">
+                    <div className="w-full h-40 flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-50 dark:from-orange-950/40 dark:to-orange-900/20">
                       <span className="text-4xl">📝</span>
                     </div>
                   )}
                   <div className="p-4 flex-1 flex flex-col">
-                    <h2 className="text-lg font-semibold mb-2 truncate">
+                    <h2 className="text-lg font-semibold mb-2 truncate text-gray-900 dark:text-gray-100">
                       {decodeHtmlEntities(post.title)}
                     </h2>
-                    <p className="text-sm text-gray-600 mb-3 flex-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex-1">
                       {decodeHtmlEntities(post.excerpt)}
                     </p>
-                    <div className="flex items-center justify-between pt-3">
-                      <div className="text-xs text-gray-500">
+                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
                         <div>{post.author}</div>
                         <div>{new Date(post.date).toLocaleDateString()}</div>
                       </div>
                       <Link
                         to={`/blog/${post.id}`}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-white rounded-md text-sm"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary hover:bg-primary/90 text-white rounded-md text-sm transition-colors"
                       >
                         Read More
                       </Link>

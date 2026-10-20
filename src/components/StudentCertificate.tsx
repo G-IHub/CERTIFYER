@@ -38,6 +38,7 @@ import {
 import { toast } from "sonner";
 import CertificateTemplate from "./CertificateTemplate";
 import CertificateRenderer from "./CertificateRenderer";
+import { ThemeToggle } from "./ThemeToggle";
 import type { Subsidiary, Logo } from "../App";
 import { copyToClipboard } from "../utils/clipboard";
 import { certificateApi, templateApi } from "../utils/api";
@@ -669,11 +670,13 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     container.style.top = "0";
     container.style.opacity = "0";
     container.style.pointerEvents = "none";
-    container.style.width = "1000px";
+    container.style.width = "800px";
     container.style.height = "600px";
     container.style.padding = "0";
     container.style.margin = "0";
     container.style.zIndex = "-1";
+    container.className = "light";
+    container.style.colorScheme = "light";
     document.body.appendChild(container);
 
     const root = createRoot(container);
@@ -686,12 +689,16 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
       root.render(
         <div
           id="export-root"
+          data-certificate-wrapper="true"
+          className="certificate-sandbox light"
           style={{
             width: "800px",
             height: "600px",
             background: "#ffffff",
             overflow: "hidden",
             position: "relative",
+            colorScheme: "light",
+            color: "#111827",
           }}
         >
           <CertificateRenderer
@@ -1001,12 +1008,12 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center transition-colors">
         <Card className="w-96">
           <CardContent className="flex items-center justify-center p-8">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading certificate...</p>
+              <p className="text-gray-600 dark:text-gray-400">Loading certificate...</p>
             </div>
           </CardContent>
         </Card>
@@ -1016,12 +1023,12 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
 
   if (!certificate) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center transition-colors">
         <Card className="w-96">
           <CardContent className="text-center p-8">
             <Award className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Certificate Not Found</h2>
-            <p className="text-gray-600 mb-4">The certificate you're looking for doesn't exist or may have been removed.</p>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Certificate Not Found</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">The certificate you're looking for doesn't exist or may have been removed.</p>
             <Button variant="outline" onClick={() => window.history.back()}>Go Back</Button>
           </CardContent>
         </Card>
@@ -1119,7 +1126,10 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
     };
 
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4" key="name-form-container">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4 relative transition-colors" key="name-form-container">
+        <div className="absolute top-4 right-4 z-10">
+          <ThemeToggle />
+        </div>
         <Card className="w-full max-w-md">
           <CardContent className="p-8">
             <div className="text-center mb-6">
@@ -1128,54 +1138,54 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
               ) : (
                 <Award className="w-16 h-16 text-primary mx-auto mb-4" />
               )}
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Complete Your Certificate</h2>
-              <p className="text-gray-600">For <span className="font-semibold">{courseName}</span> from {orgName}</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Complete Your Certificate</h2>
+              <p className="text-gray-600 dark:text-gray-400">For <span className="font-semibold text-gray-900 dark:text-gray-200">{courseName}</span> from {orgName}</p>
             </div>
             {certificate.restrictDownload && (
-              <Alert className="mb-4 border-orange-300 bg-orange-50">
-                <Shield className="h-4 w-4 text-orange-600" />
-                <AlertDescription className="text-sm text-orange-800">
+              <Alert className="mb-4 border-orange-300 dark:border-orange-800 bg-orange-50 dark:bg-orange-950/40">
+                <Shield className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                <AlertDescription className="text-sm text-orange-800 dark:text-orange-300">
                   This certificate has restricted access. You must use an approved email address to view and download it.
                 </AlertDescription>
               </Alert>
             )}
             {certificate.monetizationEnabled && certificate.paymentStatus !== "paid" && (
               <>
-                <Alert className="mb-2 border-orange-300 bg-orange-50">
-                  <DollarSign className="h-4 w-4 text-orange-600" />
-                  <AlertDescription className="text-sm text-orange-800">
+                <Alert className="mb-2 border-orange-300 dark:border-orange-800 bg-orange-50 dark:bg-orange-950/40">
+                  <DollarSign className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                  <AlertDescription className="text-sm text-orange-800 dark:text-orange-300">
                     This certificate requires payment. {certificate.certificatePriceMinor ? `₦${((certificate.certificatePriceMinor) / 100).toLocaleString("en-NG", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}` : ""}
                   </AlertDescription>
                 </Alert>
                 {!showRecovery ? (
                   <button type="button" onClick={() => setShowRecovery(true)} className="text-xs text-orange-500 hover:underline mb-3 block">Already paid? Enter your payment reference</button>
                 ) : (
-                  <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200 space-y-2">
-                    <p className="text-xs font-medium text-gray-700">Enter your Paystack reference (starts with CTFY_)</p>
+                  <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+                    <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Enter your Paystack reference (starts with CTFY_)</p>
                     <div className="flex gap-2">
-                      <input type="text" value={recoveryRef} onChange={e => setRecoveryRef(e.target.value)} placeholder="CTFY_..." className="flex-1 text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                      <input type="text" value={recoveryRef} onChange={e => setRecoveryRef(e.target.value)} placeholder="CTFY_..." className="flex-1 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                       <button type="button" onClick={handleRecovery} disabled={recovering} className="px-3 py-2 text-sm bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:opacity-60">{recovering ? "Checking..." : "Verify"}</button>
                     </div>
-                    <button type="button" onClick={() => setShowRecovery(false)} className="text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+                    <button type="button" onClick={() => setShowRecovery(false)} className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">Cancel</button>
                   </div>
                 )}
               </>
             )}
             <form onSubmit={handleFormSubmit} className="space-y-4" key="certificate-name-form">
               <div>
-                <label htmlFor="studentName" className="block text-sm font-medium text-gray-700 mb-2">Full Name <span className="text-red-500">*</span></label>
-                <input id="studentName" type="text" value={enteredName} onChange={(e) => setEnteredName(e.target.value)} placeholder="Enter your full name" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" autoFocus disabled={isSubmitting} required />
+                <label htmlFor="studentName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name <span className="text-red-500">*</span></label>
+                <input id="studentName" type="text" value={enteredName} onChange={(e) => setEnteredName(e.target.value)} placeholder="Enter your full name" className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500" autoFocus disabled={isSubmitting} required />
               </div>
               <div>
-                <label htmlFor="studentEmail" className="block text-sm font-medium text-gray-700 mb-2">Email Address <span className="text-red-500">*</span></label>
-                <input id="studentEmail" type="email" value={enteredEmail} onChange={(e) => setEnteredEmail(e.target.value)} placeholder="your.email@example.com" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" disabled={isSubmitting} required />
+                <label htmlFor="studentEmail" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address <span className="text-red-500">*</span></label>
+                <input id="studentEmail" type="email" value={enteredEmail} onChange={(e) => setEnteredEmail(e.target.value)} placeholder="your.email@example.com" className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500" disabled={isSubmitting} required />
               </div>
-              <div className="border-t pt-4 mt-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Your Feedback (Optional)</h3>
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Your Feedback (Optional)</h3>
                 <div className="space-y-4">
                   <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                    <select id="title" value={enteredTitle} onChange={(e) => setEnteredTitle(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-white" disabled={isSubmitting}>
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
+                    <select id="title" value={enteredTitle} onChange={(e) => setEnteredTitle(e.target.value)} className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" disabled={isSubmitting}>
                       <option value="">Select title</option>
                       <option value="Mr">Mr</option>
                       <option value="Miss">Miss</option>
@@ -1185,12 +1195,12 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">Your Organization/Institution/Affiliation</label>
-                    <input id="organization" type="text" value={enteredOrganization} onChange={(e) => setEnteredOrganization(e.target.value)} placeholder="e.g., ABC University, XYZ Corporation" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" disabled={isSubmitting} />
+                    <label htmlFor="organization" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Organization/Institution/Affiliation</label>
+                    <input id="organization" type="text" value={enteredOrganization} onChange={(e) => setEnteredOrganization(e.target.value)} placeholder="e.g., ABC University, XYZ Corporation" className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500" disabled={isSubmitting} />
                   </div>
                   <div>
-                    <label htmlFor="impact" className="block text-sm font-medium text-gray-700 mb-2">Impact</label>
-                    <textarea id="impact" value={enteredImpact} onChange={(e) => setEnteredImpact(e.target.value)} placeholder="Share your experience..." rows={3} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none" disabled={isSubmitting} />
+                    <label htmlFor="impact" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Impact</label>
+                    <textarea id="impact" value={enteredImpact} onChange={(e) => setEnteredImpact(e.target.value)} placeholder="Share your experience..." rows={3} className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none placeholder:text-gray-400 dark:placeholder:text-gray-500" disabled={isSubmitting} />
                   </div>
                 </div>
               </div>
@@ -1230,18 +1240,19 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors">
+        <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex items-center gap-4">
                 {orgData?.logo && <img src={orgData.logo} alt={orgData.name} className="h-10 w-auto" />}
                 <div>
-                  <h1 className="text-lg font-bold text-gray-900">{orgData?.name || "Certificate"}</h1>
-                  <p className="text-sm text-gray-500">Digital Certificate</p>
+                  <h1 className="text-lg font-bold text-gray-900 dark:text-gray-100">{orgData?.name || "Certificate"}</h1>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Digital Certificate</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
+                <ThemeToggle />
                 <Badge className={getStatusColor(certificate.status || "valid")}>
                   {(certificate.status || "valid").toUpperCase()}
                 </Badge>
@@ -1264,12 +1275,15 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                       {/* Certificate capture target — watermark is outside this ref */}
                       <div
                         ref={certificateRef}
-                        className={`flex justify-center items-center transition-all duration-300 ${devToolsOpen ? 'blur-md select-none opacity-50' : ''}`}
+                        className={`certificate-sandbox light flex justify-center items-center transition-all duration-300 ${devToolsOpen ? 'blur-md select-none opacity-50' : ''}`}
                         style={{
                           width: '800px',
                           height: '600px',
                           userSelect: 'none',
                           WebkitTouchCallout: 'none' as any,
+                          colorScheme: 'light',
+                          color: '#111827',
+                          backgroundColor: '#ffffff',
                         }}
                       >
                         <CertificateRenderer
@@ -1377,14 +1391,14 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                     <p>Completed: {formatDate(certificate.completionDate)}</p>
                   </div>
                   {showFullDetails && (
-                    <div className="mt-4 pt-4 border-t space-y-3 text-sm">
+                    <div className="mt-4 pt-4 border-t dark:border-gray-800 space-y-3 text-sm">
                       <div>
-                        <span className="text-gray-600">Issued On:</span>
+                        <span className="text-gray-600 dark:text-gray-400">Issued On:</span>
                         <p>{formatDate(certificate.issuedDate)}</p>
                       </div>
                       {certificate.verificationCode && (
                         <div>
-                          <span className="text-gray-600">
+                          <span className="text-gray-600 dark:text-gray-400">
                             Verification Code:
                           </span>
                           <p className="font-mono text-xs">
@@ -1393,7 +1407,7 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
                         </div>
                       )}
                       <div>
-                        <span className="text-gray-600">Downloads:</span>
+                        <span className="text-gray-600 dark:text-gray-400">Downloads:</span>
                         <p className="font-medium">
                           {certificate.downloadCount || 0} times
                         </p>
@@ -1404,15 +1418,15 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
               </Card>
 
               {/* Verification */}
-              <Card className="border-green-200 bg-green-50">
+              <Card className="border-green-200 dark:border-green-900/50 bg-green-50 dark:bg-green-950/30">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <h3 className="font-bold text-green-800">
+                    <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <h3 className="font-bold text-green-800 dark:text-green-300">
                       Verified Certificate
                     </h3>
                   </div>
-                  <p className="text-sm text-green-700">
+                  <p className="text-sm text-green-700 dark:text-green-400">
                     This certificate has been verified and is authentic.
                   </p>
                 </CardContent>
@@ -1422,14 +1436,14 @@ const StudentCertificate: React.FC<StudentCertificateProps> = ({
         </div>
 
         {/* Footer */}
-        <footer className="bg-white border-t border-gray-200 mt-12">
+        <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-12 transition-colors">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
-              <p className="text-gray-600 mb-2">
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
                 © 2025 {orgData?.name || "Certificate Platform"}. All rights
                 reserved.
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-500">
                 This digital certificate is powered by a secure verification
                 platform
               </p>

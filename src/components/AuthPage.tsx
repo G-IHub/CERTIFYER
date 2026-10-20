@@ -42,6 +42,7 @@ import { projectId, publicAnonKey } from "../utils/supabase/info";
 import { setCookie } from "../utils/cookieUtils";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface AuthPageProps {
   onLogin: (user: UserAccount) => void;
@@ -519,7 +520,10 @@ export default function AuthPage({
             : "Create your free Certifyer account and start generating professional certificates for your organization today."
         }
       />
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] relative">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] dark:from-gray-950 dark:to-gray-900 text-gray-900 dark:text-gray-100 relative transition-colors">
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
         <div className="">
           <div className="absolute blur-sm -top-[26px] -left-[30px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
           <div className="absolute blur-sm top-20 -left-[40px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
@@ -536,14 +540,14 @@ export default function AuthPage({
           {/* Header */}
           <div className="text-center mb-8  ">
             <div className="flex flex-col items-center justify-center gap-3 mb-4">
-              <div className="p-3 rounded-lg shadow-sm ">
+              <div className="p-3 rounded-lg shadow-sm bg-white/70 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700">
                 <img src={logo} alt="Certifyer Logo" className="w-12 h-12" />
               </div>
               <div className="text-left">
-                <h1 className="text-5xl font-bold text-gray-900 text-center ">
+                <h1 className="text-5xl font-bold text-gray-900 dark:text-gray-100 text-center ">
                   Certifyer
                 </h1>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-gray-600 dark:text-gray-400">
                   Professional Certificate Management Platform
                 </p>
               </div>
@@ -553,7 +557,7 @@ export default function AuthPage({
           <div className="max-w-md mx-auto">
             {/* Auth Forms */}
             <div>
-              <Card>
+              <Card className="border border-gray-200 dark:border-gray-800 shadow-xl">
                 <CardHeader>
                   <Tabs
                     value={activeTab}
@@ -732,7 +736,7 @@ export default function AuthPage({
                             setShowForgotPassword(true);
                             setResetEmail(signInData.email);
                           }}
-                          className="text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
+                          className="text-sm text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:underline font-medium"
                         >
                           Forgot your password?
                         </button>
@@ -1036,7 +1040,7 @@ export default function AuthPage({
                         ← Back to Home
                       </Button>
 
-                      <p className="text-xs text-gray-500 text-center mt-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-4">
                         By signing up, you agree to use this platform
                         responsibly, and Genomac Innovation Hub reserves their
                         rights.
@@ -1050,10 +1054,10 @@ export default function AuthPage({
 
           {/* Footer */}
           <div className="text-center mt-8">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               © 2025 Innovation of Genomac Innovation Hub. All Rights Reserved.
             </p>
-            <p className="text-xs text-gray-400 mt-1 capitalize">
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 capitalize">
               Create, manage, and share professional certificates with ease
             </p>
           </div>
@@ -1063,13 +1067,13 @@ export default function AuthPage({
             open={showForgotPassword}
             onOpenChange={setShowForgotPassword}
           >
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md dark:bg-gray-900 dark:border-gray-800 dark:text-gray-100">
               <DialogHeader>
-                <DialogTitle className="flex items-center gap-2">
-                  <KeyRound className="w-5 h-5 text-indigo-600" />
+                <DialogTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
+                  <KeyRound className="w-5 h-5 text-orange-500" />
                   Reset Your Password
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="dark:text-gray-400">
                   Enter your email address and we'll send you a link to reset
                   your password.
                 </DialogDescription>
@@ -1101,7 +1105,7 @@ export default function AuthPage({
                         }
                         className={
                           resetError.includes("⚠️")
-                            ? "border-amber-500 bg-amber-50"
+                            ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40"
                             : ""
                         }
                       >
@@ -1110,7 +1114,7 @@ export default function AuthPage({
                         />
                         <AlertDescription
                           className={
-                            resetError.includes("⚠️") ? "text-amber-800" : ""
+                            resetError.includes("⚠️") ? "text-amber-800 dark:text-amber-200" : ""
                           }
                         >
                           {resetError}
@@ -1128,7 +1132,8 @@ export default function AuthPage({
                         setResetError(null);
                       }}
                       disabled={resetLoading}
-                      className="flex-1 border border-gray-200"
+                      variant="outline"
+                      className="flex-1"
                     >
                       <ArrowLeft className="w-4 h-4 mr-2" />
                       Back
@@ -1155,19 +1160,19 @@ export default function AuthPage({
               ) : (
                 <div className="py-6 text-center space-y-4">
                   <div className="flex justify-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-8 h-8 text-green-600" />
+                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                      <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-medium text-gray-900">
+                    <h3 className="font-medium text-gray-900 dark:text-gray-100">
                       Check Your Email
                     </h3>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       We've sent a password reset link to{" "}
-                      <strong>{resetEmail}</strong>
+                      <strong className="text-gray-900 dark:text-gray-100">{resetEmail}</strong>
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       Click the link in the email to reset your password. It may
                       take a few minutes to arrive.
                     </p>

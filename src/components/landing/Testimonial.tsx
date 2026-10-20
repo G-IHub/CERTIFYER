@@ -47,12 +47,12 @@ const Testimonial: React.FC = () => {
   ];
   return (
     <>
-      <section className="py-10 md:py-16 bg-[#F9F9F9]">
+      <section className="py-10 md:py-16 bg-[#F9F9F9] dark:bg-gray-900/60 transition-colors">
         <div className="text-center md:space-y-4 mb-4 md:mb-12">
-          <h2 className="font-extrabold text-3xl md:text-4xl">
+          <h2 className="font-extrabold text-3xl md:text-4xl text-gray-900 dark:text-gray-100">
             What Our Users Say
           </h2>
-          <p className="text-sm md:text-base text-gray-500">
+          <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">
             Here is what our previous users think
           </p>
         </div>
@@ -62,9 +62,9 @@ const Testimonial: React.FC = () => {
               testimonials.map((testimonial, index) => (
                 <div
                   key={`${rep}-${index}`}
-                  className="shadow-sm rounded-lg p-6 bg-white flex flex-col justify-between h-auto w-96 flex-none"
+                  className="shadow-sm rounded-lg p-6 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 flex flex-col justify-between h-auto w-96 flex-none transition-colors"
                 >
-                  <p className="text-sm mb-4">"{testimonial.description}"</p>
+                  <p className="text-sm mb-4 text-gray-800 dark:text-gray-200">"{testimonial.description}"</p>
                   <div className="flex items-center mt-4">
                     <img
                       src={testimonial.icon}
@@ -72,8 +72,8 @@ const Testimonial: React.FC = () => {
                       className="w-12 h-12 rounded-full mr-4"
                     />
                     <div>
-                      <h4 className="font-semibold">{testimonial.name}</h4>
-                      <span className="text-sm text-gray-500">
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100">{testimonial.name}</h4>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         {testimonial.role}
                       </span>
                     </div>

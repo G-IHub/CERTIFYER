@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { projectId, publicAnonKey } from "../utils/supabase/info";
 import { createClient } from "@supabase/supabase-js";
 import logo from "../assets/logo.png";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
@@ -177,45 +178,48 @@ export default function ResetPasswordPage() {
   // Invalid token UI
   if (tokenValid === false) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] relative">
-        <div className="">
-          <div className="absolute blur-sm -top-[26px] -left-[30px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
-          <div className="absolute blur-sm top-20 -left-[40px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
-          <div className="absolute blur-sm -top-[10px] -left-[33px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
-          <div className="absolute blur-sm -top-[37px] -left-[21px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
-          <div className="absolute blur-sm -top-[37px] left-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45" />
-          <div className="absolute blur-sm -top-[26px] -right-[30px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45" />
-          <div className="absolute blur-sm top-20 -right-[40px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45" />
-          <div className="absolute blur-sm -top-[10px] -right-[33px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45" />
-          <div className="absolute blur-sm -top-[37px] -right-[21px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45" />
-          <div className="absolute blur-sm -top-[37px] right-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45" />
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#FFCB9E52] to-[#FFFBF8] dark:from-gray-950 dark:to-gray-900 relative transition-colors">
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+        <div>
+          <div className="absolute blur-sm -top-[26px] -left-[30px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm top-20 -left-[40px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[10px] -left-[33px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[37px] -left-[21px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[37px] left-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 -rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[26px] -right-[30px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm top-20 -right-[40px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[10px] -right-[33px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[37px] -right-[21px] bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45 dark:opacity-20" />
+          <div className="absolute blur-sm -top-[37px] right-5 bg-gradient-to-b from-[#FF7700D9] via-[#FF77003D] to-[#FFF0E22E] h-[100px] w-12 rotate-45 dark:opacity-20" />
         </div>
         <div className="w-full max-w-md">
-          <div className="text-center mb-8  ">
+          <div className="text-center mb-8">
             <div className="flex flex-col items-center justify-center gap-3 mb-4">
-              <div className="p-3 rounded-lg shadow-sm ">
+              <div className="p-3 rounded-lg shadow-sm bg-white dark:bg-gray-800">
                 <img src={logo} alt="Certifyer Logo" className="w-12 h-12" />
               </div>
               <div className="text-left">
-                <h1 className="text-4xl font-bold text-gray-900 text-center ">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 text-center">
                   Certifyer
                 </h1>
-                <p className="text-md text-center text-gray-600">
+                <p className="text-md text-center text-gray-600 dark:text-gray-400">
                   Reset Your Password
                 </p>
               </div>
             </div>
           </div>
 
-          <Card className="border-gray-200 shadow-xl">
+          <Card className="border-gray-200 dark:border-gray-800 dark:bg-gray-900 shadow-xl">
             <CardHeader className="space-y-1 pb-4">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <AlertCircle className="w-6 h-6 text-red-600" />
+              <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
               </div>
-              <CardTitle className="text-center text-xl">
+              <CardTitle className="text-center text-xl text-gray-900 dark:text-gray-100">
                 Invalid Reset Link
               </CardTitle>
-              <CardDescription className="text-center">
+              <CardDescription className="text-center text-gray-500 dark:text-gray-400">
                 This password reset link is invalid or has expired.
               </CardDescription>
             </CardHeader>
@@ -249,10 +253,10 @@ export default function ResetPasswordPage() {
   // Loading state while checking token
   if (tokenValid === null) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center transition-colors">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Verifying reset link...</p>
+          <p className="text-gray-600 dark:text-gray-400">Verifying reset link...</p>
         </div>
       </div>
     );
@@ -261,31 +265,34 @@ export default function ResetPasswordPage() {
   // Success UI
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center p-4 relative transition-colors">
+        <div className="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-2xl shadow-lg mb-4">
               <img src={logo} alt="Logo" className="w-10 h-10" />
             </div>
-            <h1 className="text-gray-900 mb-2">Certificate Generator</h1>
-            <p className="text-sm text-gray-500">Password Reset Successful</p>
+            <h1 className="text-gray-900 dark:text-gray-100 text-2xl font-bold mb-2">Certificate Generator</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Password Reset Successful</p>
           </div>
 
-          <Card className="border-gray-200 shadow-xl">
+          <Card className="border-gray-200 dark:border-gray-800 dark:bg-gray-900 shadow-xl">
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-medium text-gray-900">
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">
                     Password Reset Successfully!
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     Your password has been updated. You can now sign in with
                     your new password.
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Redirecting to login page...
                   </p>
                 </div>
@@ -302,25 +309,28 @@ export default function ResetPasswordPage() {
 
   // Reset password form
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center p-4 relative transition-colors">
+      <div className="absolute top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-2xl shadow-lg mb-4">
             <img src={logo} alt="Logo" className="w-10 h-10" />
           </div>
-          <h1 className="text-gray-900 mb-2">Certificate Generator</h1>
-          <p className="text-sm text-gray-500">Create Your New Password</p>
+          <h1 className="text-gray-900 dark:text-gray-100 text-2xl font-bold mb-2">Certificate Generator</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Create Your New Password</p>
         </div>
 
-        <Card className="border-gray-200 shadow-xl">
+        <Card className="border-gray-200 dark:border-gray-800 dark:bg-gray-900 shadow-xl">
           <CardHeader className="space-y-1 pb-4">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <KeyRound className="w-6 h-6 text-primary" />
             </div>
-            <CardTitle className="text-center text-xl">
+            <CardTitle className="text-center text-xl text-gray-900 dark:text-gray-100">
               Reset Your Password
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription className="text-center text-gray-500 dark:text-gray-400">
               Enter your new password below
             </CardDescription>
           </CardHeader>
@@ -393,11 +403,11 @@ export default function ResetPasswordPage() {
               </div>
 
               {/* Password Requirements */}
-              <div className="bg-gray-50 rounded-lg p-3 space-y-1">
-                <p className="text-xs text-gray-600 mb-1.5">
+              <div className="bg-gray-50 dark:bg-gray-800/60 rounded-lg p-3 space-y-1">
+                <p className="text-xs text-gray-600 dark:text-gray-300 mb-1.5">
                   Password must contain:
                 </p>
-                <ul className="text-xs text-gray-500 space-y-0.5">
+                <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-0.5">
                   <li className="flex items-center gap-1.5">
                     <div
                       className={`w-1 h-1 rounded-full ${

@@ -71,10 +71,10 @@ const CoreFeatures: React.FC = () => {
   ];
 
   return (
-    <section className="bg-white py-10 px-6 md:px-28 md:py-16">
+    <section className="bg-white dark:bg-gray-950 py-10 px-6 md:px-28 md:py-16 transition-colors">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="font-extrabold text-2xl sm:text-3xl md:text-4xl">
+          <h2 className="font-extrabold text-2xl sm:text-3xl md:text-4xl text-gray-900 dark:text-gray-100">
             Core Features
           </h2>
         </div>
@@ -83,9 +83,9 @@ const CoreFeatures: React.FC = () => {
           {features.map((feature: Feature, index: number) => (
             <div
               key={index}
-              className="bg-[#FAFAFA] shadow-sm rounded-md p-4 md:p-5 space-y-5 w-full max-w-sm min-h-64"
+              className="bg-[#FAFAFA] dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm rounded-md p-4 md:p-5 space-y-5 w-full max-w-sm min-h-64 transition-colors"
             >
-              <div className="rounded-full bg-[#FFF7F0] h-12 w-12 flex items-center justify-center">
+              <div className="rounded-full bg-[#FFF7F0] dark:bg-orange-950/40 h-12 w-12 flex items-center justify-center">
                 <img
                   src={feature.icon}
                   alt={`${feature.title} icon`}
@@ -93,10 +93,10 @@ const CoreFeatures: React.FC = () => {
                 />
               </div>
               <div className="">
-                <h3 className="font-semibold text-lg tracking-tight mb-3">
+                <h3 className="font-semibold text-lg tracking-tight mb-3 text-gray-900 dark:text-gray-100">
                   {feature.title}
                 </h3>
-                <ul className="text-sm/6 text-gray-700 space-y-4">
+                <ul className="text-sm/6 text-gray-700 dark:text-gray-300 space-y-4">
                   {feature.checklist.map((item: string, itemIndex: number) => (
                     <li key={itemIndex} className="flex items-start gap-3">
                       <span>

@@ -69,20 +69,20 @@ export default function ShortLinkRedirect() {
   // Loading state
   if (isResolving && !error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 flex items-center justify-center p-4">
-        <div className="text-center max-w-sm w-full bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-orange-100">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center p-4 transition-colors">
+        <div className="text-center max-w-sm w-full bg-white/80 dark:bg-gray-900/90 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-orange-100 dark:border-gray-800">
           <div className="relative w-16 h-16 mx-auto mb-6">
-            <div className="absolute inset-0 rounded-full border-4 border-orange-200 animate-pulse"></div>
+            <div className="absolute inset-0 rounded-full border-4 border-orange-200 dark:border-orange-900 animate-pulse"></div>
             <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary animate-spin"></div>
             <Award className="w-8 h-8 text-primary absolute inset-0 m-auto" />
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             Loading Certificate...
           </h2>
-          <p className="text-sm text-gray-500 mb-3">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
             Resolving secure link <span className="font-mono font-semibold text-primary">/c/{code}</span>
           </p>
-          <div className="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-gray-100 dark:bg-gray-800 h-1.5 rounded-full overflow-hidden">
             <div className="bg-primary h-full w-2/3 animate-indeterminate"></div>
           </div>
         </div>
@@ -92,23 +92,23 @@ export default function ShortLinkRedirect() {
 
   // Error state
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 p-8 text-center">
-        <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-red-100">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-50 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center p-4 transition-colors">
+      <div className="max-w-md w-full bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 p-8 text-center">
+        <div className="w-16 h-16 bg-red-50 dark:bg-red-950/40 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-red-100 dark:border-red-900">
           <AlertCircle className="w-8 h-8" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Link Not Found</h2>
-        <p className="text-sm text-gray-500 font-mono bg-gray-50 py-1.5 px-3 rounded-lg border inline-block mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Link Not Found</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 font-mono bg-gray-50 dark:bg-gray-800 py-1.5 px-3 rounded-lg border dark:border-gray-700 inline-block mb-4">
           certifyer.online/c/{code}
         </p>
-        <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+        <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed">
           {error || "The custom certificate link you visited does not exist or may have been updated."}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={resolveAndRedirect}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-200 transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again

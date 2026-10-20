@@ -6,6 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { Link } from "react-scroll";
 import { Link as RouterLink } from "react-router-dom";
 import { Button } from "@headlessui/react";
+import { ThemeToggle } from "../ThemeToggle";
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -50,11 +51,11 @@ const Navbar: React.FC = () => {
         ref={navRef}
         className={`fixed top-0 left-0 w-full flex flex-col transition-all duration-300 ${
           isScrolled
-            ? "bg-white md:fixed px-3 py-2 border-b border-gray-200 shadow-md gap-2"
+            ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md md:fixed px-3 py-2 border-b border-gray-200 dark:border-gray-800 shadow-md gap-2"
             : "p-5 md:py-6 md:px-28 md:sticky gap-2"
         } z-50`}
       >
-        <div className="flex justify-between items-center rounded-lg px-4 py-8 w-full md:w-auto h-14 bg-white md:bg-[#FFFFFF66] border-2 border-[#FFFFFF1F] text-sm">
+        <div className="flex justify-between items-center rounded-lg px-4 py-8 w-full md:w-auto h-14 bg-white/90 dark:bg-gray-900/80 md:bg-white/50 dark:md:bg-gray-900/60 backdrop-blur-md border border-gray-200/50 dark:border-gray-800 text-sm transition-colors">
           <div className="flex items-center gap-2">
             <RouterLink to="/" className="flex items-center cursor-pointer">
               <img src={logo} alt="logo" className="w-12" />
@@ -76,7 +77,7 @@ const Navbar: React.FC = () => {
             )}
           </button>
 
-          <div className="hidden text-lg md:flex gap-12 items-center flex-1 justify-center min-w-0 z-20 text-gray-800">
+          <div className="hidden text-lg md:flex gap-12 items-center flex-1 justify-center min-w-0 z-20 text-gray-800 dark:text-gray-200">
             {isLandingPage ? (
               <>
                 <Link
@@ -153,19 +154,20 @@ const Navbar: React.FC = () => {
             </RouterLink>
           </div>
 
-          <div className="hidden md:flex gap-8 items-center justify-end flex-none">
+          <div className="hidden md:flex gap-6 items-center justify-end flex-none">
+            <ThemeToggle />
             <button
               onClick={() => {
                 navigate("/login");
                 setIsMenuOpen(false);
               }}
-              className="text-orange-500 text-left text-lg cursor-pointer"
+              className="text-orange-500 text-left text-lg cursor-pointer hover:text-orange-600 transition-colors"
             >
               Log In
             </button>
             <button
               onClick={() => navigate("/signup")}
-              className="bg-orange-500 rounded-full text-lg text-white px-5 py-2 cursor-pointer"
+              className="bg-orange-500 rounded-full text-lg text-white px-5 py-2 cursor-pointer hover:bg-orange-600 transition-colors"
             >
               Get Started
             </button>
@@ -175,7 +177,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div
-            className="transition ease-in duration-300 md:hidden right-0 bg-white shadow-lg p-4 w-2/3 h-full fixed"
+            className="transition ease-in duration-300 md:hidden right-0 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 shadow-lg p-6 w-2/3 h-full fixed"
             style={{ top: navHeight }}
           >
             <div className="flex flex-col gap-10">
@@ -262,18 +264,21 @@ const Navbar: React.FC = () => {
                 Our Story
               </RouterLink>
 
+              <div className="pt-2">
+                <ThemeToggle />
+              </div>
               <button
                 onClick={() => {
                   navigate("/login");
                   setIsMenuOpen(false);
                 }}
-                className="text-orange-500"
+                className="text-orange-500 text-left"
               >
                 Log In
               </button>
               <button
                 onClick={() => navigate("/signup")}
-                className="bg-orange-500 rounded-full text-white px-5 py-2 cursor-pointer"
+                className="bg-orange-500 rounded-full text-white px-5 py-2 cursor-pointer text-center"
               >
                 Get Started
               </button>
