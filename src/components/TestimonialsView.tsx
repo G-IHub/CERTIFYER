@@ -201,11 +201,11 @@ const TestimonialsView: React.FC<TestimonialsViewProps> = ({
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center p-12">
-          <MessageSquare className="w-16 h-16 text-gray-400 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <MessageSquare className="w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" />
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
             No Testimonials Yet
           </h3>
-          <p className="text-gray-600 text-center max-w-md">
+          <p className="text-gray-600 dark:text-gray-400 text-center max-w-md">
             When students submit their feedback along with their certificates,
             their testimonials will appear here.
           </p>
@@ -217,29 +217,13 @@ const TestimonialsView: React.FC<TestimonialsViewProps> = ({
   return (
     <div className="space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Testimonials</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
-                  {testimonials.length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 text-primary" />
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Courses with Feedback</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400">Courses with Feedback</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">
                   {courses.length}
                 </p>
               </div>
@@ -254,8 +238,8 @@ const TestimonialsView: React.FC<TestimonialsViewProps> = ({
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Avg per Course</p>
-                <p className="text-3xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400">Avg per Course</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-gray-100 mt-1">
                   {courses.length > 0
                     ? (testimonials.length / courses.length).toFixed(1)
                     : "0"}
@@ -334,55 +318,55 @@ const TestimonialsView: React.FC<TestimonialsViewProps> = ({
                     <User className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100">
                       {testimonial.title ? `${testimonial.title} ` : ""}
                       {testimonial.studentName}
                     </h4>
                     {testimonial.organization && (
-                      <p className="text-xs text-gray-600 font-medium">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                         {testimonial.organization}
                       </p>
                     )}
                     {testimonial.email && (
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         {testimonial.email}
                       </p>
                     )}
-                    <p className="text-sm text-gray-600 flex items-center gap-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
                       <Award className="w-3 h-3" />
                       {testimonial.courseName}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                   <Calendar className="w-4 h-4" />
                   {formatDate(testimonial.submittedAt)}
                 </div>
               </div>
 
               {testimonial.impact && (
-                <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500 mb-3">
-                  <p className="text-sm font-medium text-blue-900 mb-1">
+                <div className="bg-blue-50 dark:bg-blue-950/40 rounded-lg p-4 border-l-4 border-blue-500 mb-3">
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-1">
                     Impact Statement:
                   </p>
-                  <p className="text-gray-700 italic">"{testimonial.impact}"</p>
+                  <p className="text-gray-700 dark:text-gray-300 italic">"{testimonial.impact}"</p>
                 </div>
               )}
 
               {testimonial.testimonial && (
-                <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-primary">
-                  <p className="text-sm font-medium text-gray-900 mb-1">
+                <div className="bg-gray-50 dark:bg-gray-800/60 rounded-lg p-4 border-l-4 border-primary">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">
                     Additional Comments:
                   </p>
-                  <p className="text-gray-700 italic">
+                  <p className="text-gray-700 dark:text-gray-300 italic">
                     "{testimonial.testimonial}"
                   </p>
                 </div>
               )}
 
               {!testimonial.impact && !testimonial.testimonial && (
-                <div className="bg-gray-50 rounded-lg p-4 text-center">
-                  <p className="text-sm text-gray-500 italic">
+                <div className="bg-gray-50 dark:bg-gray-800/60 rounded-lg p-4 text-center">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 italic">
                     No feedback provided
                   </p>
                 </div>

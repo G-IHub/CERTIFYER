@@ -4049,10 +4049,10 @@ export default function AdminDashboard({
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <FileText className="w-5 h-5" />
-                        <h2 className="text-xl">Certificate Management</h2>
+                        <FileText className="w-5 h-5 text-gray-900 dark:text-gray-100" />
+                        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Certificate Management</h2>
                       </div>
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         View, manage, and track all issued certificates
                       </p>
                     </div>
@@ -4067,7 +4067,7 @@ export default function AdminDashboard({
                       {/* Search and Action Bar */}
                       <div className="flex flex-col sm:flex-row gap-3 mb-6 items-center justify-between">
                         <div className="relative flex-1 w-full">
-                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                           <Input
                             placeholder="Search certificates..."
                             value={certificateSearch}
@@ -4106,7 +4106,7 @@ export default function AdminDashboard({
 
                       {/* Bulk Actions Bar */}
                       {allCertificates.length > 0 && (
-                        <div className="flex flex-col sm:flex-row gap-3 mb-6 items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex flex-col sm:flex-row gap-3 mb-6 items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800 rounded-lg">
                           <div className="flex gap-2 items-center">
                             <Button
                               variant="outline"
@@ -4175,7 +4175,7 @@ export default function AdminDashboard({
                                       onChange={() =>
                                         toggleCertificateSelection(cert.id)
                                       }
-                                      className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                      className="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
                                     />
                                   </div>
 
@@ -4241,7 +4241,7 @@ export default function AdminDashboard({
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="text-orange-600 hover:text-orange-700 hover:bg-orange-50"
+                                      className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-orange-50 dark:hover:bg-orange-950/30"
                                       onClick={() =>
                                         handleEditCertificate(cert)
                                       }
@@ -4251,7 +4251,7 @@ export default function AdminDashboard({
                                     <Button
                                       variant="outline"
                                       size="sm"
-                                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                      className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30"
                                       onClick={() => deleteCertificate(cert.id)}
                                     >
                                       <Trash2 className="w-4 h-4" />

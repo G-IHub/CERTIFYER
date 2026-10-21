@@ -16,13 +16,13 @@ import {
 // ---------- Shared UI primitives ----------
 
 const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`bg-white rounded-xl border border-gray-200 shadow-sm ${className}`}>{children}</div>
+  <div className={`bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm ${className}`}>{children}</div>
 );
 const CardHeader = ({ children }: { children: React.ReactNode }) => (
-  <div className="px-6 py-4 border-b border-gray-100">{children}</div>
+  <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-800">{children}</div>
 );
 const CardTitle = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <h3 className={`font-semibold text-gray-900 ${className}`}>{children}</h3>
+  <h3 className={`font-semibold text-gray-900 dark:text-gray-100 ${className}`}>{children}</h3>
 );
 const CardContent = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`px-6 py-4 ${className}`}>{children}</div>
@@ -30,11 +30,11 @@ const CardContent = ({ children, className = "" }: { children: React.ReactNode; 
 
 const Badge = ({ children, variant = "default" }: { children: React.ReactNode; variant?: string }) => {
   const colors: Record<string, string> = {
-    default: "bg-gray-100 text-gray-700",
-    success: "bg-green-100 text-green-700",
-    warning: "bg-yellow-100 text-yellow-700",
-    danger: "bg-red-100 text-red-700",
-    info: "bg-blue-100 text-blue-700",
+    default: "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300",
+    success: "bg-green-100 dark:bg-green-950/60 text-green-700 dark:text-green-400",
+    warning: "bg-yellow-100 dark:bg-yellow-950/60 text-yellow-700 dark:text-yellow-400",
+    danger: "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400",
+    info: "bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400",
   };
   return <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[variant] || colors.default}`}>{children}</span>;
 };
@@ -49,9 +49,9 @@ const Btn = ({
   const sizes = { sm: "px-3 py-1.5 text-sm", md: "px-4 py-2 text-sm" };
   const variants = {
     primary: "bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-400 disabled:opacity-50",
-    secondary: "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-gray-400 disabled:opacity-50",
+    secondary: "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 focus:ring-gray-400 disabled:opacity-50",
     danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 disabled:opacity-50",
-    ghost: "text-gray-600 hover:bg-gray-100 focus:ring-gray-400 disabled:opacity-50",
+    ghost: "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:ring-gray-400 disabled:opacity-50",
   };
   return (
     <button className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} onClick={onClick} disabled={disabled}>
@@ -62,15 +62,15 @@ const Btn = ({
 
 const Input = ({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) => (
   <div className="space-y-1">
-    <label className="block text-sm font-medium text-gray-700">{label}</label>
-    <input {...props} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:bg-gray-50" />
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>
+    <input {...props} className="w-full rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:bg-gray-50 dark:disabled:bg-gray-800/50" />
   </div>
 );
 
 const Select = ({ label, children, ...props }: { label: string } & React.SelectHTMLAttributes<HTMLSelectElement>) => (
   <div className="space-y-1">
-    <label className="block text-sm font-medium text-gray-700">{label}</label>
-    <select {...props} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white">
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>
+    <select {...props} className="w-full rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
       {children}
     </select>
   </div>
@@ -78,16 +78,16 @@ const Select = ({ label, children, ...props }: { label: string } & React.SelectH
 
 const Textarea = ({ label, ...props }: { label: string } & React.TextareaHTMLAttributes<HTMLTextAreaElement>) => (
   <div className="space-y-1">
-    <label className="block text-sm font-medium text-gray-700">{label}</label>
-    <textarea {...props} className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none" />
+    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>
+    <textarea {...props} className="w-full rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 resize-none" />
   </div>
 );
 
 const EmptyState = ({ icon: Icon, title, desc }: { icon: React.ElementType; title: string; desc: string }) => (
   <div className="flex flex-col items-center justify-center py-16 text-center">
-    <Icon className="w-12 h-12 text-gray-300 mb-3" />
-    <p className="font-medium text-gray-500">{title}</p>
-    <p className="text-sm text-gray-400 mt-1">{desc}</p>
+    <Icon className="w-12 h-12 text-gray-300 dark:text-gray-600 mb-3" />
+    <p className="font-medium text-gray-500 dark:text-gray-400">{title}</p>
+    <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">{desc}</p>
   </div>
 );
 
@@ -112,10 +112,10 @@ const StatCard = ({ icon: Icon, label, value, sub, color = "indigo" }: {
   icon: React.ElementType; label: string; value: string; sub?: string; color?: string;
 }) => {
   const colors: Record<string, string> = {
-    indigo: "bg-orange-50 text-orange-500",
-    green: "bg-green-50 text-green-600",
-    yellow: "bg-yellow-50 text-yellow-600",
-    blue: "bg-blue-50 text-blue-600",
+    indigo: "bg-orange-50 dark:bg-orange-950/40 text-orange-500 dark:text-orange-400",
+    green: "bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400",
+    yellow: "bg-yellow-50 dark:bg-yellow-950/40 text-yellow-600 dark:text-yellow-400",
+    blue: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400",
   };
   return (
     <Card>
@@ -124,9 +124,9 @@ const StatCard = ({ icon: Icon, label, value, sub, color = "indigo" }: {
           <Icon className="w-5 h-5" />
         </div>
         <div>
-          <p className="text-sm text-gray-500">{label}</p>
-          <p className="text-xl font-bold text-gray-900 mt-0.5">{value}</p>
-          {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+          <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+          <p className="text-xl font-bold text-gray-900 dark:text-gray-100 mt-0.5">{value}</p>
+          {sub && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{sub}</p>}
         </div>
       </CardContent>
     </Card>
@@ -194,10 +194,10 @@ const SellerOverview = ({ token }: { token: string }) => {
             {products.length === 0
               ? <EmptyState icon={Package} title="No products yet" desc="Create your first product to start selling" />
               : products.slice(0, 5).map(p => (
-                <div key={p.id} className="flex items-center justify-between px-6 py-3 border-b border-gray-50 last:border-0">
+                <div key={p.id} className="flex items-center justify-between px-6 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{p.title}</p>
-                    <p className="text-xs text-gray-500 capitalize">{p.type} • {formatKobo(p.priceNGN)}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{p.title}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{p.type} • {formatKobo(p.priceNGN)}</p>
                   </div>
                   <StatusBadge status={p.status} />
                 </div>
@@ -212,13 +212,13 @@ const SellerOverview = ({ token }: { token: string }) => {
             {recentTxns.length === 0
               ? <EmptyState icon={CreditCard} title="No sales yet" desc="Share your products to start receiving payments" />
               : recentTxns.map(t => (
-                <div key={t.reference} className="flex items-center justify-between px-6 py-3 border-b border-gray-50 last:border-0">
+                <div key={t.reference} className="flex items-center justify-between px-6 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                   <div>
-                    <p className="text-sm font-medium text-gray-900">{t.buyerName}</p>
-                    <p className="text-xs text-gray-500">{t.buyerEmail} • {new Date(t.createdAt).toLocaleDateString()}</p>
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t.buyerName}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{t.buyerEmail} • {new Date(t.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-gray-900">{formatKobo(t.sellerEarning)}</p>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{formatKobo(t.sellerEarning)}</p>
                     <StatusBadge status={t.status} />
                   </div>
                 </div>
@@ -248,8 +248,8 @@ const SellerProducts = ({ token }: { token: string }) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-gray-900">Your Products</h3>
-        <p className="text-xs text-gray-400">To add a product, enable monetization when generating a certificate.</p>
+        <h3 className="font-semibold text-gray-900 dark:text-gray-100">Your Products</h3>
+        <p className="text-xs text-gray-400 dark:text-gray-500">To add a product, enable monetization when generating a certificate.</p>
       </div>
 
       {certs.length === 0 ? (
@@ -266,14 +266,14 @@ const SellerProducts = ({ token }: { token: string }) => {
               <Card key={cert.id}>
                 <CardContent className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500">
+                    <div className="w-10 h-10 rounded-lg bg-orange-50 dark:bg-orange-950/40 flex items-center justify-center text-orange-500 dark:text-orange-400">
                       <Package className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-900">{title}</p>
-                      <p className="text-sm text-gray-500">Certificate • {formatKobo(price, currency)}</p>
-                      {date && <p className="text-xs text-gray-400 mt-0.5">Created: {new Date(date).toLocaleDateString()}</p>}
-                      {cert.studentName && <p className="text-xs text-gray-400">Recipient: {cert.studentName}</p>}
+                      <p className="font-medium text-gray-900 dark:text-gray-100">{title}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Certificate • {formatKobo(price, currency)}</p>
+                      {date && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Created: {new Date(date).toLocaleDateString()}</p>}
+                      {cert.studentName && <p className="text-xs text-gray-400 dark:text-gray-500">Recipient: {cert.studentName}</p>}
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -307,16 +307,16 @@ const SellerTransactions = ({ token }: { token: string }) => {
         <Card key={t.reference}>
           <CardContent className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">{t.buyerName}</p>
-              <p className="text-sm text-gray-500">{t.buyerEmail}</p>
-              <p className="text-xs text-gray-400 mt-1">{new Date(t.createdAt).toLocaleString()} • Ref: {t.reference}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{t.buyerName}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t.buyerEmail}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(t.createdAt).toLocaleString()} • Ref: {t.reference}</p>
               {t.holdUntil && t.status === "success" && !t.released && (
-                <p className="text-xs text-yellow-600 mt-0.5">Hold releases: {new Date(t.holdUntil).toLocaleDateString()}</p>
+                <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-0.5">Hold releases: {new Date(t.holdUntil).toLocaleDateString()}</p>
               )}
             </div>
             <div className="text-right space-y-1">
-              <p className="font-bold text-gray-900">{formatKobo(t.sellerEarning)}</p>
-              <p className="text-xs text-gray-400">of {formatKobo(t.amountTotal)} total</p>
+              <p className="font-bold text-gray-900 dark:text-gray-100">{formatKobo(t.sellerEarning)}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">of {formatKobo(t.amountTotal)} total</p>
               <StatusBadge status={t.status} />
             </div>
           </CardContent>
@@ -359,10 +359,10 @@ const SellerPayouts = ({ token }: { token: string }) => {
       <Card>
         <CardContent className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-gray-500">Available for Withdrawal</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">{formatKobo(available)}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Available for Withdrawal</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{formatKobo(available)}</p>
             {(balance?.pendingHold || 0) > 0 && (
-              <p className="text-xs text-yellow-600 mt-1">{formatKobo(balance!.pendingHold)} pending (7-day hold)</p>
+              <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">{formatKobo(balance!.pendingHold)} pending (7-day hold)</p>
             )}
           </div>
           <Btn onClick={requestPayout} disabled={requesting || available <= 0}>
@@ -373,25 +373,25 @@ const SellerPayouts = ({ token }: { token: string }) => {
       </Card>
 
       {!profile?.paystackRecipientCode && (
-        <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 flex gap-3">
-          <AlertCircle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
+        <div className="rounded-lg border border-yellow-200 dark:border-yellow-900/60 bg-yellow-50 dark:bg-yellow-950/40 p-4 flex gap-3">
+          <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 shrink-0 mt-0.5" />
           <div>
-            <p className="font-medium text-yellow-800">Bank account required</p>
-            <p className="text-sm text-yellow-700 mt-0.5">Go to the <strong>Payout Account</strong> tab to add your bank account before requesting a payout.</p>
+            <p className="font-medium text-yellow-800 dark:text-yellow-200">Bank account required</p>
+            <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-0.5">Go to the <strong>Payout Account</strong> tab to add your bank account before requesting a payout.</p>
           </div>
         </div>
       )}
 
       <div>
-        <h4 className="font-medium text-gray-700 mb-3">Payout History</h4>
+        <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">Payout History</h4>
         {payouts.length === 0 ? <EmptyState icon={ArrowDownToLine} title="No payouts yet" desc="Your payout history will appear here" />
           : payouts.map(p => (
             <Card key={p.id} className="mb-3">
               <CardContent className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">{formatKobo(p.amount)}</p>
-                  <p className="text-sm text-gray-500">Requested: {new Date(p.requestedAt).toLocaleDateString()}</p>
-                  {p.processedAt && <p className="text-xs text-gray-400">Processed: {new Date(p.processedAt).toLocaleDateString()}</p>}
+                  <p className="font-medium text-gray-900 dark:text-gray-100">{formatKobo(p.amount)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Requested: {new Date(p.requestedAt).toLocaleDateString()}</p>
+                  {p.processedAt && <p className="text-xs text-gray-400 dark:text-gray-500">Processed: {new Date(p.processedAt).toLocaleDateString()}</p>}
                   {p.failureReason && <p className="text-xs text-red-500 mt-0.5">{p.failureReason}</p>}
                 </div>
                 <StatusBadge status={p.status} />
@@ -422,13 +422,13 @@ const SellerInvoices = ({ token }: { token: string }) => {
         <Card key={inv.id}>
           <CardContent className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">{inv.productTitle}</p>
-              <p className="text-sm text-gray-500">{inv.buyerName} ({inv.buyerEmail})</p>
-              <p className="text-xs text-gray-400 mt-1">{new Date(inv.issuedAt).toLocaleString()} • {inv.id}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">{inv.productTitle}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{inv.buyerName} ({inv.buyerEmail})</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{new Date(inv.issuedAt).toLocaleString()} • {inv.id}</p>
             </div>
             <div className="text-right space-y-1">
-              <p className="font-bold text-gray-900">{formatKobo(inv.amountTotal, inv.currency)}</p>
-              <p className="text-xs text-gray-400">Your cut: {formatKobo(inv.sellerEarning, inv.currency)}</p>
+              <p className="font-bold text-gray-900 dark:text-gray-100">{formatKobo(inv.amountTotal, inv.currency)}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">Your cut: {formatKobo(inv.sellerEarning, inv.currency)}</p>
               <StatusBadge status={inv.status} />
             </div>
           </CardContent>
@@ -478,12 +478,12 @@ const SellerBankSettings = ({ token }: { token: string }) => {
   return (
     <div className="space-y-6 max-w-xl">
       {profile?.verified && (
-        <div className="rounded-lg border border-green-200 bg-green-50 p-4 flex gap-3">
-          <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
+        <div className="rounded-lg border border-green-200 dark:border-green-900/60 bg-green-50 dark:bg-green-950/40 p-4 flex gap-3">
+          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0" />
           <div>
-            <p className="font-medium text-green-800">Bank account verified</p>
-            <p className="text-sm text-green-700">{profile.bankAccountName} • {profile.bankName}</p>
-            <p className="text-xs text-green-600 mt-0.5">•••• {profile.bankAccountNumber.slice(-4)}</p>
+            <p className="font-medium text-green-800 dark:text-green-200">Bank account verified</p>
+            <p className="text-sm text-green-700 dark:text-green-300">{profile.bankAccountName} • {profile.bankName}</p>
+            <p className="text-xs text-green-600 dark:text-green-400 mt-0.5">•••• {profile.bankAccountNumber.slice(-4)}</p>
           </div>
         </div>
       )}
@@ -498,7 +498,7 @@ const SellerBankSettings = ({ token }: { token: string }) => {
           </Select>
           <div className="space-y-1">
             <Input label="Account Number *" value={form.bankAccountNumber} onChange={e => { setForm(f => ({ ...f, bankAccountNumber: e.target.value })); setResolvedName(""); }} placeholder="10-digit account number" maxLength={10} />
-            {resolvedName && <p className="text-sm text-green-600 font-medium flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{resolvedName}</p>}
+            {resolvedName && <p className="text-sm text-green-600 dark:text-green-400 font-medium flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{resolvedName}</p>}
           </div>
           <div className="flex gap-2">
             <Btn variant="secondary" onClick={resolveAccount} disabled={resolving}>{resolving ? "Verifying..." : "Verify Account"}</Btn>
@@ -542,12 +542,12 @@ const AdminSellersAndProducts = ({ token }: { token: string }) => {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-lg font-semibold text-gray-900">Sellers & Products</h2>
-        <span className="text-xs text-gray-400">{sellers.length} seller{sellers.length !== 1 ? "s" : ""} · {certs.length} product{certs.length !== 1 ? "s" : ""}</span>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Sellers & Products</h2>
+        <span className="text-xs text-gray-400 dark:text-gray-500">{sellers.length} seller{sellers.length !== 1 ? "s" : ""} · {certs.length} product{certs.length !== 1 ? "s" : ""}</span>
       </div>
 
       {/* Table header */}
-      <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 text-xs font-medium text-gray-500 uppercase tracking-wide bg-gray-50 rounded-lg">
+      <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide bg-gray-100 dark:bg-gray-800/80 rounded-lg">
         <div className="col-span-4">Seller</div>
         <div className="col-span-2 text-center">Sales</div>
         <div className="col-span-2 text-right">Earned</div>
@@ -565,30 +565,30 @@ const AdminSellersAndProducts = ({ token }: { token: string }) => {
         const isExpanded = expandedSeller === s.userId;
 
         return (
-          <div key={s.userId} className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+          <div key={s.userId} className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-gray-900 shadow-sm">
             {/* Seller row */}
             <button
               onClick={() => setExpandedSeller(isExpanded ? null : s.userId)}
-              className="w-full grid grid-cols-12 gap-2 px-4 py-3 text-left hover:bg-gray-50 transition-colors items-center"
+              className="w-full grid grid-cols-12 gap-2 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors items-center"
             >
               <div className="col-span-4 flex items-center gap-3 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 shrink-0">
+                <div className="w-8 h-8 rounded-full bg-orange-50 dark:bg-orange-950/40 flex items-center justify-center text-orange-500 dark:text-orange-400 shrink-0">
                   <Users className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-medium text-gray-900 truncate text-sm">{name}</p>
-                  {s.email && <p className="text-xs text-gray-400 truncate">{s.email}</p>}
+                  <p className="font-medium text-gray-900 dark:text-gray-100 truncate text-sm">{name}</p>
+                  {s.email && <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{s.email}</p>}
                 </div>
               </div>
               <div className="col-span-2 text-center">
-                <span className="text-sm font-medium text-gray-700">{s.transactionCount || 0}</span>
-                <p className="text-xs text-gray-400">sales</p>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{s.transactionCount || 0}</span>
+                <p className="text-xs text-gray-400 dark:text-gray-500">sales</p>
               </div>
               <div className="col-span-2 text-right">
-                <span className="text-sm font-semibold text-gray-900">{formatKobo(s.balance?.totalEarned || s.totalEarned || 0)}</span>
+                <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">{formatKobo(s.balance?.totalEarned || s.totalEarned || 0)}</span>
               </div>
               <div className="col-span-2 text-right">
-                <span className="text-sm text-gray-700">{formatKobo(s.balance?.availableBalance || 0)}</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{formatKobo(s.balance?.availableBalance || 0)}</span>
               </div>
               <div className="col-span-2 text-right flex items-center justify-end gap-1">
                 <Badge variant={s.verified ? "success" : "warning"}>{s.verified ? "Verified" : "Unverified"}</Badge>
@@ -598,13 +598,13 @@ const AdminSellersAndProducts = ({ token }: { token: string }) => {
 
             {/* Expanded: products table */}
             {isExpanded && (
-              <div className="border-t border-gray-100 bg-gray-50">
+              <div className="border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
                 {sellerCerts.length === 0 ? (
-                  <p className="text-xs text-gray-400 px-6 py-4">No monetized certificates found for this seller.</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 px-6 py-4">No monetized certificates found for this seller.</p>
                 ) : (
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="text-xs text-gray-500 border-b border-gray-200">
+                      <tr className="text-xs text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-800">
                         <th className="text-left px-6 py-2 font-medium">Product / Certificate</th>
                         <th className="text-center px-4 py-2 font-medium">Status</th>
                         <th className="text-right px-6 py-2 font-medium">Price</th>
@@ -617,15 +617,15 @@ const AdminSellersAndProducts = ({ token }: { token: string }) => {
                         const currency = c.currency || c.certificateCurrency || "NGN";
                         const sold = c.paymentStatus === "paid" || c.isActive === false;
                         return (
-                          <tr key={c.id} className="border-b border-gray-100 last:border-0 hover:bg-white transition-colors">
+                          <tr key={c.id} className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-white dark:hover:bg-gray-900 transition-colors">
                             <td className="px-6 py-3">
-                              <p className="font-medium text-gray-800 truncate max-w-xs">{title}</p>
-                              <p className="text-xs text-gray-400 mt-0.5 font-mono">{c.id?.slice(0, 12)}…</p>
+                              <p className="font-medium text-gray-800 dark:text-gray-200 truncate max-w-xs">{title}</p>
+                              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 font-mono">{c.id?.slice(0, 12)}…</p>
                             </td>
                             <td className="px-4 py-3 text-center">
                               <Badge variant={sold ? "success" : "info"}>{sold ? "Sold" : "Available"}</Badge>
                             </td>
-                            <td className="px-6 py-3 text-right font-semibold text-gray-900">
+                            <td className="px-6 py-3 text-right font-semibold text-gray-900 dark:text-gray-100">
                               {formatKobo(price, currency)}
                             </td>
                           </tr>
@@ -671,14 +671,14 @@ const AdminOverview = ({ token }: { token: string }) => {
         <CardContent className="p-0">
           {txns.length === 0 ? <EmptyState icon={CreditCard} title="No transactions yet" desc="Transactions across all products will appear here" />
             : txns.map(t => (
-              <div key={t.reference} className="flex items-center justify-between px-6 py-3 border-b border-gray-50 last:border-0">
+              <div key={t.reference} className="flex items-center justify-between px-6 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{t.buyerName}</p>
-                  <p className="text-xs text-gray-500">{new Date(t.createdAt).toLocaleString()}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t.buyerName}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(t.createdAt).toLocaleString()}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-semibold">{formatKobo(t.amountTotal)}</p>
-                  <p className="text-xs text-green-600">+{formatKobo(t.platformFee)} fee</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{formatKobo(t.amountTotal)}</p>
+                  <p className="text-xs text-green-600 dark:text-green-400">+{formatKobo(t.platformFee)} fee</p>
                 </div>
               </div>
             ))
@@ -707,7 +707,7 @@ const AdminTransactions = ({ token }: { token: string }) => {
     <div className="space-y-4">
       <div className="flex gap-2 flex-wrap">
         {["all", "success", "pending", "failed", "refunded"].map(s => (
-          <button key={s} onClick={() => setFilter(s)} className={`px-3 py-1.5 rounded-full text-xs font-medium capitalize transition-colors ${filter === s ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>{s}</button>
+          <button key={s} onClick={() => setFilter(s)} className={`px-3 py-1.5 rounded-full text-xs font-medium capitalize transition-colors ${filter === s ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"}`}>{s}</button>
         ))}
       </div>
       {filtered.length === 0 ? <EmptyState icon={CreditCard} title="No transactions" desc={`No ${filter} transactions found`} />
@@ -715,13 +715,13 @@ const AdminTransactions = ({ token }: { token: string }) => {
           <Card key={t.reference}>
             <CardContent className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-gray-900">{t.buyerName} <span className="text-gray-400 font-normal">→</span> {t.productId}</p>
-                <p className="text-sm text-gray-500">{t.buyerEmail}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{new Date(t.createdAt).toLocaleString()} • {t.reference}</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{t.buyerName} <span className="text-gray-400 dark:text-gray-500 font-normal">→</span> {t.productId}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t.buyerEmail}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{new Date(t.createdAt).toLocaleString()} • {t.reference}</p>
               </div>
               <div className="text-right space-y-1">
-                <p className="font-bold text-gray-900">{formatKobo(t.amountTotal)}</p>
-                <p className="text-xs text-green-600">Fee: {formatKobo(t.platformFee)}</p>
+                <p className="font-bold text-gray-900 dark:text-gray-100">{formatKobo(t.amountTotal)}</p>
+                <p className="text-xs text-green-600 dark:text-green-400">Fee: {formatKobo(t.platformFee)}</p>
                 <StatusBadge status={t.status} />
               </div>
             </CardContent>
@@ -762,14 +762,14 @@ const AdminPayouts = ({ token }: { token: string }) => {
     <div className="space-y-6">
       {pending.length > 0 && (
         <div>
-          <h4 className="font-medium text-gray-700 mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-yellow-500" /> Pending ({pending.length})</h4>
+          <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"><Clock className="w-4 h-4 text-yellow-500" /> Pending ({pending.length})</h4>
           {pending.map(p => (
-            <Card key={p.id} className="mb-3 border-yellow-200">
+            <Card key={p.id} className="mb-3 border-yellow-200 dark:border-yellow-900/60">
               <CardContent className="flex items-center justify-between">
                 <div>
-                  <p className="font-bold text-gray-900">{formatKobo(p.amount)}</p>
-                  <p className="text-sm text-gray-500">Seller: {p.sellerId}</p>
-                  <p className="text-xs text-gray-400">{new Date(p.requestedAt).toLocaleString()}</p>
+                  <p className="font-bold text-gray-900 dark:text-gray-100">{formatKobo(p.amount)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Seller: {p.sellerId}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{new Date(p.requestedAt).toLocaleString()}</p>
                 </div>
                 <Btn size="sm" onClick={() => process(p.id)} disabled={processing === p.id}>
                   {processing === p.id ? "Processing..." : "Process Payout"}
@@ -781,14 +781,14 @@ const AdminPayouts = ({ token }: { token: string }) => {
       )}
       {rest.length > 0 && (
         <div>
-          <h4 className="font-medium text-gray-700 mb-3">History</h4>
+          <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">History</h4>
           {rest.map(p => (
             <Card key={p.id} className="mb-3">
               <CardContent className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">{formatKobo(p.amount)}</p>
-                  <p className="text-xs text-gray-400">{new Date(p.requestedAt).toLocaleString()}</p>
-                  {p.failureReason && <p className="text-xs text-red-500">{p.failureReason}</p>}
+                  <p className="font-medium text-gray-900 dark:text-gray-100">{formatKobo(p.amount)}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{new Date(p.requestedAt).toLocaleString()}</p>
+                  {p.failureReason && <p className="text-xs text-red-500 mt-0.5">{p.failureReason}</p>}
                 </div>
                 <StatusBadge status={p.status} />
               </CardContent>
@@ -838,21 +838,21 @@ const AdminRefunds = ({ token }: { token: string }) => {
       </Card>
 
       <div>
-        <h4 className="font-medium text-gray-700 mb-3">Refundable Transactions</h4>
+        <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-3">Refundable Transactions</h4>
         {txns.length === 0 ? <EmptyState icon={RefreshCw} title="No transactions" desc="Successful transactions eligible for refund will appear here" />
           : txns.map(t => (
             <Card key={t.reference} className="mb-3">
               <CardContent className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900">{t.buyerName}</p>
-                  <p className="text-sm text-gray-500 font-mono text-xs">{t.reference}</p>
-                  <p className="text-xs text-gray-400">{new Date(t.createdAt).toLocaleString()}</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">{t.buyerName}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 font-mono text-xs">{t.reference}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{new Date(t.createdAt).toLocaleString()}</p>
                 </div>
                 <div className="text-right space-y-1">
-                  <p className="font-bold">{formatKobo(t.amountTotal)}</p>
+                  <p className="font-bold text-gray-900 dark:text-gray-100">{formatKobo(t.amountTotal)}</p>
                   <StatusBadge status={t.status} />
                   {t.status === "success" && (
-                    <button onClick={() => setRef(t.reference)} className="text-xs text-orange-500 hover:underline block">Use reference</button>
+                    <button onClick={() => setRef(t.reference)} className="text-xs text-orange-500 dark:text-orange-400 hover:underline block">Use reference</button>
                   )}
                 </div>
               </CardContent>
@@ -889,7 +889,7 @@ const AdminSettings = ({ token }: { token: string }) => {
         <CardHeader><CardTitle>Platform Fee</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <Input label="Platform Fee (%)" type="number" min="0" max="100" value={settings.platformFeePercent} onChange={e => setSettings((s: any) => ({ ...s, platformFeePercent: Number(e.target.value) }))} />
-          <p className="text-xs text-gray-500">Currently: Certifyer takes {settings.platformFeePercent}% of every transaction. Sellers receive {100 - settings.platformFeePercent}%.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Currently: Certifyer takes {settings.platformFeePercent}% of every transaction. Sellers receive {100 - settings.platformFeePercent}%.</p>
         </CardContent>
       </Card>
 
@@ -902,7 +902,7 @@ const AdminSettings = ({ token }: { token: string }) => {
             <option value="biweekly">Bi-weekly</option>
             <option value="monthly">Monthly</option>
           </Select>
-          <p className="text-xs text-gray-500">Sellers request payouts manually. Admin processes them on the scheduled day.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Sellers request payouts manually. Admin processes them on the scheduled day.</p>
         </CardContent>
       </Card>
 
@@ -928,39 +928,39 @@ export default function MonetizationPage({ organizationId, accessToken, isAdmin 
   const tabs = view === "admin" ? ADMIN_TABS : SELLER_TABS;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Page header */}
         <div className="mb-8 flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3">
               <div className="w-9 h-9 bg-orange-500 rounded-lg flex items-center justify-center">
                 <DollarSign className="w-5 h-5 text-white" />
               </div>
               Monetization
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               {view === "admin" ? "Platform-wide earnings, payouts, and seller management" : "Sell certificates, courses, and PDFs — receive payouts to your bank account"}
             </p>
           </div>
           {isAdmin && !adminOnly && (
-            <div className="flex rounded-lg border border-gray-200 overflow-hidden">
-              <button onClick={() => { setView("seller"); setActiveTab("overview"); }} className={`px-4 py-2 text-sm font-medium transition-colors ${view === "seller" ? "bg-orange-500 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}>My Account</button>
-              <button onClick={() => { setView("admin"); setActiveTab("overview"); }} className={`px-4 py-2 text-sm font-medium transition-colors ${view === "admin" ? "bg-orange-500 text-white" : "bg-white text-gray-600 hover:bg-gray-50"}`}>Admin</button>
+            <div className="flex rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden">
+              <button onClick={() => { setView("seller"); setActiveTab("overview"); }} className={`px-4 py-2 text-sm font-medium transition-colors ${view === "seller" ? "bg-orange-500 text-white" : "bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"}`}>My Account</button>
+              <button onClick={() => { setView("admin"); setActiveTab("overview"); }} className={`px-4 py-2 text-sm font-medium transition-colors ${view === "admin" ? "bg-orange-500 text-white" : "bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"}`}>Admin</button>
             </div>
           )}
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-white rounded-xl border border-gray-200 p-1 mb-6 overflow-x-auto">
+        <div className="flex gap-1 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-1 mb-6 overflow-x-auto">
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activeTab === tab.id ? "bg-orange-500 text-white shadow-sm" : "text-gray-600 hover:bg-gray-100"}`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${activeTab === tab.id ? "bg-orange-500 text-white shadow-sm" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"}`}
               >
                 <Icon className="w-4 h-4" />
                 {tab.label}

@@ -396,11 +396,11 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <ShoppingBag className="w-6 h-6 text-indigo-600" />
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <ShoppingBag className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
             Digital Products
           </h1>
-          <p className="text-sm text-gray-500 mt-1">Sell PDFs, video courses, and bundles</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Sell PDFs, video courses, and bundles</p>
         </div>
         <Button onClick={openCreate} className="bg-indigo-600 hover:bg-indigo-700 text-white">
           <Plus className="w-4 h-4 mr-2" />
@@ -418,8 +418,8 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
         ].map((s) => (
           <Card key={s.label}>
             <CardContent className="pt-4 pb-4">
-              <p className="text-xs text-gray-500">{s.label}</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{s.value}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{s.label}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{s.value}</p>
             </CardContent>
           </Card>
         ))}
@@ -427,12 +427,12 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
 
       {/* Product list */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading products…</div>
+        <div className="text-center py-12 text-gray-500 dark:text-gray-400">Loading products…</div>
       ) : products.length === 0 ? (
         <Card>
           <CardContent className="py-16 text-center">
-            <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">No digital products yet.</p>
+            <ShoppingBag className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <p className="text-gray-500 dark:text-gray-400">No digital products yet.</p>
             <Button onClick={openCreate} variant="outline" className="mt-4">
               <Plus className="w-4 h-4 mr-2" />
               Create your first product
@@ -453,7 +453,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                 )}
                 <CardContent className="flex-1 pt-4 space-y-3">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-semibold text-gray-900 text-sm leading-tight">{p.title}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm leading-tight">{p.title}</h3>
                     <Badge className={`text-[10px] shrink-0 ${meta.badgeClass}`}>
                       <Icon className="w-3 h-3 mr-1" />
                       {meta.label}
@@ -461,20 +461,20 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                   </div>
 
                   {p.description && (
-                    <p className="text-xs text-gray-500 line-clamp-2">{p.description}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{p.description}</p>
                   )}
 
-                  <div className="flex gap-3 text-sm font-medium text-gray-700">
+                  <div className="flex gap-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     {p.priceNGN > 0 && <span>{nairaDisplay(p.priceNGN)}</span>}
                     {p.priceUSD > 0 && <span>{dollarDisplay(p.priceUSD)}</span>}
-                    {!p.priceNGN && !p.priceUSD && <span className="text-gray-400">No price set</span>}
+                    {!p.priceNGN && !p.priceUSD && <span className="text-gray-400 dark:text-gray-500">No price set</span>}
                   </div>
 
                   <div className="flex items-center justify-between">
                     <Badge
                       className={p.status === "published"
-                        ? "bg-green-100 text-green-700 text-[10px]"
-                        : "bg-gray-100 text-gray-600 text-[10px]"}
+                        ? "bg-green-100 dark:bg-green-950/60 text-green-700 dark:text-green-400 text-[10px]"
+                        : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-[10px]"}
                     >
                       {p.status === "published" ? (
                         <><CheckCircle className="w-3 h-3 mr-1" />Published</>
@@ -486,7 +486,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                         href={`/store/${p.orgId}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-indigo-600 flex items-center gap-1 hover:underline"
+                        className="text-xs text-indigo-600 dark:text-indigo-400 flex items-center gap-1 hover:underline"
                       >
                         <Globe className="w-3 h-3" />
                         View Store
@@ -496,11 +496,11 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
 
                   {/* Share Links — only for published products */}
                   {p.status === "published" && (
-                    <div className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                    <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-800/60 rounded-lg border border-gray-100 dark:border-gray-800">
                       <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">📋 Share Links</p>
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-gray-500 flex-1 truncate">
+                          <span className="text-[10px] text-gray-500 dark:text-gray-400 flex-1 truncate">
                             certifyer.online/store/{p.orgId}
                           </span>
                           <button
@@ -508,13 +508,13 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                               navigator.clipboard.writeText(`https://certifyer.online/store/${p.orgId}`)
                                 .then(() => toast.success("Link copied!"));
                             }}
-                            className="text-[10px] font-medium text-indigo-600 hover:text-indigo-800 shrink-0 px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 transition-colors"
+                            className="text-[10px] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 shrink-0 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
                           >
                             Copy Store Link
                           </button>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-gray-500 flex-1 truncate">
+                          <span className="text-[10px] text-gray-500 dark:text-gray-400 flex-1 truncate">
                             certifyer.online/store/{p.orgId}/{p.id}
                           </span>
                           <button
@@ -522,7 +522,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                               navigator.clipboard.writeText(`https://certifyer.online/store/${p.orgId}/${p.id}`)
                                 .then(() => toast.success("Link copied!"));
                             }}
-                            className="text-[10px] font-medium text-indigo-600 hover:text-indigo-800 shrink-0 px-2 py-0.5 rounded bg-indigo-50 hover:bg-indigo-100 transition-colors"
+                            className="text-[10px] font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 shrink-0 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
                           >
                             Copy Product Link
                           </button>
@@ -544,7 +544,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                     <Button
                       size="sm"
                       variant="outline"
-                      className={`flex-1 text-xs ${p.status === "published" ? "text-amber-600 border-amber-300" : "text-green-600 border-green-300"}`}
+                      className={`flex-1 text-xs ${p.status === "published" ? "text-amber-600 border-amber-300 dark:border-amber-700" : "text-green-600 border-green-300 dark:border-green-700"}`}
                       onClick={() => handleTogglePublish(p)}
                     >
                       {p.status === "published" ? "Unpublish" : "Publish"}
@@ -552,7 +552,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                     <Button
                       size="sm"
                       variant="outline"
-                      className="text-red-500 border-red-200 hover:bg-red-50"
+                      className="text-red-500 border-red-200 dark:border-red-900/60 hover:bg-red-50 dark:hover:bg-red-950/30"
                       onClick={() => setConfirmDelete(p.id)}
                     >
                       <Trash2 className="w-3 h-3" />
@@ -567,10 +567,10 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
 
       {/* Delete confirmation */}
       {confirmDelete && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full">
-            <h3 className="font-semibold text-gray-900 mb-2">Delete Product?</h3>
-            <p className="text-sm text-gray-500 mb-4">This action cannot be undone.</p>
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-xl p-6 max-w-sm w-full">
+            <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Delete Product?</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">This action cannot be undone.</p>
             <div className="flex gap-3">
               <Button variant="outline" className="flex-1" onClick={() => setConfirmDelete(null)}>Cancel</Button>
               <Button className="flex-1 bg-red-600 hover:bg-red-700 text-white" onClick={() => handleDelete(confirmDelete)}>
@@ -583,14 +583,14 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
 
       {/* Create/Edit form modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/40 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl my-8">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center p-4 overflow-y-auto">
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-xl w-full max-w-2xl my-8 text-gray-900 dark:text-gray-100">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b">
-              <h2 className="text-lg font-semibold text-gray-900">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {editingProduct ? "Edit Product" : "New Digital Product"}
               </h2>
-              <button onClick={() => { setShowForm(false); resetForm(); }} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => { setShowForm(false); resetForm(); }} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -599,8 +599,8 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
             <div className="overflow-y-auto max-h-[72vh]">
 
               {/* ── Basic Info section ── */}
-              <div className="px-6 py-5 space-y-4" style={{ background: "#f9fafb" }}>
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Basic Info</p>
+              <div className="px-6 py-5 space-y-4 bg-gray-50/80 dark:bg-gray-850 dark:bg-gray-800/40">
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Basic Info</p>
 
                 <div>
                   <Label htmlFor="dp-title">Title <span className="text-red-500">*</span></Label>
@@ -609,55 +609,54 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                     value={formTitle}
                     onChange={(e) => setFormTitle(e.target.value)}
                     placeholder="e.g. Advanced Python Course"
-                    className="mt-1 bg-white"
+                    className="mt-1"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="dp-desc">Description</Label>
-                  <p className="text-xs text-gray-400 mt-0.5 mb-1">Tell buyers what they'll get</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 mb-1">Tell buyers what they'll get</p>
                   <Textarea
                     id="dp-desc"
                     value={formDescription}
                     onChange={(e) => setFormDescription(e.target.value)}
                     placeholder="What buyers will get…"
-                    className="bg-white"
                     rows={3}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="dp-thumb">Thumbnail URL <span className="text-gray-400 font-normal">(optional)</span></Label>
+                  <Label htmlFor="dp-thumb">Thumbnail URL <span className="text-gray-400 dark:text-gray-500 font-normal">(optional)</span></Label>
                   <Input
                     id="dp-thumb"
                     value={formThumbnail}
                     onChange={(e) => setFormThumbnail(e.target.value)}
                     placeholder="https://..."
-                    className="mt-1 bg-white"
+                    className="mt-1"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="dp-subtitle">Cover Subtitle</Label>
-                  <p className="text-xs text-gray-400 mb-1">Short line shown on the product cover art</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Short line shown on the product cover art</p>
                   <Input
                     id="dp-subtitle"
                     value={formCoverSubtitle}
                     onChange={(e) => setFormCoverSubtitle(e.target.value)}
                     placeholder="e.g. 8-week bundle · 2026 cohort"
-                    className="mt-1 bg-white"
+                    className="mt-1"
                   />
                 </div>
 
                 <div>
                   <Label htmlFor="dp-level">Difficulty Level</Label>
-                  <p className="text-xs text-gray-400 mb-1">Helps buyers know if this is right for them</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Helps buyers know if this is right for them</p>
                   <Input
                     id="dp-level"
                     value={formLevel}
                     onChange={(e) => setFormLevel(e.target.value)}
                     placeholder="e.g. Beginner, Intermediate, Beginner → Advanced"
-                    className="mt-1 bg-white"
+                    className="mt-1"
                   />
                 </div>
 
@@ -676,12 +675,12 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                           onClick={() => setFormType(t)}
                           className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-sm transition-all ${
                             selected
-                              ? `${meta.borderColor} ${meta.bgTint} ${meta.textColor}`
-                              : "border-gray-200 hover:border-gray-300 bg-white text-gray-600"
+                              ? `${meta.borderColor} ${meta.bgTint} ${meta.textColor} dark:bg-opacity-20`
+                              : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300"
                           }`}
                         >
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${selected ? meta.iconBg : "bg-gray-100"}`}>
-                            <Icon className={`w-5 h-5 ${selected ? meta.iconColor : "text-gray-500"}`} />
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center ${selected ? meta.iconBg : "bg-gray-100 dark:bg-gray-700"}`}>
+                            <Icon className={`w-5 h-5 ${selected ? meta.iconColor : "text-gray-500 dark:text-gray-400"}`} />
                           </div>
                           <span className="font-semibold text-xs text-center leading-tight">{meta.label}</span>
                           <span className="text-[10px] text-center leading-tight opacity-70">{meta.description}</span>
@@ -693,12 +692,12 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
               </div>
 
               {/* ── Pricing section ── */}
-              <div className="px-6 py-5 space-y-4 border-t" style={{ background: "#f9fafb" }}>
-                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Pricing</p>
+              <div className="px-6 py-5 space-y-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-850 dark:bg-gray-800/40">
+                <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Pricing</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="dp-ngn">Price in Naira (₦)</Label>
-                    <p className="text-xs text-gray-400 mb-1">Enter amount in naira (e.g. 5000)</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Enter amount in naira (e.g. 5000)</p>
                     <Input
                       id="dp-ngn"
                       type="number"
@@ -707,12 +706,11 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                       value={formPriceNGN}
                       onChange={(e) => setFormPriceNGN(e.target.value)}
                       placeholder="0.00"
-                      className="bg-white"
                     />
                   </div>
                   <div>
                     <Label htmlFor="dp-usd">Price in Dollars ($)</Label>
-                    <p className="text-xs text-gray-400 mb-1">Enter amount in dollars (e.g. 29.99)</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Enter amount in dollars (e.g. 29.99)</p>
                     <Input
                       id="dp-usd"
                       type="number"
@@ -721,38 +719,37 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                       value={formPriceUSD}
                       onChange={(e) => setFormPriceUSD(e.target.value)}
                       placeholder="0.00"
-                      className="bg-white"
                     />
                   </div>
                 </div>
               </div>
 
               {/* ── Content section ── */}
-              <div className="border-t">
+              <div className="border-t border-gray-200 dark:border-gray-800">
                 {/* Colored header bar */}
                 <div className={`px-6 py-3 ${typeMeta.headerBg}`}>
                   <p className="text-xs font-semibold uppercase tracking-wider text-white">Content</p>
                 </div>
-                <div className="px-6 py-5 space-y-5 bg-white">
+                <div className="px-6 py-5 space-y-5 bg-white dark:bg-gray-900">
 
                   {/* File upload — for pdf and bundle */}
                   {(formType === "pdf" || formType === "bundle") && (
                     <div>
                       <Label className="mb-1 block">Files</Label>
-                      <p className="text-xs text-gray-400 mb-2">Upload PDFs, ZIPs, docs, or other files. You can add multiple.</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Upload PDFs, ZIPs, docs, or other files. You can add multiple.</p>
 
                       {/* Uploaded file cards */}
                       {formFiles.length > 0 && (
                         <ul className="mb-3 space-y-2">
                           {formFiles.map((f, i) => (
-                            <li key={i} className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5">
+                            <li key={i} className="bg-gray-50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5">
                               <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded flex items-center justify-center shrink-0 ${typeMeta.iconBg}`}>
                                   <FileText className={`w-4 h-4 ${typeMeta.iconColor}`} />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium text-gray-800 truncate">{f.name}</p>
-                                  <p className="text-xs text-gray-400">{fileSizeDisplay(f.size)}</p>
+                                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{f.name}</p>
+                                  <p className="text-xs text-gray-400 dark:text-gray-500">{fileSizeDisplay(f.size)}</p>
                                 </div>
                                 <button
                                   onClick={() => removeFile(i)}
@@ -777,22 +774,22 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                       {/* Upload zone */}
                       <div
                         className={`border-2 border-dashed rounded-lg p-5 text-center cursor-pointer transition-colors ${
-                          uploadingFile ? "border-gray-200 bg-gray-50" : `hover:${typeMeta.borderColor} border-gray-300 hover:bg-gray-50`
+                          uploadingFile ? "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/40" : `hover:${typeMeta.borderColor} border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/40`
                         }`}
                         onClick={() => !uploadingFile && fileInputRef.current?.click()}
                       >
                         {uploadingFile ? (
-                          <div className="flex items-center justify-center gap-2 text-gray-500">
+                          <div className="flex items-center justify-center gap-2 text-gray-500 dark:text-gray-400">
                             <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
                             <p className="text-sm">Uploading…</p>
                           </div>
                         ) : (
                           <>
-                            <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-                            <p className="text-sm text-gray-600 font-medium">
+                            <Upload className="w-6 h-6 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+                            <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
                               {formFiles.length > 0 ? "Add another file" : "Upload a file"}
                             </p>
-                            <p className="text-xs text-gray-400 mt-1">PDF, ZIP, DOCX, XLSX, PPTX, MP4, MOV</p>
+                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">PDF, ZIP, DOCX, XLSX, PPTX, MP4, MOV</p>
                           </>
                         )}
                       </div>
@@ -810,7 +807,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                   {(formType === "video" || formType === "bundle") && (
                     <div>
                       <Label className="mb-1 block">Links</Label>
-                      <p className="text-xs text-gray-400 mb-2">Add links to videos or resources buyers will receive.</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Add links to videos or resources buyers will receive.</p>
                       <div className="space-y-3">
                         {formLinks.map((l, i) => (
                           <div key={i} className="space-y-1.5">
@@ -845,7 +842,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                               className="text-xs pl-10"
                               style={{ fontSize: 12 }}
                             />
-                            <p className="text-[10px] text-gray-400 pl-10">
+                            <p className="text-[10px] text-gray-400 dark:text-gray-500 pl-10">
                               Supports: YouTube, Vimeo, Google Drive, Loom, Notion, Dropbox, and more
                             </p>
                           </div>
@@ -864,20 +861,20 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
 
                   {/* Placeholder if no content inputs for this type */}
                   {formType === "pdf" && formFiles.length === 0 && (
-                    <p className="text-xs text-gray-400 italic">Upload at least one file for buyers to download.</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 italic">Upload at least one file for buyers to download.</p>
                   )}
                 </div>
               </div>
 
               {/* ── Learning Outcomes section ── */}
-              <div className="border-t">
-                <div className="px-6 py-3 bg-gray-50">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Learning Outcomes</p>
+              <div className="border-t border-gray-200 dark:border-gray-800">
+                <div className="px-6 py-3 bg-gray-50 dark:bg-gray-800/60">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Learning Outcomes</p>
                 </div>
-                <div className="px-6 py-5 bg-white">
+                <div className="px-6 py-5 bg-white dark:bg-gray-900">
                   <div>
-                    <Label className="mb-1 block">Learning Outcomes <span className="text-gray-400 font-normal">(optional)</span></Label>
-                    <p className="text-xs text-gray-400 mb-2">What will buyers be able to do? Each line becomes a bullet on the product page.</p>
+                    <Label className="mb-1 block">Learning Outcomes <span className="text-gray-400 dark:text-gray-500 font-normal">(optional)</span></Label>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">What will buyers be able to do? Each line becomes a bullet on the product page.</p>
                     <div className="space-y-2">
                       {formOutcomes.map((outcome, i) => (
                         <div key={i} className="flex gap-2">
@@ -901,7 +898,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                     <button
                       type="button"
                       onClick={addOutcome}
-                      className="mt-2 text-sm text-indigo-600 hover:underline flex items-center gap-1"
+                      className="mt-2 text-sm text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
                     >
                       <Plus className="w-3 h-3" />
                       Add another outcome
@@ -911,11 +908,11 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
               </div>
 
               {/* ── Certificate section ── */}
-              <div className="border-t">
-                <div className="px-6 py-3 bg-indigo-50">
+              <div className="border-t border-gray-200 dark:border-gray-800">
+                <div className="px-6 py-3 bg-indigo-50 dark:bg-indigo-950/40">
                   <p className="text-xs font-semibold uppercase tracking-wider text-indigo-400">Certificate</p>
                 </div>
-                <div className="px-6 py-5 bg-white">
+                <div className="px-6 py-5 bg-white dark:bg-gray-900">
                   <label className="flex items-center gap-3 cursor-pointer group">
                     <input
                       type="checkbox"
@@ -924,11 +921,11 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                       onChange={(e) => setFormIncludeCert(e.target.checked)}
                     />
                     <div>
-                      <span className="text-sm font-medium text-gray-800 flex items-center gap-1.5">
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center gap-1.5">
                         <Award className="w-4 h-4 text-indigo-500" />
                         Include Certificate on Purchase
                       </span>
-                      <p className="text-xs text-gray-400 mt-0.5">Buyers automatically receive a certificate when they purchase this product.</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Buyers automatically receive a certificate when they purchase this product.</p>
                     </div>
                   </label>
                   {formIncludeCert && (
@@ -938,7 +935,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                         id="dp-cert"
                         value={formCertTemplate}
                         onChange={(e) => setFormCertTemplate(e.target.value)}
-                        className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                        className="mt-1 w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                       >
                         <option value="">— Select template —</option>
                         {templates.map((t) => (
@@ -946,7 +943,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                         ))}
                       </select>
                       {templates.length === 0 && (
-                        <p className="text-xs text-amber-600 mt-1.5">No templates found. Create a certificate template first.</p>
+                        <p className="text-xs text-amber-600 dark:text-amber-400 mt-1.5">No templates found. Create a certificate template first.</p>
                       )}
                     </div>
                   )}
@@ -954,9 +951,9 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
               </div>
 
               {/* ── Status section ── */}
-              <div className="px-6 py-5 border-t" style={{ background: "#f9fafb" }}>
+              <div className="px-6 py-5 border-t border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-850 dark:bg-gray-800/40">
                 <Label className="mb-2 block">Status</Label>
-                <p className="text-xs text-gray-400 mb-3">Draft products are not visible in your store.</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">Draft products are not visible in your store.</p>
                 <div className="flex gap-3">
                   {(["draft", "published"] as const).map((s) => (
                     <button
@@ -966,9 +963,9 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
                       className={`px-5 py-2 rounded-lg text-sm font-medium border transition-colors ${
                         formStatus === s
                           ? s === "published"
-                            ? "bg-green-100 border-green-500 text-green-700"
-                            : "bg-gray-100 border-gray-400 text-gray-700"
-                          : "border-gray-200 text-gray-500 hover:border-gray-300 bg-white"
+                            ? "bg-green-100 dark:bg-green-950/60 border-green-500 text-green-700 dark:text-green-400"
+                            : "bg-gray-100 dark:bg-gray-800 border-gray-400 text-gray-700 dark:text-gray-300"
+                          : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800"
                       }`}
                     >
                       {s === "published" ? "Published" : "Draft"}
@@ -979,7 +976,7 @@ export default function DigitalProductsPage({ organizationId, accessToken }: Pro
             </div>
 
             {/* Modal footer */}
-            <div className="flex gap-3 px-6 py-4 border-t bg-white">
+            <div className="flex gap-3 px-6 py-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
               <Button
                 variant="outline"
                 className="flex-1"

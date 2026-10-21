@@ -89,17 +89,17 @@ export default function CertificateThemePicker({
   };
 
   return (
-    <div className="border rounded-xl p-4 space-y-4">
+    <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-4 space-y-4 bg-white dark:bg-gray-900/50">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-950/40 flex items-center justify-center">
             <Palette className="w-4 h-4 text-orange-500" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Colour Theme</p>
+            <p className="font-semibold text-sm text-gray-900 dark:text-gray-100">Colour Theme</p>
             <p className="text-xs text-muted-foreground">
-              Active: <span className="font-medium">{activePresetName}</span>
+              Active: <span className="font-medium text-gray-800 dark:text-gray-200">{activePresetName}</span>
             </p>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function CertificateThemePicker({
             <button
               onClick={() => onChange(undefined)}
               disabled={disabled}
-              className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1"
+              className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 flex items-center gap-1 transition-colors"
             >
               <RefreshCw className="w-3 h-3" /> Reset
             </button>
@@ -116,7 +116,7 @@ export default function CertificateThemePicker({
           <button
             onClick={() => setShowPreview((v) => !v)}
             disabled={disabled}
-            className="text-xs bg-orange-50 text-orange-600 hover:bg-orange-100 px-2 py-1 rounded font-medium"
+            className="text-xs bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/50 px-2 py-1 rounded font-medium transition-colors"
           >
             {showPreview ? "Hide preview" : "Live preview"}
           </button>
@@ -140,15 +140,15 @@ export default function CertificateThemePicker({
                 title={preset.name}
                 className={`relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-xs font-medium border transition-all ${
                   isActive
-                    ? "border-orange-500 bg-orange-50 text-orange-700 shadow-sm"
-                    : "border-gray-200 hover:border-gray-300 text-gray-700"
+                    ? "border-orange-500 bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 shadow-sm"
+                    : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800"
                 }`}
               >
                 {isDefault ? (
                   <span className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 inline-block" />
                 ) : (
                   <span
-                    className="w-3 h-3 rounded-full inline-block border border-white shadow-sm"
+                    className="w-3 h-3 rounded-full inline-block border border-white dark:border-gray-900 shadow-sm"
                     style={{ background: preset.colors.primary }}
                   />
                 )}
@@ -178,30 +178,30 @@ export default function CertificateThemePicker({
                   }
                   onChange={(e) => handleColorChange(key, e.target.value)}
                   disabled={disabled}
-                  className="w-9 h-9 rounded-lg cursor-pointer border border-gray-200 p-0.5"
+                  className="w-9 h-9 rounded-lg cursor-pointer border border-gray-200 dark:border-gray-700 bg-transparent p-0.5"
                   title={label}
                 />
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-800">{label}</p>
-                <p className="text-[10px] text-gray-400">{hint}</p>
+                <p className="text-xs font-medium text-gray-800 dark:text-gray-200">{label}</p>
+                <p className="text-[10px] text-gray-400 dark:text-gray-400">{hint}</p>
               </div>
             </div>
           ))}
         </div>
-        <p className="text-xs text-orange-700 bg-orange-50 rounded p-2 mt-2">
+        <p className="text-xs text-orange-700 dark:text-orange-300 bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-900/40 rounded p-2 mt-2">
           Tip: Changes apply instantly in the live preview below.
         </p>
       </div>
 
       {/* Live preview */}
       {showPreview && (
-        <div className="border-t pt-4">
+        <div className="border-t border-gray-200 dark:border-gray-800 pt-4">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">
             Live preview
           </p>
           <div
-            className="rounded-xl overflow-hidden shadow-md border"
+            className="rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-800 bg-white"
             style={{
               // Scale down to fit the modal (cert is 800×600 px)
               width: "100%",

@@ -47,9 +47,9 @@ export default function SignatoryManagement({
   return (
     <div className="space-y-4">
       {signatories.length === 0 ? (
-        <div className="text-center py-8 border-2 border-dashed rounded-lg">
-          <User className="w-12 h-12 mx-auto text-gray-400 mb-2" />
-          <p className="text-gray-600 mb-4">No signatories added yet</p>
+        <div className="text-center py-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/30">
+          <User className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-500 mb-2" />
+          <p className="text-gray-600 dark:text-gray-400 mb-4">No signatories added yet</p>
           <Button onClick={onAdd} variant="outline">
             <Plus className="w-4 h-4 mr-2" />
             Add Signatory
@@ -58,9 +58,9 @@ export default function SignatoryManagement({
       ) : (
         <>
           {signatories.map((signatory, index) => (
-            <div key={signatory.id} className="p-4 border rounded-lg space-y-4">
+            <div key={signatory.id} className="p-4 border border-gray-200 dark:border-gray-800 rounded-lg space-y-4 bg-gray-50/30 dark:bg-gray-900/50">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium">
+                <h4 className="font-medium text-gray-900 dark:text-gray-100">
                   {signatory.name.trim() || `Signatory ${index + 1}`}
                 </h4>
                 <Button
@@ -101,7 +101,7 @@ export default function SignatoryManagement({
                   <Label>Signature Image (Optional)</Label>
                   <div className="flex items-center gap-4">
                     {signatory.signatureUrl && (
-                      <div className="w-32 h-16 bg-gray-50 rounded border flex items-center justify-center overflow-hidden">
+                      <div className="w-32 h-16 bg-white dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden p-1">
                         <img
                           src={signatory.signatureUrl}
                           alt="Signature"

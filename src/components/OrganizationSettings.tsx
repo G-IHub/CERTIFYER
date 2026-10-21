@@ -359,7 +359,7 @@ export default function OrganizationSettings({
                   placeholder="Enter your organization name"
                   className="max-w-md"
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   This will be displayed on all certificates issued by your
                   organization
                 </p>
@@ -416,8 +416,8 @@ export default function OrganizationSettings({
                     relative h-16 rounded-lg border-2 transition-all hover:scale-105
                     ${
                       settings.primaryColor === color.value
-                        ? "border-gray-900 ring-2 ring-gray-400"
-                        : "border-gray-200"
+                        ? "border-gray-900 dark:border-white ring-2 ring-gray-400 dark:ring-gray-500"
+                        : "border-gray-200 dark:border-gray-700"
                     }
                   `}
                       style={{ backgroundColor: color.value }}
@@ -453,14 +453,14 @@ export default function OrganizationSettings({
                     className="flex-1"
                   />
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   Or enter a custom hex color code
                 </p>
               </div>
 
               {/* Color Preview */}
               <div
-                className="p-4 rounded-lg border-2"
+                className="p-4 rounded-lg border-2 bg-gray-50/50 dark:bg-gray-800/40"
                 style={{ borderColor: settings.primaryColor }}
               >
                 <div className="flex items-center gap-2">
@@ -475,7 +475,7 @@ export default function OrganizationSettings({
                     >
                       Certificate Preview
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       This is how your brand color will appear
                     </p>
                   </div>
@@ -509,7 +509,7 @@ export default function OrganizationSettings({
           </Card>
 
           {/* Save Button */}
-          <div className="flex justify-end gap-3 sticky bottom-0 bg-gradient-to-t from-white via-white to-transparent pt-6 pb-4">
+          <div className="flex justify-end gap-3 sticky bottom-0 bg-gradient-to-t from-white via-white dark:from-gray-950 dark:via-gray-950 to-transparent pt-6 pb-4">
             {hasUnsavedChanges && (
               <Button variant="outline" onClick={loadSettings}>
                 Discard Changes

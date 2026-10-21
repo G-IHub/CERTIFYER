@@ -271,7 +271,7 @@ export function EditCertificateModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100">
         <CardContent className="p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
@@ -336,17 +336,17 @@ export function EditCertificateModal({
             {/* Certificate Date Selector (Single vs Range) */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-sm font-semibold text-gray-800">
+                <Label className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                   Certificate Date
                 </Label>
-                <div className="inline-flex rounded-lg border border-gray-200 p-0.5 bg-gray-50 text-xs">
+                <div className="inline-flex rounded-lg border border-gray-200 dark:border-gray-700 p-0.5 bg-gray-50 dark:bg-gray-800 text-xs">
                   <button
                     type="button"
                     onClick={() => setDateMode("single")}
                     className={`px-3 py-1 rounded-md font-medium transition-all ${
                       dateMode === "single"
-                        ? "bg-white text-indigo-600 shadow-sm"
-                        : "text-gray-600 hover:text-gray-900"
+                        ? "bg-white dark:bg-gray-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                     }`}
                   >
                     Single Date
@@ -356,8 +356,8 @@ export function EditCertificateModal({
                     onClick={() => setDateMode("range")}
                     className={`px-3 py-1 rounded-md font-medium transition-all ${
                       dateMode === "range"
-                        ? "bg-white text-indigo-600 shadow-sm"
-                        : "text-gray-600 hover:text-gray-900"
+                        ? "bg-white dark:bg-gray-900 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                     }`}
                   >
                     Date Range (Start – End)
@@ -379,7 +379,7 @@ export function EditCertificateModal({
                 <div className="space-y-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <Label htmlFor="editStartDate" className="text-xs text-gray-600">
+                      <Label htmlFor="editStartDate" className="text-xs text-gray-600 dark:text-gray-400">
                         Start Date
                       </Label>
                       <Input
@@ -391,7 +391,7 @@ export function EditCertificateModal({
                       />
                     </div>
                     <div className="space-y-1">
-                      <Label htmlFor="editEndDate" className="text-xs text-gray-600">
+                      <Label htmlFor="editEndDate" className="text-xs text-gray-600 dark:text-gray-400">
                         End Date
                       </Label>
                       <Input
@@ -403,8 +403,8 @@ export function EditCertificateModal({
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 p-2.5 rounded-md bg-indigo-50/70 border border-indigo-100 text-xs text-indigo-900">
-                    <span className="font-semibold text-indigo-700">Display Preview:</span>
+                  <div className="flex items-center gap-2 p-2.5 rounded-md bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-xs text-indigo-900 dark:text-indigo-300">
+                    <span className="font-semibold text-indigo-700 dark:text-indigo-400">Display Preview:</span>
                     <span>{formatCertificateDateRange(startDate, endDate)}</span>
                   </div>
                 </div>
@@ -418,7 +418,7 @@ export function EditCertificateModal({
                 {availableSignatories.map((signatory: any) => (
                   <label
                     key={signatory.id}
-                    className="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"
+                    className="flex items-center gap-2 p-3 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/60 cursor-pointer transition-colors"
                   >
                     <input
                       type="checkbox"
@@ -457,7 +457,7 @@ export function EditCertificateModal({
             </div>
 
             {/* Download Restrictions */}
-            <div className="border rounded-lg p-4 space-y-3">
+            <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -475,7 +475,7 @@ export function EditCertificateModal({
               </label>
 
               {restrictDownload && (
-                <div className="space-y-3 pt-3 border-t">
+                <div className="space-y-3 pt-3 border-t border-gray-200 dark:border-gray-800">
                   <Label>Approved Student Emails</Label>
                   <div className="flex gap-2">
                     <Input
@@ -495,7 +495,7 @@ export function EditCertificateModal({
                       {allowedEmails.map((email) => (
                         <div
                           key={email}
-                          className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                          className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded"
                         >
                           <span className="text-sm">{email}</span>
                           <Button
@@ -534,7 +534,7 @@ export function EditCertificateModal({
             />
 
             {/* Monetization */}
-            <div className="border rounded-lg p-4 space-y-3">
+            <div className="border border-gray-200 dark:border-gray-800 rounded-lg p-4 space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -553,7 +553,7 @@ export function EditCertificateModal({
               </label>
 
               {monetizationEnabled && (
-                <div className="pt-3 border-t space-y-3">
+                <div className="pt-3 border-t border-gray-200 dark:border-gray-800 space-y-3">
                   <div className="flex gap-3">
                     <div className="flex-1">
                       <Label htmlFor="editMonetizationPrice">Price *</Label>
@@ -574,14 +574,14 @@ export function EditCertificateModal({
                         value={monetizationCurrency}
                         onChange={e => setMonetizationCurrency(e.target.value)}
                         disabled={isLoading}
-                        className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                        className="w-full h-10 px-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                       >
                         <option value="NGN">NGN (₦)</option>
                         <option value="USD">USD ($)</option>
                       </select>
                     </div>
                   </div>
-                  <p className="text-xs text-orange-700 bg-orange-50 rounded p-2">
+                  <p className="text-xs text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-900/40 rounded p-2">
                     Platform takes 7%. You receive {100 - 7}% of each sale.
                   </p>
                 </div>

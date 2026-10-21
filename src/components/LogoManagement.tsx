@@ -66,10 +66,10 @@ export default function LogoManagement({
       </div>
 
       {logos.length === 0 ? (
-        <div className="text-center py-12 border-2 border-dashed rounded-lg bg-gray-50">
-          <ImageIcon className="w-16 h-16 mx-auto text-gray-400 mb-3" />
-          <p className="text-gray-600 mb-4">No logos added yet</p>
-          <p className="text-sm text-gray-500 mb-6">
+        <div className="text-center py-12 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/30">
+          <ImageIcon className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-3" />
+          <p className="text-gray-600 dark:text-gray-400 mb-4">No logos added yet</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             Add your organization and partner logos to display on certificates
           </p>
           <Button onClick={onAdd} variant="outline">
@@ -80,9 +80,9 @@ export default function LogoManagement({
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {logos.map((logo, index) => (
-            <div key={logo.id} className="p-4 border rounded-lg space-y-4 bg-white">
+            <div key={logo.id} className="p-4 border border-gray-200 dark:border-gray-800 rounded-lg space-y-4 bg-white dark:bg-gray-900">
               <div className="flex items-center justify-between">
-                <h4 className="font-medium text-sm">
+                <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">
                   {logo.name.trim() || `Logo ${index + 1}`}
                 </h4>
                 <Button
@@ -110,7 +110,7 @@ export default function LogoManagement({
                   <Label className="text-xs">Logo Image</Label>
                   <div className="flex flex-col gap-3">
                     {logo.url && (
-                      <div className="w-full h-32 bg-gray-50 rounded border flex items-center justify-center overflow-hidden p-3">
+                      <div className="w-full h-32 bg-gray-50 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden p-3">
                         <img
                           src={logo.url}
                           alt={logo.name || "Logo"}
@@ -152,7 +152,7 @@ export default function LogoManagement({
                         </Button>
                       </label>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       PNG, JPG or SVG (max 5MB). Recommended: 512x512px
                     </p>
                   </div>
@@ -164,8 +164,8 @@ export default function LogoManagement({
       )}
 
       {logos.length >= maxLogos && (
-        <div className="text-center py-3 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-700">
+        <div className="text-center py-3 bg-blue-50 dark:bg-blue-950/40 rounded-lg border border-blue-200 dark:border-blue-900/60">
+          <p className="text-sm text-blue-700 dark:text-blue-300">
             Maximum of {maxLogos} logos reached. Remove a logo to add another.
           </p>
         </div>
